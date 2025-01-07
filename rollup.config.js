@@ -13,7 +13,7 @@ export default {
   output: [
     {
       file: pkg.main,
-      format: 'cjs', // CommonJS
+      format: 'cjs', 
       sourcemap: true
     },
     {
