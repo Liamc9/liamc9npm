@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import TopNavBar2 from "../../molecules/navigation/TopNavBar2";
+import TopNavBar2 from "../../navigation/TopNavBar2";
 import HeroContent from "../../molecules/other/HeroContent";
 import { ButtonArrowIcon } from "../../Branding/icons/Icons";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
