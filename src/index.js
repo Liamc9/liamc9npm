@@ -71,6 +71,7 @@ export { default as SideBar } from './components/navigation/SideBar';
 export { default as SideNav } from './components/navigation/SideNav';
 export { default as SocialButtons } from './components/atoms/other/SocialButtons';
 export { default as StackedList } from './components/molecules/stackedlist/StackedList';
+export { default as TabGroup } from './components/navigation/TabGroup';
 export { default as ToastMessage } from './components/atoms/other/ToastMessage';
 export { default as ToggleField } from './components/atoms/menuitem/ToggleField';
 export { default as Tooltip } from './components/atoms/tooltips/Tooltip';

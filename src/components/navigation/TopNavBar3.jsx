@@ -9,7 +9,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: 10px 16px;
   background-color: ${(props) => props.backgroundColor || '#000'};
 color: ${(props) => props.color || '#fff'};
   height: 50px;
@@ -31,7 +31,7 @@ const CenterSection = styled.div`
   display: flex;
   justify-content: center;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
 `;
 
 const RightSection = styled.div`

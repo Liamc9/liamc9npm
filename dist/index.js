@@ -5,7 +5,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var React = require('react');
 var styled = require('styled-components');
 var reactRouterDom = require('react-router-dom');
-var liamc9npm = require('liamc9npm');
 var ReactDOM = require('react-dom');
 var PropTypes = require('prop-types');
 var classNames = require('classnames');
@@ -15,6 +14,7 @@ require('swiper/css/navigation');
 require('swiper/css/pagination');
 require('swiper/css/autoplay');
 var modules = require('swiper/modules');
+var liamc9npm = require('liamc9npm');
 var reactTransitionGroup = require('react-transition-group');
 var ReactPlayer = require('react-player');
 
@@ -1404,253 +1404,6 @@ function AppCard({
   }, name));
 }
 
-const AuthPageView = ({
-  email,
-  setEmail,
-  password,
-  setPassword,
-  reenterPassword,
-  setReenterPassword,
-  error,
-  isSignupComplete,
-  setIsSignupComplete,
-  // Add this prop to toggle the signup state
-  isLoading,
-  termsAccepted,
-  setTermsAccepted,
-  handleSignup,
-  handleLogin,
-  setShowSignUp,
-  isSignUp,
-  onForgotPassword,
-  resetEmailSent,
-  onGoogleSignIn,
-  themeColor = "#A855F7"
-}) => {
-  if (isSignupComplete) {
-    return /*#__PURE__*/React__default["default"].createElement(Container$3, null, /*#__PURE__*/React__default["default"].createElement(Title$5, null, "Signup Successful!"), /*#__PURE__*/React__default["default"].createElement("p", null, "Please check your email ", /*#__PURE__*/React__default["default"].createElement("strong", null, email), " for a verification link to activate your account."), /*#__PURE__*/React__default["default"].createElement(ButtonWrapper, null, /*#__PURE__*/React__default["default"].createElement(Button$7, {
-      themeColor: themeColor,
-      onClick: () => {
-        setIsSignupComplete(false); // Reset the signup complete state
-        setShowSignUp(false); // Switch to login view
-      }
-    }, "Return to Login")));
-  }
-  return /*#__PURE__*/React__default["default"].createElement(Container$3, null, /*#__PURE__*/React__default["default"].createElement(IconWrapper1, null, /*#__PURE__*/React__default["default"].createElement(LettzIconStyled, {
-    themeColor: themeColor
-  })), /*#__PURE__*/React__default["default"].createElement(Title$5, null, isSignUp ? "Sign up to Lettz to get started!" : "Sign in to Lettz"), resetEmailSent && /*#__PURE__*/React__default["default"].createElement(Message$1, null, "A password reset email has been sent to ", email, "."), error && /*#__PURE__*/React__default["default"].createElement(Message$1, {
-    error: true
-  }, error), /*#__PURE__*/React__default["default"].createElement(Form, {
-    onSubmit: isSignUp ? handleSignup : handleLogin
-  }, /*#__PURE__*/React__default["default"].createElement(liamc9npm.Input, {
-    name: "email",
-    id: "email",
-    type: "email",
-    label: "Email",
-    color: themeColor,
-    required: true,
-    value: email,
-    onChange: e => setEmail(e.target.value)
-  }), /*#__PURE__*/React__default["default"].createElement(liamc9npm.Input, {
-    name: "password",
-    id: "password",
-    type: "password",
-    label: "Password",
-    color: themeColor,
-    required: true,
-    value: password,
-    onChange: e => setPassword(e.target.value)
-  }), isSignUp && /*#__PURE__*/React__default["default"].createElement(liamc9npm.Input, {
-    name: "reenterpassword",
-    id: "reenterpassword",
-    type: "password",
-    label: "Re-enter Password",
-    color: themeColor,
-    required: true,
-    value: reenterPassword,
-    onChange: e => setReenterPassword(e.target.value)
-  }), isSignUp && /*#__PURE__*/React__default["default"].createElement(CheckboxWrapper, null, /*#__PURE__*/React__default["default"].createElement(Checkbox, {
-    type: "checkbox",
-    checked: termsAccepted,
-    onChange: e => setTermsAccepted(e.target.checked),
-    required: true
-  }), /*#__PURE__*/React__default["default"].createElement("span", null, "I accept the ", /*#__PURE__*/React__default["default"].createElement(Link, {
-    themeColor: themeColor,
-    href: "/terms"
-  }, "Terms and Conditions"), " and ", /*#__PURE__*/React__default["default"].createElement(Link, {
-    themeColor: themeColor,
-    href: "/privacy"
-  }, "Privacy Policy"), ".")), !isSignUp && /*#__PURE__*/React__default["default"].createElement(RememberMeContainer, null, /*#__PURE__*/React__default["default"].createElement(ForgotPasswordButton, {
-    themeColor: themeColor,
-    type: "button",
-    onClick: onForgotPassword
-  }, "Forgot your password?")), /*#__PURE__*/React__default["default"].createElement(ButtonWrapper, null, /*#__PURE__*/React__default["default"].createElement(Button$7, {
-    themeColor: themeColor,
-    type: "submit",
-    disabled: isLoading
-  }, isLoading ? isSignUp ? "Signing up..." : "Signing in..." : isSignUp ? "Sign Up" : "Sign In"))), /*#__PURE__*/React__default["default"].createElement(Divider$1, null, /*#__PURE__*/React__default["default"].createElement(HorizontalLine, null), /*#__PURE__*/React__default["default"].createElement("p", null, "or"), /*#__PURE__*/React__default["default"].createElement(HorizontalLine, null)), /*#__PURE__*/React__default["default"].createElement(OAuthButton, {
-    onClick: onGoogleSignIn
-  }, /*#__PURE__*/React__default["default"].createElement(IconWrapper$6, null, /*#__PURE__*/React__default["default"].createElement(GoogleIcon, null)), "Sign in with Google"), /*#__PURE__*/React__default["default"].createElement(LoginWrapper, null, /*#__PURE__*/React__default["default"].createElement("p", null, isSignUp ? "Already have an account?" : "Don't have an account?", " ", " ", /*#__PURE__*/React__default["default"].createElement(LoginLink, {
-    themeColor: themeColor,
-    onClick: () => setShowSignUp(!isSignUp)
-  }, isSignUp ? "Login" : "Sign up"))));
-};
-const Container$3 = styled__default["default"].div`
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  position: relative;
-  @media (max-width: 600px) {
-    max-width: 100%;
-    padding: 20px 10px;
-  }
-`;
-const IconWrapper1 = styled__default["default"].div`
-  display: flex;
-  justify-content: center;
-`;
-const LettzIconStyled = styled__default["default"](LettzIcon)`
-  width: 50px;
-  height: 50px;
-  color: ${props => props.themeColor}; /* Apply themeColor to currentColor */
-`;
-const Title$5 = styled__default["default"].h2`
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1f2937;
-  text-align: center;
-  margin-bottom: 20px;
-`;
-const Message$1 = styled__default["default"].p`
-  margin: 10px 0;
-  font-size: 0.875rem;
-  color: ${props => props.error ? "#e74c3c" : "#2ecc71"};
-  text-align: center;
-`;
-const Form = styled__default["default"].form`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 20px;
-`;
-const CheckboxWrapper = styled__default["default"].label`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-`;
-const Checkbox = styled__default["default"].input`
-  cursor: pointer;
-`;
-const Link = styled__default["default"].a`
-  color: ${props => props.themeColor};
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-const ButtonWrapper = styled__default["default"].div`
-  margin-top: 24px;
-`;
-const Button$7 = styled__default["default"].button`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  border-radius: 8px;
-  background-color: ${props => props.themeColor};
-  color: white;
-  padding: 12px;
-  font-weight: 500;
-  cursor: pointer;
-
-  &:disabled {
-    background-color: #d3d3d3;
-    cursor: not-allowed;
-  }
-`;
-const RememberMeContainer = styled__default["default"].div`
-  display: flex;
-  align-items: center;
-  justify-content: end;
-  margin-bottom: 10px;
-`;
-const ForgotPasswordButton = styled__default["default"].button`
-  background: none;
-  border: none;
-  color: ${props => props.themeColor};
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-const Divider$1 = styled__default["default"].div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 20px 0;
-  gap: 16px;
-  p {
-    margin: 0;
-    font-size: 1rem;
-    color: #6b7280;
-  }
-`;
-const HorizontalLine = styled__default["default"].hr`
-  flex: 1;
-  border: none;
-  border-top: 1px solid #d1d5db;
-`;
-const LoginWrapper = styled__default["default"].div`
-  margin-top: 16px;
-  text-align: center;
-`;
-const LoginLink = styled__default["default"].button`
-  background: none;
-  border: none;
-  color: ${props => props.themeColor};
-  font-weight: 500;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-const OAuthButton = styled__default["default"].button`
-  padding: 12px;
-  border: none;
-  width: 100%;
-  border-radius: 30px;
-  border:  2px solid #ccc;
-  background-color:  #fff;
-  color:  #000;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background-color: #ccc;
-  }
-  &:not(:last-child) {
-    margin-bottom: 10px;
-  }
-`;
-const IconWrapper$6 = styled__default["default"].span`
-  display: inline-flex;
-  align-items: center;
-  margin-right: 10px;
-
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-`;
-
 // src/components/Drawers/BottomDrawer.jsx
 const DrawerContainer$1 = styled__default["default"].div`
   position: fixed;
@@ -1842,255 +1595,6 @@ const BottomNav = ({
     to: path
   }, /*#__PURE__*/React__default["default"].createElement(Icon, null), hasNotification && /*#__PURE__*/React__default["default"].createElement(NotificationDot, null), text)));
 };
-
-const MenuContainer$1 = styled__default["default"].div`
-  --duration: 0.45s;
-  --cubic: cubic-bezier(0.4, 0, 0.2, 1);
-  --color-1: #d5dadd;
-  --color-2: #b99976;
-
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #fff; /* Optional: Change background color to fit the design */
-  z-index: 1000; /* Ensures it's above other content */
-`;
-const Menu = styled__default["default"].menu`
-  margin: 0;
-  width: 100%;
-  display: flex;
-  height: 7rem;
-  user-select: none;
-  position: relative;
-  align-items: center;
-  padding: 0 1.9em 2em;
-  justify-content: center;
-  max-width: 100%; /* Ensures it doesn't overflow */
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow at the top */
-`;
-const MenuItem$1 = styled__default["default"].button`
-  all: unset;
-  flex-grow: 1;
-  display: flex;
-  cursor: pointer;
-  overflow: hidden;
-  padding-top: 0.5em;
-  position: relative;
-  align-items: center;
-  color: var(--color-1);
-  justify-content: center;
-  transition: flex-grow var(--duration) var(--cubic);
-
-  &.active {
-    flex-grow: 2.7;
-    color: var(--color-2);
-  }
-
-  &::after {
-    left: 0;
-    bottom: 0;
-    content: " ";
-    height: 0.25em;
-    position: absolute;
-    border-radius: 2em;
-    transform-origin: left center;
-    background-color: currentColor;
-    width: calc(var(--lineWidth) + 5px);
-    transform: translate3d(3em, 0, 0) scaleX(0);
-    transition: transform calc(var(--duration) + 0.2s) var(--cubic);
-  }
-
-  &.active::after {
-    transform: translate3d(6.3em, 0, 0) scaleX(1);
-    transition: transform var(--duration) var(--cubic);
-  }
-  &.active::before {
-  transform: scale(1);
-}
-
-  &.active .menu__icon {
-    transform: translate3d(-95%, 0, 0);
-  }
-`;
-const MenuText = styled__default["default"].strong`
-  left: 4.15em;
-  font-size: 1.5em;
-  position: absolute;
-  text-transform: capitalize;
-  letter-spacing: 0.01em;
-  transform: translate3d(0, 109%, 0);
-  transition: transform calc(var(--duration) / 3.7);
-
-&.active {
-  transform: translate3d(0, 0, 0);
-  transition: transform calc(var(--duration) / 1.5);
-}
-`;
-const Icon$1 = styled__default["default"].div`
-  font-size: 1.05em;
-  stroke: currentColor;
-  transition: transform var(--duration) var(--cubic);
-  fill: none;
-  width: 2.5em;
-  height: 2.5em;
-  display: block;
-  stroke-width: 15;
-  stroke-miterlimit: 10;
-`;
-const BottomNav2 = ({
-  items
-}) => {
-  const [activeIndex, setActiveIndex] = React.useState(0);
-  const textRefs = React.useRef([]);
-  const [lineWidths, setLineWidths] = React.useState([]);
-  const navigate = reactRouterDom.useNavigate(); // Hook for navigation
-
-  React.useEffect(() => {
-    const updateLineWidths = () => {
-      const widths = textRefs.current.map(text => text ? text.offsetWidth : 0);
-      setLineWidths(widths);
-    };
-    updateLineWidths();
-    window.addEventListener('resize', updateLineWidths);
-    return () => {
-      window.removeEventListener('resize', updateLineWidths);
-    };
-  }, [items]);
-  const handleClick = index => {
-    if (index === activeIndex) return;
-    setActiveIndex(index);
-    if (items[index].path) {
-      navigate(items[index].path); // Navigate to the specified path
-    }
-  };
-  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(MenuContainer$1, null, /*#__PURE__*/React__default["default"].createElement(Menu, null, items.map((item, index) => /*#__PURE__*/React__default["default"].createElement(MenuItem$1, {
-    key: index,
-    className: activeIndex === index ? 'active' : '',
-    onClick: () => handleClick(index),
-    style: {
-      '--lineWidth': `${lineWidths[index] || 0}px`
-    }
-  }, /*#__PURE__*/React__default["default"].createElement(Icon$1, {
-    className: "menu__icon"
-  }, /*#__PURE__*/React__default["default"].cloneElement(item.icon, {
-    className: `${item.icon.props.className || ''} ${activeIndex === index ? 'active' : ''}`
-  })), /*#__PURE__*/React__default["default"].createElement(MenuText, {
-    className: activeIndex === index ? 'active' : '',
-    ref: el => textRefs.current[index] = el
-  }, item.text))))), /*#__PURE__*/React__default["default"].createElement("style", null, `
-        .icon {
-          width: 2.5em;
-          height: 2.5em;
-        }
-      `));
-};
-
-// IMPORTS
-
-// CREATE FUNCTION
-function BottomTabs() {
-  // STATE VARIABLES
-  const activeStyle = {
-    color: "#DF5BFF",
-    backgroundColor: "#F3F4F6"
-  };
-
-  // HTML
-  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement("head", null), /*#__PURE__*/React__default["default"].createElement("body", null, /*#__PURE__*/React__default["default"].createElement("div", {
-    className: "flex justify-center"
-  }, /*#__PURE__*/React__default["default"].createElement("div", {
-    className: "border-1 fixed bottom-5 z-20 mx-5 w-full max-w-md rounded-lg border border-gray-500 bg-white",
-    style: {
-      boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.5)"
-    }
-  }, /*#__PURE__*/React__default["default"].createElement("ul", {
-    className: "flex justify-between text-sm font-medium text-gray-600"
-  }, /*#__PURE__*/React__default["default"].createElement("li", {
-    className: "flex-1"
-  }, /*#__PURE__*/React__default["default"].createElement(reactRouterDom.NavLink, {
-    to: "/search",
-    style: ({
-      isActive
-    }) => isActive ? activeStyle : undefined,
-    className: "flex flex-col items-center justify-center rounded-s-lg p-2"
-  }, /*#__PURE__*/React__default["default"].createElement(SearchIcon, {
-    className: "text-lg"
-  }), /*#__PURE__*/React__default["default"].createElement("span", {
-    className: "mt-1 text-xs"
-  }, "Browse"))), /*#__PURE__*/React__default["default"].createElement("li", {
-    className: "flex-1"
-  }, /*#__PURE__*/React__default["default"].createElement(reactRouterDom.NavLink, {
-    to: "/mylistings",
-    style: ({
-      isActive
-    }) => isActive ? activeStyle : undefined,
-    className: "flex flex-col items-center justify-center p-2"
-  }, /*#__PURE__*/React__default["default"].createElement("div", {
-    className: "relative"
-  }, /*#__PURE__*/React__default["default"].createElement(HomeIcon, {
-    className: "text-lg"
-  })), /*#__PURE__*/React__default["default"].createElement("span", {
-    className: "mt-1 text-xs"
-  }, "My Listings"))), /*#__PURE__*/React__default["default"].createElement("li", {
-    className: "flex-1"
-  }, /*#__PURE__*/React__default["default"].createElement(reactRouterDom.NavLink, {
-    to: "/enquiries",
-    style: ({
-      isActive
-    }) => isActive ? activeStyle : undefined,
-    className: "flex flex-col items-center justify-center p-2"
-  }, /*#__PURE__*/React__default["default"].createElement("div", {
-    className: "relative"
-  }, /*#__PURE__*/React__default["default"].createElement(UsersIcon, {
-    className: "text-lg"
-  })), /*#__PURE__*/React__default["default"].createElement("span", {
-    className: "mt-1 text-xs"
-  }, "My Enquiries"))), /*#__PURE__*/React__default["default"].createElement("li", {
-    className: "flex-1"
-  }, /*#__PURE__*/React__default["default"].createElement(reactRouterDom.NavLink, {
-    to: "/mysublets",
-    style: ({
-      isActive
-    }) => isActive ? activeStyle : undefined,
-    className: "flex flex-col items-center justify-center rounded-e-lg p-2"
-  }, /*#__PURE__*/React__default["default"].createElement("div", null, /*#__PURE__*/React__default["default"].createElement("svg", {
-    viewBox: "-250 100 750 320",
-    className: "fill-current"
-  }, /*#__PURE__*/React__default["default"].createElement("g", null, /*#__PURE__*/React__default["default"].createElement("rect", {
-    x: "57.584",
-    y: "141.502",
-    width: "53.371",
-    height: "243.68",
-    rx: "3.511",
-    ry: "3.511"
-  })), /*#__PURE__*/React__default["default"].createElement("g", null, /*#__PURE__*/React__default["default"].createElement("rect", {
-    x: "58.288",
-    y: "331.812",
-    width: "251.404",
-    height: "54.775",
-    rx: "2.809",
-    ry: "2.809"
-  })), /*#__PURE__*/React__default["default"].createElement("rect", {
-    x: "124.298",
-    y: "143.61",
-    width: "182.584",
-    height: "54.073",
-    rx: "2.809",
-    ry: "2.809"
-  }), /*#__PURE__*/React__default["default"].createElement("rect", {
-    x: "124.297",
-    y: "265.099",
-    width: "182.584",
-    height: "51.967",
-    rx: "3.511",
-    ry: "3.511"
-  }), /*#__PURE__*/React__default["default"].createElement("path", {
-    d: "M 306.18 143.609 L 304.775 198.385 C 304.775 202.986 125 315.66 125 315.66 L 125.702 265.098 L 306.18 143.609 Z"
-  })), /*#__PURE__*/React__default["default"].createElement("span", {
-    className: "mt-1 text-xs"
-  }, "My Lettz")))))))));
-}
 
 // IMPORTS
 
@@ -2286,7 +1790,7 @@ const CardSocial = ({
 
 // Styled Components
 
-const Container$2 = styled__default["default"].div`
+const Container$4 = styled__default["default"].div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -2418,7 +1922,7 @@ const CheckedItem = ({
   width = "7rem",
   color = "#3b82f6" // Default to blue-500
 }) => {
-  return /*#__PURE__*/React__default["default"].createElement(Container$2, null, /*#__PURE__*/React__default["default"].createElement(Label$1, null, /*#__PURE__*/React__default["default"].createElement(HiddenCheckbox, {
+  return /*#__PURE__*/React__default["default"].createElement(Container$4, null, /*#__PURE__*/React__default["default"].createElement(Label$1, null, /*#__PURE__*/React__default["default"].createElement(HiddenCheckbox, {
     onChange: onChange,
     checked: checked
   }), /*#__PURE__*/React__default["default"].createElement(StyledSpan, {
@@ -2845,13 +2349,13 @@ const Icon = styled__default["default"].svg`
   fill: #ef4444; /* Red color for the icon */
   margin-bottom: 1rem;
 `;
-const Title$4 = styled__default["default"].h2`
+const Title$5 = styled__default["default"].h2`
   font-size: 1.25rem;
   font-weight: bold;
   color: #1f2937;
   margin-bottom: 0.5rem;
 `;
-const Message = styled__default["default"].p`
+const Message$1 = styled__default["default"].p`
   font-size: 0.875rem;
   color: #4b5563;
   margin-bottom: 1.5rem;
@@ -2861,7 +2365,7 @@ const ButtonContainer = styled__default["default"].div`
   justify-content: center;
   gap: 0.5rem;
 `;
-const Button$6 = styled__default["default"].button`
+const Button$7 = styled__default["default"].button`
   border-radius: 9999px;
   padding: 0.5rem 1.25rem;
   font-size: 0.875rem;
@@ -2874,7 +2378,7 @@ const Button$6 = styled__default["default"].button`
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   }
 `;
-const CancelButton$1 = styled__default["default"](Button$6)`
+const CancelButton$1 = styled__default["default"](Button$7)`
   border-color: #d1d5db;
   background-color: #e5e7eb;
   color: #4b5563;
@@ -2884,7 +2388,7 @@ const CancelButton$1 = styled__default["default"](Button$6)`
     background-color: #d1d5db;
   }
 `;
-const ConfirmButton = styled__default["default"](Button$6)`
+const ConfirmButton = styled__default["default"](Button$7)`
   border-color: #ef4444;
   background-color: #ef4444;
   color: white;
@@ -2919,7 +2423,7 @@ const DeleteModal = ({
     clipRule: "evenodd",
     d: "M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z",
     fillRule: "evenodd"
-  })), /*#__PURE__*/React__default["default"].createElement(Title$4, null, title || "Are you sure?"), /*#__PURE__*/React__default["default"].createElement(Message, null, message || "Do you really want to continue? This process cannot be undone.")), /*#__PURE__*/React__default["default"].createElement(ButtonContainer, null, /*#__PURE__*/React__default["default"].createElement(CancelButton$1, {
+  })), /*#__PURE__*/React__default["default"].createElement(Title$5, null, title || "Are you sure?"), /*#__PURE__*/React__default["default"].createElement(Message$1, null, message || "Do you really want to continue? This process cannot be undone.")), /*#__PURE__*/React__default["default"].createElement(ButtonContainer, null, /*#__PURE__*/React__default["default"].createElement(CancelButton$1, {
     onClick: onCancel
   }, "Cancel"), /*#__PURE__*/React__default["default"].createElement(ConfirmButton, {
     onClick: onConfirm
@@ -4484,7 +3988,7 @@ const FileUpload = ({
   })));
 };
 
-const Button$5 = styled__default["default"].button`
+const Button$6 = styled__default["default"].button`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4511,7 +4015,7 @@ const Button$5 = styled__default["default"].button`
     box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Accessibility focus ring */
   }
 `;
-const IconWrapper$5 = styled__default["default"].div`
+const IconWrapper$6 = styled__default["default"].div`
   color: #333;
 
   svg {
@@ -4522,10 +4026,10 @@ const IconWrapper$5 = styled__default["default"].div`
 const FilterButton = ({
   onClick
 }) => {
-  return /*#__PURE__*/React__default["default"].createElement(Button$5, {
+  return /*#__PURE__*/React__default["default"].createElement(Button$6, {
     onClick: onClick,
     "aria-label": "Open filter drawer"
-  }, /*#__PURE__*/React__default["default"].createElement(IconWrapper$5, null, /*#__PURE__*/React__default["default"].createElement(FilterIcon, null), " "));
+  }, /*#__PURE__*/React__default["default"].createElement(IconWrapper$6, null, /*#__PURE__*/React__default["default"].createElement(FilterIcon, null), " "));
 };
 FilterButton.propTypes = {
   onClick: PropTypes__default["default"].func.isRequired
@@ -5240,7 +4744,7 @@ const FixedButtonBar = styled__default["default"].div`
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
   z-index: 10;
 `;
-const Button$4 = styled__default["default"].button`
+const Button$5 = styled__default["default"].button`
   padding: 8px 16px;
   font-size: 18px;
   border: none;
@@ -5436,9 +4940,9 @@ const LettzFilterDrawer = ({
     value: localSortOption,
     onChange: handleSortChangeLocal,
     options: sortOptions
-  })), /*#__PURE__*/React__default["default"].createElement(FixedButtonBar, null, /*#__PURE__*/React__default["default"].createElement(Button$4, {
+  })), /*#__PURE__*/React__default["default"].createElement(FixedButtonBar, null, /*#__PURE__*/React__default["default"].createElement(Button$5, {
     onClick: handleClear
-  }, "Clear"), /*#__PURE__*/React__default["default"].createElement(Button$4, {
+  }, "Clear"), /*#__PURE__*/React__default["default"].createElement(Button$5, {
     primary: true,
     onClick: handleApply
   }, "Apply")));
@@ -5498,7 +5002,7 @@ const SectionRight = styled__default["default"].div`
 `;
 
 // Styled vertical divider
-const Divider = styled__default["default"].div`
+const Divider$1 = styled__default["default"].div`
   width: 2px; /* Thin vertical divider */
   height: 30px; /* Height relative to the button */
   background-color: #888; /* Visible color */
@@ -5511,7 +5015,7 @@ const LettzSearchButton = ({
   endDate = ""
 }) => /*#__PURE__*/React__default["default"].createElement(StyledButton$1, {
   onClick: onClick
-}, /*#__PURE__*/React__default["default"].createElement(ContentContainer, null, /*#__PURE__*/React__default["default"].createElement(SectionLeft, null, place), /*#__PURE__*/React__default["default"].createElement(Divider, null, " "), " ", /*#__PURE__*/React__default["default"].createElement(SectionRight, null, startDate, endDate && ` - ${endDate}`)));
+}, /*#__PURE__*/React__default["default"].createElement(ContentContainer, null, /*#__PURE__*/React__default["default"].createElement(SectionLeft, null, place), /*#__PURE__*/React__default["default"].createElement(Divider$1, null, " "), " ", /*#__PURE__*/React__default["default"].createElement(SectionRight, null, startDate, endDate && ` - ${endDate}`)));
 LettzSearchButton.propTypes = {
   onClick: PropTypes__default["default"].func.isRequired,
   place: PropTypes__default["default"].string,
@@ -5572,7 +5076,7 @@ color: #A855F7;
 `;
 
 // Enhanced IconWrapper
-const IconWrapper$4 = styled__default["default"].div`
+const IconWrapper$5 = styled__default["default"].div`
   width: 80px;
   height: 80px;
   display: flex;
@@ -5598,7 +5102,7 @@ const Text$2 = styled__default["default"].p`
 `;
 
 // Enhanced Button
-const Button$3 = styled__default["default"].button`
+const Button$4 = styled__default["default"].button`
   width: 100%;
   padding: 14px;
   font-size: 18px;
@@ -5639,10 +5143,10 @@ const ListYourPlaceCard = ({
       onButtonClick();
     }
   };
-  return /*#__PURE__*/React__default["default"].createElement(Card$1, null, /*#__PURE__*/React__default["default"].createElement(Header$4, null, /*#__PURE__*/React__default["default"].createElement(StyledLettzIcon$1, null), " ", /*#__PURE__*/React__default["default"].createElement(LogoText$1, null, "Lettz")), /*#__PURE__*/React__default["default"].createElement(IconWrapper$4, null, /*#__PURE__*/React__default["default"].createElement("span", {
+  return /*#__PURE__*/React__default["default"].createElement(Card$1, null, /*#__PURE__*/React__default["default"].createElement(Header$4, null, /*#__PURE__*/React__default["default"].createElement(StyledLettzIcon$1, null), " ", /*#__PURE__*/React__default["default"].createElement(LogoText$1, null, "Lettz")), /*#__PURE__*/React__default["default"].createElement(IconWrapper$5, null, /*#__PURE__*/React__default["default"].createElement("span", {
     role: "img",
     "aria-label": "icon"
-  }, "\uD83C\uDFE1")), /*#__PURE__*/React__default["default"].createElement(Text$2, null, "Get started by listing your place today!"), /*#__PURE__*/React__default["default"].createElement(Button$3, {
+  }, "\uD83C\uDFE1")), /*#__PURE__*/React__default["default"].createElement(Text$2, null, "Get started by listing your place today!"), /*#__PURE__*/React__default["default"].createElement(Button$4, {
     onClick: handleClick
   }, "List Your Place"));
 };
@@ -5959,8 +5463,255 @@ const Loader = () => {
   })));
 };
 
+const LoginPage = ({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  reenterPassword,
+  setReenterPassword,
+  error,
+  isSignupComplete,
+  setIsSignupComplete,
+  // Add this prop to toggle the signup state
+  isLoading,
+  termsAccepted,
+  setTermsAccepted,
+  handleSignup,
+  handleLogin,
+  setShowSignUp,
+  isSignUp,
+  onForgotPassword,
+  resetEmailSent,
+  onGoogleSignIn,
+  themeColor = "#A855F7"
+}) => {
+  if (isSignupComplete) {
+    return /*#__PURE__*/React__default["default"].createElement(Container$3, null, /*#__PURE__*/React__default["default"].createElement(Title$4, null, "Signup Successful!"), /*#__PURE__*/React__default["default"].createElement("p", null, "Please check your email ", /*#__PURE__*/React__default["default"].createElement("strong", null, email), " for a verification link to activate your account."), /*#__PURE__*/React__default["default"].createElement(ButtonWrapper, null, /*#__PURE__*/React__default["default"].createElement(Button$3, {
+      themeColor: themeColor,
+      onClick: () => {
+        setIsSignupComplete(false); // Reset the signup complete state
+        setShowSignUp(false); // Switch to login view
+      }
+    }, "Return to Login")));
+  }
+  return /*#__PURE__*/React__default["default"].createElement(Container$3, null, /*#__PURE__*/React__default["default"].createElement(IconWrapper1, null, /*#__PURE__*/React__default["default"].createElement(LettzIconStyled, {
+    themeColor: themeColor
+  })), /*#__PURE__*/React__default["default"].createElement(Title$4, null, isSignUp ? "Sign up to Lettz to get started!" : "Sign in to Lettz"), resetEmailSent && /*#__PURE__*/React__default["default"].createElement(Message, null, "A password reset email has been sent to ", email, "."), error && /*#__PURE__*/React__default["default"].createElement(Message, {
+    error: true
+  }, error), /*#__PURE__*/React__default["default"].createElement(Form, {
+    onSubmit: isSignUp ? handleSignup : handleLogin
+  }, /*#__PURE__*/React__default["default"].createElement(liamc9npm.Input, {
+    name: "email",
+    id: "email",
+    type: "email",
+    label: "Email",
+    color: themeColor,
+    required: true,
+    value: email,
+    onChange: e => setEmail(e.target.value)
+  }), /*#__PURE__*/React__default["default"].createElement(liamc9npm.Input, {
+    name: "password",
+    id: "password",
+    type: "password",
+    label: "Password",
+    color: themeColor,
+    required: true,
+    value: password,
+    onChange: e => setPassword(e.target.value)
+  }), isSignUp && /*#__PURE__*/React__default["default"].createElement(liamc9npm.Input, {
+    name: "reenterpassword",
+    id: "reenterpassword",
+    type: "password",
+    label: "Re-enter Password",
+    color: themeColor,
+    required: true,
+    value: reenterPassword,
+    onChange: e => setReenterPassword(e.target.value)
+  }), isSignUp && /*#__PURE__*/React__default["default"].createElement(CheckboxWrapper, null, /*#__PURE__*/React__default["default"].createElement(Checkbox, {
+    type: "checkbox",
+    checked: termsAccepted,
+    onChange: e => setTermsAccepted(e.target.checked),
+    required: true
+  }), /*#__PURE__*/React__default["default"].createElement("span", null, "I accept the ", /*#__PURE__*/React__default["default"].createElement(Link, {
+    themeColor: themeColor,
+    href: "/terms"
+  }, "Terms and Conditions"), " and ", /*#__PURE__*/React__default["default"].createElement(Link, {
+    themeColor: themeColor,
+    href: "/privacy"
+  }, "Privacy Policy"), ".")), !isSignUp && /*#__PURE__*/React__default["default"].createElement(RememberMeContainer, null, /*#__PURE__*/React__default["default"].createElement(ForgotPasswordButton, {
+    themeColor: themeColor,
+    type: "button",
+    onClick: onForgotPassword
+  }, "Forgot your password?")), /*#__PURE__*/React__default["default"].createElement(ButtonWrapper, null, /*#__PURE__*/React__default["default"].createElement(Button$3, {
+    themeColor: themeColor,
+    type: "submit",
+    disabled: isLoading
+  }, isLoading ? isSignUp ? "Signing up..." : "Signing in..." : isSignUp ? "Sign Up" : "Sign In"))), /*#__PURE__*/React__default["default"].createElement(Divider, null, /*#__PURE__*/React__default["default"].createElement(HorizontalLine, null), /*#__PURE__*/React__default["default"].createElement("p", null, "or"), /*#__PURE__*/React__default["default"].createElement(HorizontalLine, null)), /*#__PURE__*/React__default["default"].createElement(OAuthButton, {
+    onClick: onGoogleSignIn
+  }, /*#__PURE__*/React__default["default"].createElement(IconWrapper$4, null, /*#__PURE__*/React__default["default"].createElement(GoogleIcon, null)), "Sign in with Google"), /*#__PURE__*/React__default["default"].createElement(LoginWrapper, null, /*#__PURE__*/React__default["default"].createElement("p", null, isSignUp ? "Already have an account?" : "Don't have an account?", " ", " ", /*#__PURE__*/React__default["default"].createElement(LoginLink, {
+    themeColor: themeColor,
+    onClick: () => setShowSignUp(!isSignUp)
+  }, isSignUp ? "Login" : "Sign up"))));
+};
+const Container$3 = styled__default["default"].div`
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  position: relative;
+  @media (max-width: 600px) {
+    max-width: 100%;
+    padding: 20px 10px;
+  }
+`;
+const IconWrapper1 = styled__default["default"].div`
+  display: flex;
+  justify-content: center;
+`;
+const LettzIconStyled = styled__default["default"](LettzIcon)`
+  width: 50px;
+  height: 50px;
+  color: ${props => props.themeColor}; /* Apply themeColor to currentColor */
+`;
+const Title$4 = styled__default["default"].h2`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 20px;
+`;
+const Message = styled__default["default"].p`
+  margin: 10px 0;
+  font-size: 0.875rem;
+  color: ${props => props.error ? "#e74c3c" : "#2ecc71"};
+  text-align: center;
+`;
+const Form = styled__default["default"].form`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 20px;
+`;
+const CheckboxWrapper = styled__default["default"].label`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+`;
+const Checkbox = styled__default["default"].input`
+  cursor: pointer;
+`;
+const Link = styled__default["default"].a`
+  color: ${props => props.themeColor};
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+const ButtonWrapper = styled__default["default"].div`
+  margin-top: 24px;
+`;
+const Button$3 = styled__default["default"].button`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: ${props => props.themeColor};
+  color: white;
+  padding: 12px;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+  }
+`;
+const RememberMeContainer = styled__default["default"].div`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-bottom: 10px;
+`;
+const ForgotPasswordButton = styled__default["default"].button`
+  background: none;
+  border: none;
+  color: ${props => props.themeColor};
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+const Divider = styled__default["default"].div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 16px;
+  p {
+    margin: 0;
+    font-size: 1rem;
+    color: #6b7280;
+  }
+`;
+const HorizontalLine = styled__default["default"].hr`
+  flex: 1;
+  border: none;
+  border-top: 1px solid #d1d5db;
+`;
+const LoginWrapper = styled__default["default"].div`
+  margin-top: 16px;
+  text-align: center;
+`;
+const LoginLink = styled__default["default"].button`
+  background: none;
+  border: none;
+  color: ${props => props.themeColor};
+  font-weight: 500;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+const OAuthButton = styled__default["default"].button`
+  padding: 12px;
+  border: none;
+  width: 100%;
+  border-radius: 30px;
+  border:  2px solid #ccc;
+  background-color:  #fff;
+  color:  #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: #ccc;
+  }
+  &:not(:last-child) {
+    margin-bottom: 10px;
+  }
+`;
+const IconWrapper$4 = styled__default["default"].span`
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+
 // Styled Components
-const Container$1 = styled__default["default"].div`
+const Container$2 = styled__default["default"].div`
   max-width: 28rem; /* Equivalent to max-w-md */
   padding: 1rem;
 `;
@@ -6041,7 +5792,7 @@ const ManageAccount = () => {
     console.log('Back button clicked');
     // Add navigation logic here (e.g., React Router's useNavigate or history.goBack())
   };
-  return /*#__PURE__*/React__default["default"].createElement(Container$1, null, /*#__PURE__*/React__default["default"].createElement(Header$3, null, /*#__PURE__*/React__default["default"].createElement(BackButton$3, {
+  return /*#__PURE__*/React__default["default"].createElement(Container$2, null, /*#__PURE__*/React__default["default"].createElement(Header$3, null, /*#__PURE__*/React__default["default"].createElement(BackButton$3, {
     onClick: handleBack
   }, /*#__PURE__*/React__default["default"].createElement(ChevronLeftIcon, {
     className: "w-6 h-6"
@@ -7530,7 +7281,7 @@ Modal.propTypes = {
 // src/components/PollItem.jsx
 
 // Container for the entire component
-const Container = styled__default["default"].div`
+const Container$1 = styled__default["default"].div`
 position: relative;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -7665,7 +7416,7 @@ const PollItem = ({
     setChosenOpt(option);
     setShowBar(true);
   };
-  return /*#__PURE__*/React__default["default"].createElement(Container, null, /*#__PURE__*/React__default["default"].createElement(Header$1, null, /*#__PURE__*/React__default["default"].createElement("h2", {
+  return /*#__PURE__*/React__default["default"].createElement(Container$1, null, /*#__PURE__*/React__default["default"].createElement(Header$1, null, /*#__PURE__*/React__default["default"].createElement("h2", {
     style: {
       margin: 0
     }
@@ -7735,77 +7486,114 @@ const Popover = ({
   }, children));
 };
 
-const SideNav = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const toggleSideNav = () => {
-    setIsOpen(!isOpen);
-  };
-  return /*#__PURE__*/React__default["default"].createElement(Wrapper$1, null, /*#__PURE__*/React__default["default"].createElement(TopBar, null, /*#__PURE__*/React__default["default"].createElement(Button, {
-    onClick: toggleSideNav
-  }, /*#__PURE__*/React__default["default"].createElement(MenuIcon, {
-    className: "icon"
-  }))), isOpen && /*#__PURE__*/React__default["default"].createElement(Overlay$1, {
-    onClick: toggleSideNav
+function SideBar({
+  navLinks = [],
+  username,
+  profilePic,
+  onLogout,
+  isSideNavOpen,
+  closeSideNav,
+  hideProfile = false
+}) {
+  // Separate main and footer links based on a property (e.g., isFooter)
+  const mainLinks = navLinks.filter(link => !link.isFooter);
+  const footerLinks = navLinks.filter(link => link.isFooter);
+  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, isSideNavOpen && /*#__PURE__*/React__default["default"].createElement(Overlay$1, {
+    onClick: closeSideNav
   }), /*#__PURE__*/React__default["default"].createElement(SideNavContainer$1, {
-    isOpen: isOpen
-  }, /*#__PURE__*/React__default["default"].createElement(SideNavHeader$1, null, /*#__PURE__*/React__default["default"].createElement(Title$2, null, "My Portfolio"), /*#__PURE__*/React__default["default"].createElement(Button, {
-    onClick: toggleSideNav
-  }, /*#__PURE__*/React__default["default"].createElement(XIcon, {
+    isOpen: isSideNavOpen,
+    onClick: e => e.stopPropagation()
+  }, !hideProfile && username && profilePic && /*#__PURE__*/React__default["default"].createElement(SideNavHeader$1, {
+    to: "/profile",
+    onClick: closeSideNav
+  }, /*#__PURE__*/React__default["default"].createElement(ProfileImage, {
+    src: profilePic,
+    alt: "Profile"
+  }), /*#__PURE__*/React__default["default"].createElement(ProfileInfo, null, /*#__PURE__*/React__default["default"].createElement(Username, null, username), /*#__PURE__*/React__default["default"].createElement(ViewProfile, null, "View Profile"))), /*#__PURE__*/React__default["default"].createElement(NavLinks$1, null, mainLinks.map(({
+    name,
+    path,
+    Icon
+  }, index) => /*#__PURE__*/React__default["default"].createElement(StyledLink$1, {
+    to: path,
+    key: index,
+    onClick: closeSideNav
+  }, Icon && /*#__PURE__*/React__default["default"].createElement(IconWrapper$1, null, /*#__PURE__*/React__default["default"].createElement(Icon, {
     className: "icon"
-  }))), /*#__PURE__*/React__default["default"].createElement(NavLinks$1, null, /*#__PURE__*/React__default["default"].createElement(StyledLink$1, {
-    to: "/home"
-  }, /*#__PURE__*/React__default["default"].createElement(HomeIcon, {
+  })), /*#__PURE__*/React__default["default"].createElement("span", null, name)))), /*#__PURE__*/React__default["default"].createElement(FooterLinks$2, null, footerLinks.map(({
+    name,
+    path,
+    Icon
+  }, index) => /*#__PURE__*/React__default["default"].createElement(StyledLink$1, {
+    to: path,
+    key: index,
+    onClick: closeSideNav
+  }, Icon && /*#__PURE__*/React__default["default"].createElement(IconWrapper$1, null, /*#__PURE__*/React__default["default"].createElement(Icon, {
     className: "icon"
-  }), /*#__PURE__*/React__default["default"].createElement("span", null, "Home")), /*#__PURE__*/React__default["default"].createElement(StyledLink$1, {
-    to: "/webdev"
-  }, /*#__PURE__*/React__default["default"].createElement(CodeIcon, {
-    className: "icon"
-  }), /*#__PURE__*/React__default["default"].createElement("span", null, "Web Development")), /*#__PURE__*/React__default["default"].createElement(StyledLink$1, {
-    to: "/scriptlist"
-  }, /*#__PURE__*/React__default["default"].createElement(ScriptIcon, {
-    className: "icon"
-  }), /*#__PURE__*/React__default["default"].createElement("span", null, "Scripts and Algorithms")), /*#__PURE__*/React__default["default"].createElement(StyledLink$1, {
-    to: "/dataAnalytics"
-  }, /*#__PURE__*/React__default["default"].createElement(DataIcon, {
-    className: "icon"
-  }), /*#__PURE__*/React__default["default"].createElement("span", null, "Data Analytics"))), /*#__PURE__*/React__default["default"].createElement(FooterLinks$2, null, /*#__PURE__*/React__default["default"].createElement(StyledLink$1, {
-    to: "/settings"
-  }, /*#__PURE__*/React__default["default"].createElement(CogIcon, {
-    className: "icon"
-  }), /*#__PURE__*/React__default["default"].createElement("span", null, "Settings")), /*#__PURE__*/React__default["default"].createElement(StyledLink$1, {
-    to: "/login"
-  }, /*#__PURE__*/React__default["default"].createElement(LoginIcon, {
-    className: "icon"
-  }), /*#__PURE__*/React__default["default"].createElement("span", null, "Signup/Login")))));
-};
-const Wrapper$1 = styled__default["default"].div`
+  })), /*#__PURE__*/React__default["default"].createElement("span", null, name))), onLogout && /*#__PURE__*/React__default["default"].createElement(LogoutButton$1, {
+    onClick: () => {
+      onLogout();
+      closeSideNav();
+    }
+  }, /*#__PURE__*/React__default["default"].createElement("span", null, "Log out")))));
+}
+
+// Styled Components remain the same
+styled__default["default"].nav`
+  position: relative;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
 `;
-const TopBar = styled__default["default"].div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+styled__default["default"].div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem;
-  z-index: 50;
+  padding: 0.75rem;
+  box-sizing: border-box;
+
+  @media (min-width: 768px) {
+    padding: 0.75rem 1.5rem;
+  }
 `;
-const Button = styled__default["default"].button`
+styled__default["default"].button`
   background: none;
   border: none;
   cursor: pointer;
+  margin-right: 1rem;
+
   .icon {
     width: 2rem;
     height: 2rem;
+  }
+`;
+styled__default["default"](reactRouterDom.Link)`
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1f2937;
+  text-decoration: none;
+  flex-grow: 1;
+`;
+styled__default["default"](reactRouterDom.Link)`
+  border-radius: 0.375rem;
+  background-color: ${props => props.signInColor};
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.2s;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.5);
   }
 `;
 const Overlay$1 = styled__default["default"].div`
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 40;
+  z-index: 49;
   transition: opacity 0.3s ease-in-out;
+  pointer-events: auto;
 `;
 const SideNavContainer$1 = styled__default["default"].div`
   position: fixed;
@@ -7813,69 +7601,110 @@ const SideNavContainer$1 = styled__default["default"].div`
   left: 0;
   height: 100%;
   width: 16rem;
-  background: #2d3748;
-  color: #edf2f7;
+  background: #ffffff;
+  color: #1a202c;
   transform: ${({
   isOpen
-}) => isOpen ? 'translateX(0)' : 'translateX(-100%)'};
+}) => isOpen ? "translateX(0)" : "translateX(-100%)"};
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease-in-out;
   box-shadow: ${({
   isOpen
-}) => isOpen ? '0 2px 8px rgba(0, 0, 0, 0.5)' : 'none'};
+}) => isOpen ? "0 4px 12px rgba(0, 0, 0, 0.1)" : "none"};
   z-index: 50;
 `;
-const SideNavHeader$1 = styled__default["default"].div`
+const SideNavHeader$1 = styled__default["default"](reactRouterDom.Link)`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: 4rem;
-  padding: 0 1rem;
-  border-bottom: 1px solid #4a5568;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    background-color: #f7fafc;
+  }
 `;
-const Title$2 = styled__default["default"].h1`
-  font-size: 1.875rem;
+const ProfileImage = styled__default["default"].img`
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+  object-fit: cover;
+`;
+const ProfileInfo = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+`;
+const Username = styled__default["default"].div`
+  font-size: 1.2rem;
   font-weight: 600;
+  color: #2d3748;
+`;
+const ViewProfile = styled__default["default"].div`
+  font-size: 0.875rem;
+  color: #718096;
 `;
 const NavLinks$1 = styled__default["default"].nav`
   flex-grow: 1;
   overflow-y: auto;
 `;
+const StyledLink$1 = styled__default["default"](reactRouterDom.Link)`
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  color: #2d3748;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+  width: 100%;
+  border-radius: 4px;
+
+  &:hover {
+    background: #f7fafc;
+    color: #1a202c;
+  }
+`;
 const FooterLinks$2 = styled__default["default"].div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 1rem;
-  border-top: 1px solid #4a5568;
+  border-top: 1px solid #e2e8f0;
 `;
-const StyledLink$1 = styled__default["default"](reactRouterDom.Link)`
+const IconWrapper$1 = styled__default["default"].div`
   display: flex;
   align-items: center;
-  padding: 0.5rem 2rem;
-  color: #e2e8f0;
-  text-decoration: none;
-  transition: background 0.2s;
-  width: 100%;
-
-  &:hover {
-    background: rgba(74, 85, 104, 0.25);
-  }
+  margin-right: 0.75rem;
 
   .icon {
-    width: 1.25rem;
-    height: 1.25rem;
-    margin-right: 0.75rem;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+`;
+const LogoutButton$1 = styled__default["default"].button`
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  color: #2d3748;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 4px;
+  text-align: left;
+
+  &:hover {
+    background: #f7fafc;
+    color: #1a202c;
   }
 `;
 
 const NavBarContainer = styled__default["default"].div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 50;
-  margin-left: -16px;
   display: flex;
   align-items: center;
   height: 62px;
@@ -7884,10 +7713,23 @@ const NavBarContainer = styled__default["default"].div`
   font-size: 15px;
   border-bottom: 1px solid rgba(44, 45, 42, 0.25);
   background-color: var(--beach-bg);
+  padding: 0 16px;
+`;
+const DrawerButton$1 = styled__default["default"].button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 1rem;
+
+  .icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
 `;
 const Logo = styled__default["default"].img`
   width: 116px;
-  margin-left: 60px;
+  margin-right: 16px;
 `;
 const MenuContainer = styled__default["default"].div`
   display: none;
@@ -7909,9 +7751,9 @@ const MenuButton = styled__default["default"].button`
 `;
 const HeaderIcons = styled__default["default"].div`
   margin-left: auto;
-  margin-right: 8px;
   display: flex;
   align-items: center;
+  gap: 16px;
 `;
 const SignInButton = styled__default["default"].button`
   border-radius: 9999px;
@@ -7936,21 +7778,26 @@ const TopNavBar2 = ({
 }) => {
   const [activeTab, setActiveTab] = React.useState(propActiveTab);
   const navigate = reactRouterDom.useNavigate();
-
-  // Update the internal state if the propActiveTab changes
+  const [isSideNavOpen, setIsSideNavOpen] = React.useState(false);
+  const toggleSideNav = () => setIsSideNavOpen(prev => !prev);
+  const closeSideNav = () => setIsSideNavOpen(false);
   React.useEffect(() => {
     setActiveTab(propActiveTab);
   }, [propActiveTab]);
   const handleTabClick = item => {
-    setActiveTab(item); // Update internal state to reflect the clicked tab
+    setActiveTab(item);
     if (onTabClick) {
-      onTabClick(item); // Pass the new active tab to the parent component
+      onTabClick(item);
     }
   };
   const handleSignInClick = () => {
     navigate('/login');
   };
-  return /*#__PURE__*/React__default["default"].createElement(NavBarContainer, null, /*#__PURE__*/React__default["default"].createElement(SideNav, null), /*#__PURE__*/React__default["default"].createElement(Logo, {
+  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(NavBarContainer, null, /*#__PURE__*/React__default["default"].createElement(DrawerButton$1, {
+    onClick: toggleSideNav
+  }, /*#__PURE__*/React__default["default"].createElement(MenuIcon, {
+    className: "icon"
+  })), /*#__PURE__*/React__default["default"].createElement(Logo, {
     src: "https://cdn.shopify.com/s/files/1/0689/1443/files/CLOSCA-LOGO-WEB-BLACK_130x@2x.png?v=1559116993",
     alt: "Closca Logo"
   }), /*#__PURE__*/React__default["default"].createElement(MenuContainer, null, menuItems.map(item => /*#__PURE__*/React__default["default"].createElement(MenuButton, {
@@ -7959,14 +7806,42 @@ const TopNavBar2 = ({
     active: item === activeTab
   }, item))), /*#__PURE__*/React__default["default"].createElement(HeaderIcons, null, /*#__PURE__*/React__default["default"].createElement(SignInButton, {
     onClick: handleSignInClick
-  }, "Sign In")));
+  }, "Sign In"))), /*#__PURE__*/React__default["default"].createElement(SideBar, {
+    navLinks: [{
+      Icon: () => {},
+      isFooter: false,
+      name: 'Home',
+      path: '/home'
+    }, {
+      Icon: () => {},
+      isFooter: false,
+      name: 'About',
+      path: '/about'
+    }, {
+      Icon: () => {},
+      isFooter: true,
+      name: 'Settings',
+      path: '/settings'
+    }, {
+      Icon: () => {},
+      isFooter: true,
+      name: 'Contact',
+      path: '/contact'
+    }],
+    isSideNavOpen: isSideNavOpen,
+    toggleSideNav: toggleSideNav,
+    closeSideNav: closeSideNav,
+    hideProfile: false,
+    onLogout: () => {},
+    profilePic: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg",
+    signInColor: "#ff4500",
+    username: "Jane Doe"
+  }));
 };
 TopNavBar2.propTypes = {
   menuItems: PropTypes__default["default"].arrayOf(PropTypes__default["default"].string).isRequired,
-  // Expecting an array of menu item strings
   activeTab: PropTypes__default["default"].string,
-  // Expecting the active tab to be a string
-  onTabClick: PropTypes__default["default"].func // Function to handle tab click events
+  onTabClick: PropTypes__default["default"].func
 };
 TopNavBar2.defaultProps = {
   activeTab: '',
@@ -8515,7 +8390,7 @@ const Video = styled__default["default"].video`
   height: 100%;
   object-fit: cover;
 `;
-const Title$1 = styled__default["default"].div`
+const Title$2 = styled__default["default"].div`
   font-size: 20px;
   font-weight: bold;
   margin: 5px;
@@ -8698,7 +8573,7 @@ const RecipeSwipeComponent = ({
     playsInline: true,
     muted: isMuted,
     onClick: e => e.target.paused ? e.target.play() : e.target.pause()
-  }), /*#__PURE__*/React__default["default"].createElement(Title$1, null, name), /*#__PURE__*/React__default["default"].createElement(RecipeInfoCards, null, /*#__PURE__*/React__default["default"].createElement(RecipeCard, null, /*#__PURE__*/React__default["default"].createElement(RecipeCardHeader, null, "Cuisine"), /*#__PURE__*/React__default["default"].createElement(RecipeCardContent, null, cuisine)), /*#__PURE__*/React__default["default"].createElement(RecipeCard, null, /*#__PURE__*/React__default["default"].createElement(RecipeCardHeader, null, "Time"), /*#__PURE__*/React__default["default"].createElement(RecipeCardContent, null, time)), /*#__PURE__*/React__default["default"].createElement(RecipeCard, null, /*#__PURE__*/React__default["default"].createElement(RecipeCardHeader, null, "Servings"), /*#__PURE__*/React__default["default"].createElement(RecipeCardContent, null, servings)), /*#__PURE__*/React__default["default"].createElement(RecipeCard, null, /*#__PURE__*/React__default["default"].createElement(RecipeCardHeader, null, "Calories"), /*#__PURE__*/React__default["default"].createElement(RecipeCardContent, null, calories, " kcal"))))), steps.map((step, index) => /*#__PURE__*/React__default["default"].createElement(react.SwiperSlide, {
+  }), /*#__PURE__*/React__default["default"].createElement(Title$2, null, name), /*#__PURE__*/React__default["default"].createElement(RecipeInfoCards, null, /*#__PURE__*/React__default["default"].createElement(RecipeCard, null, /*#__PURE__*/React__default["default"].createElement(RecipeCardHeader, null, "Cuisine"), /*#__PURE__*/React__default["default"].createElement(RecipeCardContent, null, cuisine)), /*#__PURE__*/React__default["default"].createElement(RecipeCard, null, /*#__PURE__*/React__default["default"].createElement(RecipeCardHeader, null, "Time"), /*#__PURE__*/React__default["default"].createElement(RecipeCardContent, null, time)), /*#__PURE__*/React__default["default"].createElement(RecipeCard, null, /*#__PURE__*/React__default["default"].createElement(RecipeCardHeader, null, "Servings"), /*#__PURE__*/React__default["default"].createElement(RecipeCardContent, null, servings)), /*#__PURE__*/React__default["default"].createElement(RecipeCard, null, /*#__PURE__*/React__default["default"].createElement(RecipeCardHeader, null, "Calories"), /*#__PURE__*/React__default["default"].createElement(RecipeCardContent, null, calories, " kcal"))))), steps.map((step, index) => /*#__PURE__*/React__default["default"].createElement(react.SwiperSlide, {
     key: index
   }, /*#__PURE__*/React__default["default"].createElement(SlideContainer, {
     className: "recipe-step"
@@ -9134,7 +9009,7 @@ const CancelButton = styled__default["default"].button`
   cursor: pointer;
     font-weight: bold;
 `;
-const Wrapper = styled__default["default"].div`
+const Wrapper$1 = styled__default["default"].div`
   padding: 16px;
 `;
 const SearchDrawer = ({
@@ -9170,7 +9045,7 @@ const SearchDrawer = ({
 
   // Filter searchResults based on query
   const filteredResults = searchResults.filter(result => result.title.includes(query));
-  return /*#__PURE__*/React__default["default"].createElement(Wrapper, null, /*#__PURE__*/React__default["default"].createElement(SearchBarContainer, null, /*#__PURE__*/React__default["default"].createElement(SearchBar2, {
+  return /*#__PURE__*/React__default["default"].createElement(Wrapper$1, null, /*#__PURE__*/React__default["default"].createElement(SearchBarContainer, null, /*#__PURE__*/React__default["default"].createElement(SearchBar2, {
     value: query,
     onChange: handleInputChange,
     placeholder: "Search for...",
@@ -9299,7 +9174,7 @@ const TextContainer = styled__default["default"].div`
 `;
 
 // Styled title
-const Title = styled__default["default"].div`
+const Title$1 = styled__default["default"].div`
   font-size: 16px;
   font-weight: bold;
   color: #333;
@@ -9322,7 +9197,7 @@ const SearchResultItem = ({
   return /*#__PURE__*/React__default["default"].createElement(ItemContainer, null, thumbnail && /*#__PURE__*/React__default["default"].createElement(Thumbnail, null, /*#__PURE__*/React__default["default"].createElement("img", {
     src: thumbnail,
     alt: `${title} thumbnail`
-  })), /*#__PURE__*/React__default["default"].createElement(TextContainer, null, title && /*#__PURE__*/React__default["default"].createElement(Title, null, title), description && /*#__PURE__*/React__default["default"].createElement(Description, null, description)));
+  })), /*#__PURE__*/React__default["default"].createElement(TextContainer, null, title && /*#__PURE__*/React__default["default"].createElement(Title$1, null, title), description && /*#__PURE__*/React__default["default"].createElement(Description, null, description)));
 };
 SearchResultItem.propTypes = {
   data: PropTypes__default["default"].shape({
@@ -9641,7 +9516,7 @@ const HeaderTitle = styled__default["default"].h1`
   font-size: 1.5rem; /* Equivalent to text-2xl */
   font-weight: 600; /* Equivalent to font-semibold */
 `;
-const LogoutButton$1 = styled__default["default"].button`
+const LogoutButton = styled__default["default"].button`
   background-color: #f3f4f6; /* Light gray */
   color: #dc2626; /* Red text */
   border: none;
@@ -9698,7 +9573,7 @@ const Settings = ({
     key: index,
     category: category,
     items: categories[category]
-  })), /*#__PURE__*/React__default["default"].createElement(LogoutButton$1, {
+  })), /*#__PURE__*/React__default["default"].createElement(LogoutButton, {
     onClick: onLogout
   }, "Log Out"), /*#__PURE__*/React__default["default"].createElement(Footer, null, /*#__PURE__*/React__default["default"].createElement("div", null, "Company Name"), /*#__PURE__*/React__default["default"].createElement("div", null, "Version 1.0.0"), /*#__PURE__*/React__default["default"].createElement(FooterLinks$1, null, /*#__PURE__*/React__default["default"].createElement("a", {
     href: "/terms"
@@ -9706,6 +9581,140 @@ const Settings = ({
     href: "/policy"
   }, "Policy"))));
 };
+
+const SideNav = () => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const toggleSideNav = () => {
+    setIsOpen(!isOpen);
+  };
+  return /*#__PURE__*/React__default["default"].createElement(Wrapper, null, /*#__PURE__*/React__default["default"].createElement(TopBar, null, /*#__PURE__*/React__default["default"].createElement(Button, {
+    onClick: toggleSideNav
+  }, /*#__PURE__*/React__default["default"].createElement(MenuIcon, {
+    className: "icon"
+  }))), isOpen && /*#__PURE__*/React__default["default"].createElement(Overlay, {
+    onClick: toggleSideNav
+  }), /*#__PURE__*/React__default["default"].createElement(SideNavContainer, {
+    isOpen: isOpen
+  }, /*#__PURE__*/React__default["default"].createElement(SideNavHeader, null, /*#__PURE__*/React__default["default"].createElement(Title, null, "My Portfolio"), /*#__PURE__*/React__default["default"].createElement(Button, {
+    onClick: toggleSideNav
+  }, /*#__PURE__*/React__default["default"].createElement(XIcon, {
+    className: "icon"
+  }))), /*#__PURE__*/React__default["default"].createElement(NavLinks, null, /*#__PURE__*/React__default["default"].createElement(StyledLink, {
+    to: "/home"
+  }, /*#__PURE__*/React__default["default"].createElement(HomeIcon, {
+    className: "icon"
+  }), /*#__PURE__*/React__default["default"].createElement("span", null, "Home")), /*#__PURE__*/React__default["default"].createElement(StyledLink, {
+    to: "/webdev"
+  }, /*#__PURE__*/React__default["default"].createElement(CodeIcon, {
+    className: "icon"
+  }), /*#__PURE__*/React__default["default"].createElement("span", null, "Web Development")), /*#__PURE__*/React__default["default"].createElement(StyledLink, {
+    to: "/scriptlist"
+  }, /*#__PURE__*/React__default["default"].createElement(ScriptIcon, {
+    className: "icon"
+  }), /*#__PURE__*/React__default["default"].createElement("span", null, "Scripts and Algorithms")), /*#__PURE__*/React__default["default"].createElement(StyledLink, {
+    to: "/dataAnalytics"
+  }, /*#__PURE__*/React__default["default"].createElement(DataIcon, {
+    className: "icon"
+  }), /*#__PURE__*/React__default["default"].createElement("span", null, "Data Analytics"))), /*#__PURE__*/React__default["default"].createElement(FooterLinks, null, /*#__PURE__*/React__default["default"].createElement(StyledLink, {
+    to: "/settings"
+  }, /*#__PURE__*/React__default["default"].createElement(CogIcon, {
+    className: "icon"
+  }), /*#__PURE__*/React__default["default"].createElement("span", null, "Settings")), /*#__PURE__*/React__default["default"].createElement(StyledLink, {
+    to: "/login"
+  }, /*#__PURE__*/React__default["default"].createElement(LoginIcon, {
+    className: "icon"
+  }), /*#__PURE__*/React__default["default"].createElement("span", null, "Signup/Login")))));
+};
+const Wrapper = styled__default["default"].div`
+`;
+const TopBar = styled__default["default"].div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  z-index: 50;
+`;
+const Button = styled__default["default"].button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  .icon {
+    width: 2rem;
+    height: 2rem;
+  }
+`;
+const Overlay = styled__default["default"].div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+  transition: opacity 0.3s ease-in-out;
+`;
+const SideNavContainer = styled__default["default"].div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 16rem;
+  background: #2d3748;
+  color: #edf2f7;
+  transform: ${({
+  isOpen
+}) => isOpen ? 'translateX(0)' : 'translateX(-100%)'};
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+  box-shadow: ${({
+  isOpen
+}) => isOpen ? '0 2px 8px rgba(0, 0, 0, 0.5)' : 'none'};
+  z-index: 50;
+`;
+const SideNavHeader = styled__default["default"].div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+  padding: 0 1rem;
+  border-bottom: 1px solid #4a5568;
+`;
+const Title = styled__default["default"].h1`
+  font-size: 1.875rem;
+  font-weight: 600;
+`;
+const NavLinks = styled__default["default"].nav`
+  flex-grow: 1;
+  overflow-y: auto;
+`;
+const FooterLinks = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+  border-top: 1px solid #4a5568;
+`;
+const StyledLink = styled__default["default"](reactRouterDom.Link)`
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  color: #e2e8f0;
+  text-decoration: none;
+  transition: background 0.2s;
+  width: 100%;
+
+  &:hover {
+    background: rgba(74, 85, 104, 0.25);
+  }
+
+  .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.75rem;
+  }
+`;
 
 // IMPORTS
 
@@ -9978,16 +9987,79 @@ function TopNavBar({
   }, "Sign In")));
 }
 
+// Styled Components
+const Container = styled__default["default"].div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background-color: ${props => props.backgroundColor || '#000'};
+color: ${props => props.color || '#fff'};
+  height: 50px;
+`;
+const LeftSection = styled__default["default"].div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  .svg {
+  height: 24px;
+  width: 24px;
+  }
+`;
+const CenterSection = styled__default["default"].div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+`;
+const RightSection = styled__default["default"].div`
+  display: flex;
+  align-items: center;
+  gap: 16px;
+`;
+
+// Component
+const TopNavBar3 = ({
+  title,
+  backgroundColor,
+  color
+}) => {
+  const navigate = reactRouterDom.useNavigate();
+  const handleBack = () => {
+    navigate(-1);
+  };
+  return /*#__PURE__*/React__default["default"].createElement(Container, {
+    backgroundColor: backgroundColor,
+    color: color
+  }, /*#__PURE__*/React__default["default"].createElement(LeftSection, {
+    onClick: handleBack
+  }, /*#__PURE__*/React__default["default"].createElement(ChevronLeftIcon, {
+    className: 'svg'
+  })), /*#__PURE__*/React__default["default"].createElement(CenterSection, null, title), /*#__PURE__*/React__default["default"].createElement(RightSection, null));
+};
+TopNavBar3.propTypes = {
+  /** The title/name to display in the center of the nav bar */
+  title: PropTypes__default["default"].string.isRequired,
+  /** The background color of the nav bar */
+  backgroundColor: PropTypes__default["default"].string
+};
+TopNavBar3.defaultProps = {
+  backgroundColor: '#000' // fallback color
+};
+
 function TopWSideNav({
   appName = "AppName",
   signInColor = "#000000",
   navLinks = [],
   username = "John Doe",
   profilePic = "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg",
-  onLogout
+  onLogout,
+  hideProfile = false // New prop for hiding profile section
 }) {
   const [isSideNavOpen, setIsSideNavOpen] = React.useState(false);
-  const toggleSideNav = () => setIsSideNavOpen(!isSideNavOpen);
+  const toggleSideNav = () => setIsSideNavOpen(prev => !prev);
   const closeSideNav = () => setIsSideNavOpen(false);
   return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(NavBar, null, /*#__PURE__*/React__default["default"].createElement(NavContent, null, /*#__PURE__*/React__default["default"].createElement(DrawerButton, {
     onClick: toggleSideNav
@@ -9998,43 +10070,19 @@ function TopWSideNav({
   }, appName), /*#__PURE__*/React__default["default"].createElement(SignInLink, {
     to: "/login",
     signInColor: signInColor
-  }, "Sign In"))), isSideNavOpen && /*#__PURE__*/React__default["default"].createElement(Overlay, {
-    onClick: closeSideNav
-  }), /*#__PURE__*/React__default["default"].createElement(SideNavContainer, {
-    isOpen: isSideNavOpen,
-    onClick: e => e.stopPropagation()
-  }, /*#__PURE__*/React__default["default"].createElement(SideNavHeader, {
-    to: "/profile",
-    onClick: closeSideNav
-  }, /*#__PURE__*/React__default["default"].createElement(ProfileImage, {
-    src: profilePic,
-    alt: "Profile"
-  }), /*#__PURE__*/React__default["default"].createElement(ProfileInfo, null, /*#__PURE__*/React__default["default"].createElement(Username, null, username), /*#__PURE__*/React__default["default"].createElement(ViewProfile, null, "View Profile"))), /*#__PURE__*/React__default["default"].createElement(NavLinks, null, navLinks.map(({
-    name,
-    path,
-    Icon
-  }, index) => /*#__PURE__*/React__default["default"].createElement(StyledLink, {
-    to: path,
-    key: index,
-    onClick: closeSideNav
-  }, Icon && /*#__PURE__*/React__default["default"].createElement(IconWrapper$1, null, /*#__PURE__*/React__default["default"].createElement(Icon, {
-    className: "icon"
-  })), /*#__PURE__*/React__default["default"].createElement("span", null, name)))), /*#__PURE__*/React__default["default"].createElement(FooterLinks, null, /*#__PURE__*/React__default["default"].createElement(StyledLink, {
-    to: "/settings",
-    onClick: closeSideNav
-  }, /*#__PURE__*/React__default["default"].createElement(IconWrapper$1, null, /*#__PURE__*/React__default["default"].createElement(CogIcon, {
-    className: "icon"
-  })), /*#__PURE__*/React__default["default"].createElement("span", null, "Settings")), /*#__PURE__*/React__default["default"].createElement(LogoutButton, {
-    onClick: () => {
-      onLogout();
-      closeSideNav();
-    }
-  }, /*#__PURE__*/React__default["default"].createElement(IconWrapper$1, null, /*#__PURE__*/React__default["default"].createElement(LoginIcon, {
-    className: "icon"
-  })), /*#__PURE__*/React__default["default"].createElement("span", null, "Log out")))));
+  }, "Sign In"))), /*#__PURE__*/React__default["default"].createElement(SideBar, {
+    navLinks: navLinks,
+    username: username,
+    profilePic: profilePic,
+    onLogout: onLogout,
+    isSideNavOpen: isSideNavOpen,
+    toggleSideNav: toggleSideNav,
+    closeSideNav: closeSideNav,
+    hideProfile: hideProfile
+  }));
 }
 
-// Styled Components
+// Styled Components for TopWSideNav remain unchanged
 const NavBar = styled__default["default"].nav`
   position: relative;
   background-color: white;
@@ -10045,11 +10093,11 @@ const NavContent = styled__default["default"].div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem; /* Reduced height */
+  padding: 0.75rem;
   box-sizing: border-box;
 
   @media (min-width: 768px) {
-    padding: 0.75rem 1.5rem; /* Reduced height */
+    padding: 0.75rem 1.5rem;
   }
 `;
 const DrawerButton = styled__default["default"].button`
@@ -10064,7 +10112,7 @@ const DrawerButton = styled__default["default"].button`
   }
 `;
 const BrandLink = styled__default["default"](reactRouterDom.Link)`
-  font-size: 1.5rem; /* Adjusted for reduced height */
+  font-size: 1.5rem;
   font-weight: bold;
   color: #1f2937;
   text-decoration: none;
@@ -10082,117 +10130,6 @@ const SignInLink = styled__default["default"](reactRouterDom.Link)`
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.5);
-  }
-`;
-const Overlay = styled__default["default"].div`
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 49;
-  transition: opacity 0.3s ease-in-out;
-  pointer-events: auto;
-`;
-const SideNavContainer = styled__default["default"].div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 16rem;
-  background: #ffffff;
-  color: #1a202c;
-  transform: ${({
-  isOpen
-}) => isOpen ? "translateX(0)" : "translateX(-100%)"};
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease-in-out;
-  box-shadow: ${({
-  isOpen
-}) => isOpen ? "0 4px 12px rgba(0, 0, 0, 0.1)" : "none"};
-  z-index: 50;
-`;
-const SideNavHeader = styled__default["default"](reactRouterDom.Link)`
-  display: flex;
-  align-items: center;
-  padding: 1.5rem;
-  border-bottom: 1px solid #e2e8f0;
-  text-decoration: none;
-  color: inherit;
-
-  &:hover {
-    background-color: #f7fafc;
-  }
-`;
-const ProfileImage = styled__default["default"].img`
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  margin-right: 1rem;
-  object-fit: cover;
-`;
-const ProfileInfo = styled__default["default"].div`
-  display: flex;
-  flex-direction: column;
-`;
-const Username = styled__default["default"].div`
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #2d3748;
-`;
-const ViewProfile = styled__default["default"].div`
-  font-size: 0.875rem;
-  color: #718096;
-`;
-const NavLinks = styled__default["default"].nav`
-  flex-grow: 1;
-  overflow-y: auto;
-`;
-const StyledLink = styled__default["default"](reactRouterDom.Link)`
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 1.5rem;
-  color: #2d3748;
-  text-decoration: none;
-  transition: background 0.2s, color 0.2s;
-  width: 100%;
-  border-radius: 4px;
-
-  &:hover {
-    background: #f7fafc;
-    color: #1a202c;
-  }
-`;
-const FooterLinks = styled__default["default"].div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  border-top: 1px solid #e2e8f0;
-`;
-const IconWrapper$1 = styled__default["default"].div`
-  display: flex;
-  align-items: center;
-  margin-right: 0.75rem;
-
-  .icon {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
-`;
-const LogoutButton = styled__default["default"].button`
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 1.5rem;
-  background: none;
-  border: none;
-  color: #2d3748;
-  cursor: pointer;
-  width: 100%;
-  border-radius: 4px;
-  text-align: left;
-
-  &:hover {
-    background: #f7fafc;
-    color: #1a202c;
   }
 `;
 
@@ -10241,14 +10178,11 @@ exports.AccordionCard = AccordionCard;
 exports.AppCard = AppCard;
 exports.AppleIcon = AppleIcon;
 exports.ArrowRightIcon = ArrowRightIcon;
-exports.AuthPageView = AuthPageView;
 exports.BookIcon = BookIcon;
 exports.BookOpenIcon = BookOpenIcon;
 exports.BookmarkIcon = BookmarkIcon;
 exports.BottomDrawer = BottomDrawer;
 exports.BottomNav = BottomNav;
-exports.BottomNav2 = BottomNav2;
-exports.BottomTabs = BottomTabs;
 exports.ButtonArrowIcon = ButtonArrowIcon;
 exports.CV = CV;
 exports.CalendarIcon = CalendarIcon;
@@ -10309,6 +10243,7 @@ exports.ListingCard = ListingCard;
 exports.Loader = Loader;
 exports.LocationIcon = LocationIcon;
 exports.LoginIcon = LoginIcon;
+exports.LoginPage = LoginPage;
 exports.ManageAccount = ManageAccount;
 exports.ManageNotifications = ManageNotifications;
 exports.ManagePaymentMethods = ManagePaymentMethods;
@@ -10354,6 +10289,7 @@ exports.SelectInput = SelectInput;
 exports.SelectToTextInput = SelectToTextInput;
 exports.Settings = Settings;
 exports.SettingsIcon = SettingsIcon;
+exports.SideBar = SideBar;
 exports.SideNav = SideNav;
 exports.SocialButtons = SocialButtons;
 exports.SortIcon = SortIcon;
@@ -10365,6 +10301,7 @@ exports.ToggleField = ToggleField;
 exports.Tooltip = Tooltip;
 exports.TopNavBar = TopNavBar;
 exports.TopNavBar2 = TopNavBar2;
+exports.TopNavBar3 = TopNavBar3;
 exports.TopWSideNav = TopWSideNav;
 exports.TrashIcon = TrashIcon;
 exports.TwitterIcon = TwitterIcon;
