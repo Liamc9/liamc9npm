@@ -19,9 +19,6 @@ const Button = styled.button`
   font-size: 1rem;
   color: ${({ isActive, activeColor }) => (isActive ? activeColor : 'inherit')};
 
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
-  }
 `;
 
 const Underline = styled.div`

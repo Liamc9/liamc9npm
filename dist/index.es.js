@@ -1777,7 +1777,7 @@ const CardSocial = ({
 
 // Styled Components
 
-const Container$4 = styled.div`
+const Container$5 = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -1909,7 +1909,7 @@ const CheckedItem = ({
   width = "7rem",
   color = "#3b82f6" // Default to blue-500
 }) => {
-  return /*#__PURE__*/React.createElement(Container$4, null, /*#__PURE__*/React.createElement(Label$1, null, /*#__PURE__*/React.createElement(HiddenCheckbox, {
+  return /*#__PURE__*/React.createElement(Container$5, null, /*#__PURE__*/React.createElement(Label$1, null, /*#__PURE__*/React.createElement(HiddenCheckbox, {
     onChange: onChange,
     checked: checked
   }), /*#__PURE__*/React.createElement(StyledSpan, {
@@ -2352,7 +2352,7 @@ const ButtonContainer = styled.div`
   justify-content: center;
   gap: 0.5rem;
 `;
-const Button$7 = styled.button`
+const Button$8 = styled.button`
   border-radius: 9999px;
   padding: 0.5rem 1.25rem;
   font-size: 0.875rem;
@@ -2365,7 +2365,7 @@ const Button$7 = styled.button`
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   }
 `;
-const CancelButton$1 = styled(Button$7)`
+const CancelButton$1 = styled(Button$8)`
   border-color: #d1d5db;
   background-color: #e5e7eb;
   color: #4b5563;
@@ -2375,7 +2375,7 @@ const CancelButton$1 = styled(Button$7)`
     background-color: #d1d5db;
   }
 `;
-const ConfirmButton = styled(Button$7)`
+const ConfirmButton = styled(Button$8)`
   border-color: #ef4444;
   background-color: #ef4444;
   color: white;
@@ -3975,7 +3975,7 @@ const FileUpload = ({
   })));
 };
 
-const Button$6 = styled.button`
+const Button$7 = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4013,7 +4013,7 @@ const IconWrapper$6 = styled.div`
 const FilterButton = ({
   onClick
 }) => {
-  return /*#__PURE__*/React.createElement(Button$6, {
+  return /*#__PURE__*/React.createElement(Button$7, {
     onClick: onClick,
     "aria-label": "Open filter drawer"
   }, /*#__PURE__*/React.createElement(IconWrapper$6, null, /*#__PURE__*/React.createElement(FilterIcon, null), " "));
@@ -4731,7 +4731,7 @@ const FixedButtonBar = styled.div`
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
   z-index: 10;
 `;
-const Button$5 = styled.button`
+const Button$6 = styled.button`
   padding: 8px 16px;
   font-size: 18px;
   border: none;
@@ -4927,9 +4927,9 @@ const LettzFilterDrawer = ({
     value: localSortOption,
     onChange: handleSortChangeLocal,
     options: sortOptions
-  })), /*#__PURE__*/React.createElement(FixedButtonBar, null, /*#__PURE__*/React.createElement(Button$5, {
+  })), /*#__PURE__*/React.createElement(FixedButtonBar, null, /*#__PURE__*/React.createElement(Button$6, {
     onClick: handleClear
-  }, "Clear"), /*#__PURE__*/React.createElement(Button$5, {
+  }, "Clear"), /*#__PURE__*/React.createElement(Button$6, {
     primary: true,
     onClick: handleApply
   }, "Apply")));
@@ -5089,7 +5089,7 @@ const Text$2 = styled.p`
 `;
 
 // Enhanced Button
-const Button$4 = styled.button`
+const Button$5 = styled.button`
   width: 100%;
   padding: 14px;
   font-size: 18px;
@@ -5133,7 +5133,7 @@ const ListYourPlaceCard = ({
   return /*#__PURE__*/React.createElement(Card$1, null, /*#__PURE__*/React.createElement(Header$4, null, /*#__PURE__*/React.createElement(StyledLettzIcon$1, null), " ", /*#__PURE__*/React.createElement(LogoText$1, null, "Lettz")), /*#__PURE__*/React.createElement(IconWrapper$5, null, /*#__PURE__*/React.createElement("span", {
     role: "img",
     "aria-label": "icon"
-  }, "\uD83C\uDFE1")), /*#__PURE__*/React.createElement(Text$2, null, "Get started by listing your place today!"), /*#__PURE__*/React.createElement(Button$4, {
+  }, "\uD83C\uDFE1")), /*#__PURE__*/React.createElement(Text$2, null, "Get started by listing your place today!"), /*#__PURE__*/React.createElement(Button$5, {
     onClick: handleClick
   }, "List Your Place"));
 };
@@ -5474,7 +5474,7 @@ const LoginPage = ({
   themeColor = "#A855F7"
 }) => {
   if (isSignupComplete) {
-    return /*#__PURE__*/React.createElement(Container$3, null, /*#__PURE__*/React.createElement(Title$4, null, "Signup Successful!"), /*#__PURE__*/React.createElement("p", null, "Please check your email ", /*#__PURE__*/React.createElement("strong", null, email), " for a verification link to activate your account."), /*#__PURE__*/React.createElement(ButtonWrapper, null, /*#__PURE__*/React.createElement(Button$3, {
+    return /*#__PURE__*/React.createElement(Container$4, null, /*#__PURE__*/React.createElement(Title$4, null, "Signup Successful!"), /*#__PURE__*/React.createElement("p", null, "Please check your email ", /*#__PURE__*/React.createElement("strong", null, email), " for a verification link to activate your account."), /*#__PURE__*/React.createElement(ButtonWrapper, null, /*#__PURE__*/React.createElement(Button$4, {
       themeColor: themeColor,
       onClick: () => {
         setIsSignupComplete(false); // Reset the signup complete state
@@ -5482,7 +5482,7 @@ const LoginPage = ({
       }
     }, "Return to Login")));
   }
-  return /*#__PURE__*/React.createElement(Container$3, null, /*#__PURE__*/React.createElement(IconWrapper1, null, /*#__PURE__*/React.createElement(LettzIconStyled, {
+  return /*#__PURE__*/React.createElement(Container$4, null, /*#__PURE__*/React.createElement(IconWrapper1, null, /*#__PURE__*/React.createElement(LettzIconStyled, {
     themeColor: themeColor
   })), /*#__PURE__*/React.createElement(Title$4, null, isSignUp ? "Sign up to Lettz to get started!" : "Sign in to Lettz"), resetEmailSent && /*#__PURE__*/React.createElement(Message, null, "A password reset email has been sent to ", email, "."), error && /*#__PURE__*/React.createElement(Message, {
     error: true
@@ -5530,7 +5530,7 @@ const LoginPage = ({
     themeColor: themeColor,
     type: "button",
     onClick: onForgotPassword
-  }, "Forgot your password?")), /*#__PURE__*/React.createElement(ButtonWrapper, null, /*#__PURE__*/React.createElement(Button$3, {
+  }, "Forgot your password?")), /*#__PURE__*/React.createElement(ButtonWrapper, null, /*#__PURE__*/React.createElement(Button$4, {
     themeColor: themeColor,
     type: "submit",
     disabled: isLoading
@@ -5541,7 +5541,7 @@ const LoginPage = ({
     onClick: () => setShowSignUp(!isSignUp)
   }, isSignUp ? "Login" : "Sign up"))));
 };
-const Container$3 = styled.div`
+const Container$4 = styled.div`
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
@@ -5599,7 +5599,7 @@ const Link = styled.a`
 const ButtonWrapper = styled.div`
   margin-top: 24px;
 `;
-const Button$3 = styled.button`
+const Button$4 = styled.button`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -5698,7 +5698,7 @@ const IconWrapper$4 = styled.span`
 `;
 
 // Styled Components
-const Container$2 = styled.div`
+const Container$3 = styled.div`
   max-width: 28rem; /* Equivalent to max-w-md */
   padding: 1rem;
 `;
@@ -5779,7 +5779,7 @@ const ManageAccount = () => {
     console.log('Back button clicked');
     // Add navigation logic here (e.g., React Router's useNavigate or history.goBack())
   };
-  return /*#__PURE__*/React.createElement(Container$2, null, /*#__PURE__*/React.createElement(Header$3, null, /*#__PURE__*/React.createElement(BackButton$3, {
+  return /*#__PURE__*/React.createElement(Container$3, null, /*#__PURE__*/React.createElement(Header$3, null, /*#__PURE__*/React.createElement(BackButton$3, {
     onClick: handleBack
   }, /*#__PURE__*/React.createElement(ChevronLeftIcon, {
     className: "w-6 h-6"
@@ -5912,7 +5912,7 @@ const ManageNotifications = () => {
 };
 
 // Atoms
-const Button$2 = styled.button`
+const Button$3 = styled.button`
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -5970,7 +5970,7 @@ const ManagePaymentMethods = ({
     key: index
   }, /*#__PURE__*/React.createElement("span", null, method.name), /*#__PURE__*/React.createElement(ChevronRightIcon, {
     className: "w-6 h-6"
-  })))), /*#__PURE__*/React.createElement(Button$2, {
+  })))), /*#__PURE__*/React.createElement(Button$3, {
     onClick: onAddPaymentMethod
   }, "Add Payment Method"));
 };
@@ -7080,7 +7080,7 @@ const Text$1 = styled.p`
 `;
 
 // Enhanced Button
-const Button$1 = styled.button`
+const Button$2 = styled.button`
   width: 100%;
   padding: 14px;
   font-size: 18px;
@@ -7118,7 +7118,7 @@ const MessagesPrompt = currentUser => {
   return /*#__PURE__*/React.createElement(Card, null, /*#__PURE__*/React.createElement(Header$2, null, /*#__PURE__*/React.createElement(StyledLettzIcon, null), " ", /*#__PURE__*/React.createElement(LogoText, null, "Lettz")), /*#__PURE__*/React.createElement(IconWrapper$2, null, /*#__PURE__*/React.createElement("span", {
     role: "img",
     "aria-label": "messages"
-  }, "\uD83D\uDCAC")), /*#__PURE__*/React.createElement(Text$1, null, "Please log in to see your messages."), /*#__PURE__*/React.createElement(Button$1, {
+  }, "\uD83D\uDCAC")), /*#__PURE__*/React.createElement(Text$1, null, "Please log in to see your messages."), /*#__PURE__*/React.createElement(Button$2, {
     onClick: handleLoginClick
   }, "Login"));
 };
@@ -7268,7 +7268,7 @@ Modal.propTypes = {
 // src/components/PollItem.jsx
 
 // Container for the entire component
-const Container$1 = styled.div`
+const Container$2 = styled.div`
 position: relative;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -7403,7 +7403,7 @@ const PollItem = ({
     setChosenOpt(option);
     setShowBar(true);
   };
-  return /*#__PURE__*/React.createElement(Container$1, null, /*#__PURE__*/React.createElement(Header$1, null, /*#__PURE__*/React.createElement("h2", {
+  return /*#__PURE__*/React.createElement(Container$2, null, /*#__PURE__*/React.createElement(Header$1, null, /*#__PURE__*/React.createElement("h2", {
     style: {
       margin: 0
     }
@@ -9574,7 +9574,7 @@ const SideNav = () => {
   const toggleSideNav = () => {
     setIsOpen(!isOpen);
   };
-  return /*#__PURE__*/React.createElement(Wrapper, null, /*#__PURE__*/React.createElement(TopBar, null, /*#__PURE__*/React.createElement(Button, {
+  return /*#__PURE__*/React.createElement(Wrapper, null, /*#__PURE__*/React.createElement(TopBar, null, /*#__PURE__*/React.createElement(Button$1, {
     onClick: toggleSideNav
   }, /*#__PURE__*/React.createElement(MenuIcon, {
     className: "icon"
@@ -9582,7 +9582,7 @@ const SideNav = () => {
     onClick: toggleSideNav
   }), /*#__PURE__*/React.createElement(SideNavContainer, {
     isOpen: isOpen
-  }, /*#__PURE__*/React.createElement(SideNavHeader, null, /*#__PURE__*/React.createElement(Title, null, "My Portfolio"), /*#__PURE__*/React.createElement(Button, {
+  }, /*#__PURE__*/React.createElement(SideNavHeader, null, /*#__PURE__*/React.createElement(Title, null, "My Portfolio"), /*#__PURE__*/React.createElement(Button$1, {
     onClick: toggleSideNav
   }, /*#__PURE__*/React.createElement(XIcon, {
     className: "icon"
@@ -9625,7 +9625,7 @@ const TopBar = styled.div`
   padding: 1rem;
   z-index: 50;
 `;
-const Button = styled.button`
+const Button$1 = styled.button`
   background: none;
   border: none;
   cursor: pointer;
@@ -9823,6 +9823,92 @@ function SocialButtons() {
   }), " ")))));
 }
 
+const Container$1 = styled.div`
+  position: relative;
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+`;
+const Button = styled.button`
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background: transparent;
+  font-size: 1rem;
+  color: ${({
+  isActive,
+  activeColor
+}) => isActive ? activeColor : 'inherit'};
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+`;
+const Underline = styled.div`
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  transition: transform 0.3s ease, width 0.3s ease;
+`;
+const TabGroup = ({
+  tabs,
+  activeColor,
+  activeIndex: controlledIndex,
+  onTabChange
+}) => {
+  const isControlled = controlledIndex !== undefined && typeof onTabChange === 'function';
+  const [internalIndex, setInternalIndex] = useState(0);
+  const activeIndex = isControlled ? controlledIndex : internalIndex;
+  const tabContainerRef = useRef(null);
+  const [underlineStyle, setUnderlineStyle] = useState({});
+  useEffect(() => {
+    if (tabContainerRef.current) {
+      const containerWidth = tabContainerRef.current.offsetWidth;
+      const tabWidth = containerWidth / tabs.length;
+      setUnderlineStyle({
+        width: `${tabWidth}px`,
+        transform: `translateX(${activeIndex * tabWidth}px)`
+      });
+    }
+  }, [activeIndex, tabs.length]);
+  const handleTabClick = index => {
+    if (isControlled) {
+      onTabChange(index);
+    } else {
+      setInternalIndex(index);
+      if (onTabChange) {
+        onTabChange(index);
+      }
+    }
+  };
+  return /*#__PURE__*/React.createElement(Container$1, {
+    ref: tabContainerRef
+  }, tabs.map((tabName, index) => /*#__PURE__*/React.createElement(Button, {
+    key: tabName,
+    isActive: activeIndex === index,
+    activeColor: activeColor,
+    onClick: () => handleTabClick(index)
+  }, tabName)), /*#__PURE__*/React.createElement(Underline, {
+    style: {
+      ...underlineStyle,
+      backgroundColor: activeColor
+    }
+  }));
+};
+TabGroup.propTypes = {
+  tabs: PropTypes.arrayOf(PropTypes.string).isRequired,
+  activeColor: PropTypes.string,
+  activeIndex: PropTypes.number,
+  onTabChange: PropTypes.func
+};
+TabGroup.defaultProps = {
+  activeColor: '#007bff',
+  activeIndex: undefined,
+  onTabChange: undefined
+};
+
 // ToastMessage Component
 const ToastMessage = () => {
   const showToast = (message, type) => {
@@ -9979,7 +10065,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
+  padding: 10px 16px;
   background-color: ${props => props.backgroundColor || '#000'};
 color: ${props => props.color || '#fff'};
   height: 50px;
@@ -9999,7 +10085,7 @@ const CenterSection = styled.div`
   display: flex;
   justify-content: center;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
 `;
 const RightSection = styled.div`
   display: flex;
@@ -10161,5 +10247,5 @@ const UneditableTextField = ({
   return /*#__PURE__*/React.createElement(FieldContainer, null, IconComponent && /*#__PURE__*/React.createElement(IconWrapper, null, /*#__PURE__*/React.createElement(IconComponent, null)), /*#__PURE__*/React.createElement(TextWrapper, null, /*#__PURE__*/React.createElement(FieldName, null, name), /*#__PURE__*/React.createElement(FieldValue, null, value)));
 };
 
-export { AccordionCard, AppCard, AppleIcon, ArrowRightIcon, BookIcon, BookOpenIcon, BookmarkIcon, BottomDrawer, BottomNav, ButtonArrowIcon, CV, CalendarIcon, Card2, Card3, CardProduct, CardSocial, CartIcon, ChatIcon, CheckedItem, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon, ChevronUpIcon, ClockIcon, CodeIcon, CogIcon, CollegeIcon, ConversationItem, ConversationList, CookbookCard, CookbookProfile, CustomButton, CustomFileUpload, DataIcon, DeleteModal, DragAndDrop, EditIcon, EditStackedList, EditableTextField, FileUpload, FilterButton, FilterDrawer, FilterIcon, Footer$1 as Footer, ForkAndKnifeIcon, GhostLoader, GithubIcon, GoogleIcon, HeartIcon, Hero, HeroContent, HomeIcon, HomeIcon2, HomeIcon3, IdeaIcon, ImageCarousel, ImageCarousel2, Input, InstagramIcon, LettzFilterDrawer, LettzIcon, LettzSearchButton, LinkedInIcon, ListYourPlaceCard, ListingCard, Loader, LocationIcon, LoginIcon, LoginPage, ManageAccount, ManageNotifications, ManagePaymentMethods, MarketingIcon, MenuIcon, MenuIcon3, MenuItem, MessageForm, MessagesPrompt, MessagesView, Modal, MoneyIcon, MoneyIcon2, MuteIcon, NotificationsIcon, PasswordIcon, PeriodIcon, PlusIcon, PollItem, Popover, PortfolioMainSlider, ProgressBar, ProjectCard, RangeSlider, RecipeCard$1 as RecipeCard, RecipeSwipeComponent, RoomsView, ScriptIcon, SearchBar, SearchBar2, SearchButton, SearchDrawer, SearchFilters, SearchIcon, SearchIcon2, SearchPageDrawer, SearchResultItem, SearchResults, SearchSort, SecurityIcon, SelectField, SelectInput, SelectToTextInput, Settings, SettingsIcon, SideBar, SideNav, SocialButtons, SortIcon, StackedList, StrategyIcon, TargetIcon, ToastMessage, ToggleField, Tooltip, TopNavBar, TopNavBar2, TopNavBar3, TopWSideNav, TrashIcon, TwitterIcon, UneditableTextField, UserIcon2, UserIcon3, UsersIcon, VolumeIcon, WebsiteIcon, WhatsAppIcon, XIcon };
+export { AccordionCard, AppCard, AppleIcon, ArrowRightIcon, BookIcon, BookOpenIcon, BookmarkIcon, BottomDrawer, BottomNav, ButtonArrowIcon, CV, CalendarIcon, Card2, Card3, CardProduct, CardSocial, CartIcon, ChatIcon, CheckedItem, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon, ChevronUpIcon, ClockIcon, CodeIcon, CogIcon, CollegeIcon, ConversationItem, ConversationList, CookbookCard, CookbookProfile, CustomButton, CustomFileUpload, DataIcon, DeleteModal, DragAndDrop, EditIcon, EditStackedList, EditableTextField, FileUpload, FilterButton, FilterDrawer, FilterIcon, Footer$1 as Footer, ForkAndKnifeIcon, GhostLoader, GithubIcon, GoogleIcon, HeartIcon, Hero, HeroContent, HomeIcon, HomeIcon2, HomeIcon3, IdeaIcon, ImageCarousel, ImageCarousel2, Input, InstagramIcon, LettzFilterDrawer, LettzIcon, LettzSearchButton, LinkedInIcon, ListYourPlaceCard, ListingCard, Loader, LocationIcon, LoginIcon, LoginPage, ManageAccount, ManageNotifications, ManagePaymentMethods, MarketingIcon, MenuIcon, MenuIcon3, MenuItem, MessageForm, MessagesPrompt, MessagesView, Modal, MoneyIcon, MoneyIcon2, MuteIcon, NotificationsIcon, PasswordIcon, PeriodIcon, PlusIcon, PollItem, Popover, PortfolioMainSlider, ProgressBar, ProjectCard, RangeSlider, RecipeCard$1 as RecipeCard, RecipeSwipeComponent, RoomsView, ScriptIcon, SearchBar, SearchBar2, SearchButton, SearchDrawer, SearchFilters, SearchIcon, SearchIcon2, SearchPageDrawer, SearchResultItem, SearchResults, SearchSort, SecurityIcon, SelectField, SelectInput, SelectToTextInput, Settings, SettingsIcon, SideBar, SideNav, SocialButtons, SortIcon, StackedList, StrategyIcon, TabGroup, TargetIcon, ToastMessage, ToggleField, Tooltip, TopNavBar, TopNavBar2, TopNavBar3, TopWSideNav, TrashIcon, TwitterIcon, UneditableTextField, UserIcon2, UserIcon3, UsersIcon, VolumeIcon, WebsiteIcon, WhatsAppIcon, XIcon };
 //# sourceMappingURL=index.es.js.map
