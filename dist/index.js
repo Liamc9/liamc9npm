@@ -2368,7 +2368,7 @@ const ButtonContainer = styled__default["default"].div`
   justify-content: center;
   gap: 0.5rem;
 `;
-const Button$9 = styled__default["default"].button`
+const Button$a = styled__default["default"].button`
   border-radius: 9999px;
   padding: 0.5rem 1.25rem;
   font-size: 0.875rem;
@@ -2381,7 +2381,7 @@ const Button$9 = styled__default["default"].button`
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   }
 `;
-const CancelButton$1 = styled__default["default"](Button$9)`
+const CancelButton$1 = styled__default["default"](Button$a)`
   border-color: #d1d5db;
   background-color: #e5e7eb;
   color: #4b5563;
@@ -2391,7 +2391,7 @@ const CancelButton$1 = styled__default["default"](Button$9)`
     background-color: #d1d5db;
   }
 `;
-const ConfirmButton = styled__default["default"](Button$9)`
+const ConfirmButton = styled__default["default"](Button$a)`
   border-color: #ef4444;
   background-color: #ef4444;
   color: white;
@@ -3965,7 +3965,9 @@ const Feed = ({
   items = [],
   sortBy,
   selectedFilters = {},
-  ItemComponent = FeedItem // default component for rendering items
+  ItemComponent = FeedItem,
+  // default component for rendering items
+  infiniteScroll // number of items to load per batch
 }) => {
   // Filtering
   const filteredItems = items.filter(item => Object.entries(selectedFilters).every(([category, values]) => {
@@ -3975,10 +3977,55 @@ const Feed = ({
 
   // Sorting
   const sortedItems = sortBy ? [...filteredItems].sort(sortBy) : filteredItems;
-  return /*#__PURE__*/React__default["default"].createElement(FeedContainer, null, sortedItems.map((item, index) => /*#__PURE__*/React__default["default"].createElement(ItemComponent, {
+
+  // Infinite scroll state
+  const [visibleCount, setVisibleCount] = React.useState(infiniteScroll ? infiniteScroll : sortedItems.length);
+
+  // Reference to the loader element
+  const loaderRef = React.useRef(null);
+
+  // Callback for intersection observer
+  const handleObserver = React.useCallback(entries => {
+    const target = entries[0];
+    if (target.isIntersecting) {
+      setVisibleCount(prev => {
+        const newCount = prev + infiniteScroll;
+        return newCount > sortedItems.length ? sortedItems.length : newCount;
+      });
+    }
+  }, [infiniteScroll, sortedItems.length]);
+  React.useEffect(() => {
+    // Reset visibleCount when the sortedItems list changes
+    if (infiniteScroll) {
+      setVisibleCount(infiniteScroll);
+    }
+  }, [sortedItems, infiniteScroll]);
+  React.useEffect(() => {
+    // Only set up IntersectionObserver if infiniteScroll prop exists
+    if (!infiniteScroll) return;
+    const option = {
+      root: null,
+      rootMargin: '20px',
+      threshold: 1.0
+    };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (loaderRef.current) observer.observe(loaderRef.current);
+    return () => {
+      if (loaderRef.current) observer.unobserve(loaderRef.current);
+    };
+  }, [handleObserver, infiniteScroll]);
+
+  // Determine which items to display based on infiniteScroll logic
+  const itemsToRender = infiniteScroll ? sortedItems.slice(0, visibleCount) : sortedItems;
+  return /*#__PURE__*/React__default["default"].createElement(FeedContainer, null, itemsToRender.map((item, index) => /*#__PURE__*/React__default["default"].createElement(ItemComponent, {
     key: index,
     data: item
-  })));
+  })), infiniteScroll && visibleCount < sortedItems.length && /*#__PURE__*/React__default["default"].createElement("div", {
+    ref: loaderRef,
+    style: {
+      height: '20px'
+    }
+  }));
 };
 
 // ../../components/search/FeedItem2.jsx
@@ -4306,20 +4353,20 @@ const SelectInput = ({
 };
 
 // Filter.jsx
-const FilterContainer$1 = styled__default["default"].div`
+const FilterContainer$2 = styled__default["default"].div`
   display: grid;
   gap: 2rem;
 `;
-const GroupContainer$1 = styled__default["default"].div`
+const GroupContainer$2 = styled__default["default"].div`
   display: flex;
   flex-direction: column;
 `;
-const GroupLabel$1 = styled__default["default"].h5`
+const GroupLabel$2 = styled__default["default"].h5`
   margin-bottom: 0.5rem;
 `;
 
 // Define filter configurations explicitly
-const filtersConfig$1 = {
+const filtersConfig$2 = {
   status: {
     category: 'status',
     label: 'Status',
@@ -4360,7 +4407,7 @@ const filtersConfig$1 = {
 const Filter = ({
   onChange
 }) => /*#__PURE__*/React__default["default"].createElement(FilterLogic, {
-  filters: Object.values(filtersConfig$1),
+  filters: Object.values(filtersConfig$2),
   onChange: selectedFilters => {
     if (onChange) {
       onChange(selectedFilters); // Pass the selectedFilters up to the parent
@@ -4370,16 +4417,16 @@ const Filter = ({
   selectedFilters,
   setSelection
 }) => {
-  const statusFilter = filtersConfig$1.status;
-  const priorityFilter = filtersConfig$1.priority;
-  return /*#__PURE__*/React__default["default"].createElement(FilterContainer$1, null, /*#__PURE__*/React__default["default"].createElement(GroupContainer$1, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel$1, null, statusFilter.label), /*#__PURE__*/React__default["default"].createElement(SelectInput, {
+  const statusFilter = filtersConfig$2.status;
+  const priorityFilter = filtersConfig$2.priority;
+  return /*#__PURE__*/React__default["default"].createElement(FilterContainer$2, null, /*#__PURE__*/React__default["default"].createElement(GroupContainer$2, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel$2, null, statusFilter.label), /*#__PURE__*/React__default["default"].createElement(SelectInput, {
     name: statusFilter.category,
     label: `Select ${statusFilter.label}`,
     value: selectedFilters[statusFilter.category] && selectedFilters[statusFilter.category][0] ? selectedFilters[statusFilter.category][0] : '',
     onChange: e => setSelection(statusFilter.category, e.target.value),
     options: statusFilter.options,
     color: "#000"
-  })), /*#__PURE__*/React__default["default"].createElement(GroupContainer$1, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel$1, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
+  })), /*#__PURE__*/React__default["default"].createElement(GroupContainer$2, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel$2, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
     min: 0,
     max: priorityFilter.options.length - 1,
     label: priorityFilter.label,
@@ -4444,10 +4491,302 @@ const Filter2 = ({
   }), opt.label))))));
 };
 
-// src/components/Filter3.jsx
+const Button$9 = styled__default["default"].button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 12px;
+  padding: 0 12px;
+
+  &:hover {
+    background-color: #f5f5f5;
+    border-color: #dcdcdc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #007bff; /* Highlight color */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Accessibility focus ring */
+  }
+`;
+const IconWrapper$6 = styled__default["default"].div`
+  color: #333;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+`;
+const FilterButton = ({
+  onClick
+}) => {
+  return /*#__PURE__*/React__default["default"].createElement(Button$9, {
+    onClick: onClick,
+    "aria-label": "Open filter drawer"
+  }, /*#__PURE__*/React__default["default"].createElement(IconWrapper$6, null, /*#__PURE__*/React__default["default"].createElement(FilterIcon, null), " "));
+};
+FilterButton.propTypes = {
+  onClick: PropTypes__default["default"].func.isRequired
+};
+
+// src/components/FilterDrawer.jsx
 
 // Styled components for button and filter layout
 const Button$8 = styled__default["default"].button`
+  padding: 10px 20px;
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  margin: 1rem;
+
+  &:hover {
+    background-color: #1d4ed8;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
+  }
+`;
+const FilterContainer$1 = styled__default["default"].div`
+  display: grid;
+  gap: 2rem;
+  padding: 1rem;
+`;
+const GroupContainer$1 = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+`;
+const GroupLabel$1 = styled__default["default"].h5`
+  margin-bottom: 0.5rem;
+`;
+
+// Define filter configurations explicitly
+const filtersConfig$1 = {
+  status: {
+    category: 'status',
+    label: 'Status',
+    type: 'dropdown',
+    options: [{
+      value: 'completed',
+      label: 'Completed',
+      initial: false
+    }, {
+      value: 'pending',
+      label: 'Pending',
+      initial: false
+    }, {
+      value: 'inProgress',
+      label: 'In Progress',
+      initial: false
+    }]
+  },
+  priority: {
+    category: 'priority',
+    label: 'Priority',
+    type: 'range',
+    options: [{
+      value: 'high',
+      label: 'High',
+      initial: false
+    }, {
+      value: 'medium',
+      label: 'Medium',
+      initial: false
+    }, {
+      value: 'low',
+      label: 'Low',
+      initial: false
+    }]
+  }
+};
+const FilterDrawer = ({
+  onChange
+}) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const handleOpenDrawer = () => setIsOpen(true);
+  const handleCloseDrawer = () => setIsOpen(false);
+  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(Button$8, {
+    onClick: handleOpenDrawer
+  }, "Open Filters"), /*#__PURE__*/React__default["default"].createElement(BottomDrawer, {
+    isOpen: isOpen,
+    onClose: handleCloseDrawer
+  }, /*#__PURE__*/React__default["default"].createElement(FilterLogic, {
+    filters: Object.values(filtersConfig$1),
+    onChange: selectedFilters => {
+      if (onChange) {
+        onChange(selectedFilters);
+      }
+    }
+  }, ({
+    selectedFilters,
+    setSelection
+  }) => {
+    const statusFilter = filtersConfig$1.status;
+    const priorityFilter = filtersConfig$1.priority;
+    return /*#__PURE__*/React__default["default"].createElement(FilterContainer$1, null, /*#__PURE__*/React__default["default"].createElement(GroupContainer$1, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel$1, null, statusFilter.label), /*#__PURE__*/React__default["default"].createElement(SelectInput, {
+      name: statusFilter.category,
+      label: `Select ${statusFilter.label}`,
+      value: selectedFilters[statusFilter.category] && selectedFilters[statusFilter.category][0] ? selectedFilters[statusFilter.category][0] : '',
+      onChange: e => setSelection(statusFilter.category, e.target.value),
+      options: statusFilter.options,
+      color: "#000"
+    })), /*#__PURE__*/React__default["default"].createElement(GroupContainer$1, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel$1, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
+      min: 0,
+      max: priorityFilter.options.length - 1,
+      label: priorityFilter.label,
+      onChange: index => {
+        const value = priorityFilter.options[index]?.value;
+        if (value) setSelection(priorityFilter.category, value);
+      }
+    })));
+  })));
+};
+
+// Animations
+const fadeIn = styled.keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+const slideIn = styled.keyframes`
+  from {
+    transform: translateY(-20px);
+  }
+  to {
+    transform: translateY(0);
+  }
+`;
+
+// Styled Components
+const Overlay$2 = styled__default["default"].div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  ${props => props.animate && styled.css`
+      animation: ${fadeIn} 0.3s ease-out forwards;
+    `}
+`;
+const ModalContainer = styled__default["default"].div`
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  ${props => props.animate && styled.css`
+      animation: ${slideIn} 0.3s ease-out forwards;
+    `}
+`;
+const CloseButton = styled__default["default"].button`
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  color: #333;
+
+  &:hover {
+    color: #555;
+  }
+`;
+const ModalContent = styled__default["default"].div`
+  padding: 16px;
+`;
+const ModalTitle = styled__default["default"].h2`
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  color: #333;
+`;
+const ModalBody = styled__default["default"].div`
+  font-size: 1rem;
+  color: #555;
+`;
+
+// Modal Component
+const Modal = ({
+  isModalOpen,
+  closeModal,
+  title,
+  children,
+  animate = true
+}) => {
+  React.useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isModalOpen]);
+  React.useEffect(() => {
+    const handleEsc = event => {
+      if (event.key === "Escape" && isModalOpen) {
+        closeModal();
+      }
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [isModalOpen, closeModal]);
+  if (!isModalOpen) return null;
+  return /*#__PURE__*/ReactDOM__default["default"].createPortal(/*#__PURE__*/React__default["default"].createElement(Overlay$2, {
+    animate: animate,
+    onClick: closeModal
+  }, /*#__PURE__*/React__default["default"].createElement(ModalContainer, {
+    animate: animate,
+    onClick: e => e.stopPropagation(),
+    "aria-modal": "true",
+    role: "dialog",
+    "aria-labelledby": "modal-title"
+  }, /*#__PURE__*/React__default["default"].createElement(CloseButton, {
+    onClick: closeModal,
+    "aria-label": "Close Modal"
+  }, /*#__PURE__*/React__default["default"].createElement(XIcon, null)), /*#__PURE__*/React__default["default"].createElement(ModalContent, null, title && /*#__PURE__*/React__default["default"].createElement(ModalTitle, {
+    id: "modal-title"
+  }, title), /*#__PURE__*/React__default["default"].createElement(ModalBody, null, children)))), document.getElementById("modal-root"));
+};
+Modal.propTypes = {
+  isModalOpen: PropTypes__default["default"].bool.isRequired,
+  closeModal: PropTypes__default["default"].func.isRequired,
+  title: PropTypes__default["default"].string,
+  children: PropTypes__default["default"].node.isRequired,
+  animate: PropTypes__default["default"].bool // Enable or disable animations
+};
+
+// src/components/FilterModal.jsx
+
+// Styled components for button and filter layout
+const Button$7 = styled__default["default"].button`
   padding: 10px 20px;
   background-color: #2563eb;
   color: #fff;
@@ -4471,6 +4810,7 @@ const FilterContainer = styled__default["default"].div`
   display: grid;
   gap: 2rem;
   padding: 1rem;
+  width: 500px;
 `;
 const GroupContainer = styled__default["default"].div`
   display: flex;
@@ -4519,17 +4859,19 @@ const filtersConfig = {
     }]
   }
 };
-const Filter3 = ({
+const FilterModal = ({
   onChange
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const handleOpenDrawer = () => setIsOpen(true);
-  const handleCloseDrawer = () => setIsOpen(false);
-  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(Button$8, {
-    onClick: handleOpenDrawer
-  }, "Open Filters"), /*#__PURE__*/React__default["default"].createElement(BottomDrawer, {
-    isOpen: isOpen,
-    onClose: handleCloseDrawer
+  const handleOpenModal = () => setIsOpen(true);
+  const handleCloseModal = () => setIsOpen(false);
+  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(Button$7, {
+    onClick: handleOpenModal
+  }, "Open Filters"), /*#__PURE__*/React__default["default"].createElement(Modal, {
+    isModalOpen: isOpen,
+    closeModal: handleCloseModal,
+    title: "Filters",
+    animate: true
   }, /*#__PURE__*/React__default["default"].createElement(FilterLogic, {
     filters: Object.values(filtersConfig),
     onChange: selectedFilters => {
@@ -4560,177 +4902,6 @@ const Filter3 = ({
       }
     })));
   })));
-};
-
-const Button$7 = styled__default["default"].button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-left: 12px;
-  padding: 0 12px;
-
-  &:hover {
-    background-color: #f5f5f5;
-    border-color: #dcdcdc;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  &:focus {
-    outline: none;
-    border-color: #007bff; /* Highlight color */
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Accessibility focus ring */
-  }
-`;
-const IconWrapper$6 = styled__default["default"].div`
-  color: #333;
-
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-`;
-const FilterButton = ({
-  onClick
-}) => {
-  return /*#__PURE__*/React__default["default"].createElement(Button$7, {
-    onClick: onClick,
-    "aria-label": "Open filter drawer"
-  }, /*#__PURE__*/React__default["default"].createElement(IconWrapper$6, null, /*#__PURE__*/React__default["default"].createElement(FilterIcon, null), " "));
-};
-FilterButton.propTypes = {
-  onClick: PropTypes__default["default"].func.isRequired
-};
-
-// Styled components
-const Wrapper$2 = styled__default["default"].div`
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  height: 100%; /* Full height for proper scrolling */
-`;
-const FiltersContainer = styled__default["default"].div`
-  flex: 1; /* Allow this to take up the remaining space */
-  overflow-y: auto; /* Enable scrolling if the content overflows */
-  padding-bottom: 80px; /* Space to avoid overlapping with the floating button */
-`;
-const FloatingButtonContainer = styled__default["default"].div`
-  position: sticky; /* Stick to the bottom of the drawer */
-  bottom: 0;
-  background-color: white; /* Ensure it stands out over content */
-  padding: 16px 0 0;
-  border-top: 1px solid #e0e0e0; /* Add a separator line */
-  z-index: 10; /* Ensure it stays above scrolling content */
-`;
-const ApplyButton = styled__default["default"].button`
-  width: 100%; /* Full width for better visibility */
-  padding: 12px 16px;
-  background-color: #000000; /* Bootstrap primary color */
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
-
-`;
-const FilterDrawer = ({
-  filters,
-  selectedFilters,
-  onFilterChange,
-  closeDrawer,
-  sortOptions,
-  selectedSortOption,
-  onSortChange
-}) => {
-  const [localSelectedFilters, setLocalSelectedFilters] = React.useState(selectedFilters);
-  const [localSelectedSortOption, setLocalSelectedSortOption] = React.useState(selectedSortOption);
-
-  // Update local state when selectedFilters prop changes
-  React.useEffect(() => {
-    setLocalSelectedFilters(selectedFilters);
-  }, [selectedFilters]);
-
-  // Update local state when selectedSortOption prop changes
-  React.useEffect(() => {
-    setLocalSelectedSortOption(selectedSortOption);
-  }, [selectedSortOption]);
-  const handleFilterChange = (key, value) => {
-    setLocalSelectedFilters(prevFilters => ({
-      ...prevFilters,
-      [key]: value
-    }));
-  };
-  const handleSortOptionChange = value => {
-    setLocalSelectedSortOption(value);
-  };
-  const handleApplyFilters = () => {
-    onFilterChange(localSelectedFilters);
-    onSortChange(localSelectedSortOption);
-    closeDrawer();
-  };
-  return /*#__PURE__*/React__default["default"].createElement(Wrapper$2, null, /*#__PURE__*/React__default["default"].createElement(FiltersContainer, null, sortOptions && sortOptions.length > 0 && /*#__PURE__*/React__default["default"].createElement(SelectField, {
-    name: "Sort By",
-    value: localSelectedSortOption,
-    options: sortOptions,
-    onChange: handleSortOptionChange,
-    placeholder: "Select sort order"
-  }), filters.map(filter => {
-    switch (filter.type) {
-      case "select":
-        return /*#__PURE__*/React__default["default"].createElement(SelectField, {
-          key: filter.key,
-          name: filter.name,
-          value: localSelectedFilters[filter.key] || "",
-          options: filter.options,
-          onChange: value => handleFilterChange(filter.key, value),
-          placeholder: `Select ${filter.name}`
-        });
-      case "toggle":
-        return /*#__PURE__*/React__default["default"].createElement(ToggleField, {
-          key: filter.key,
-          name: filter.name,
-          value: localSelectedFilters[filter.key] || false,
-          onChange: value => handleFilterChange(filter.key, value)
-        });
-      // Add cases for other filter types if needed
-      default:
-        return null;
-    }
-  })), /*#__PURE__*/React__default["default"].createElement(FloatingButtonContainer, null, /*#__PURE__*/React__default["default"].createElement(ApplyButton, {
-    onClick: handleApplyFilters
-  }, "Apply Filters")));
-};
-FilterDrawer.propTypes = {
-  filters: PropTypes__default["default"].arrayOf(PropTypes__default["default"].shape({
-    key: PropTypes__default["default"].string.isRequired,
-    name: PropTypes__default["default"].string.isRequired,
-    type: PropTypes__default["default"].string.isRequired,
-    options: PropTypes__default["default"].arrayOf(PropTypes__default["default"].oneOfType([PropTypes__default["default"].string, PropTypes__default["default"].object]))
-  })).isRequired,
-  selectedFilters: PropTypes__default["default"].object.isRequired,
-  onFilterChange: PropTypes__default["default"].func.isRequired,
-  closeDrawer: PropTypes__default["default"].func.isRequired,
-  sortOptions: PropTypes__default["default"].arrayOf(PropTypes__default["default"].shape({
-    value: PropTypes__default["default"].string.isRequired,
-    label: PropTypes__default["default"].string.isRequired
-  })),
-  selectedSortOption: PropTypes__default["default"].string,
-  onSortChange: PropTypes__default["default"].func.isRequired
-};
-FilterDrawer.defaultProps = {
-  sortOptions: [],
-  selectedSortOption: ""
 };
 
 // The Footer component definition
@@ -7502,133 +7673,6 @@ function MessagesView({
   })));
 }
 
-// Animations
-const fadeIn = styled.keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-const slideIn = styled.keyframes`
-  from {
-    transform: translateY(-20px);
-  }
-  to {
-    transform: translateY(0);
-  }
-`;
-
-// Styled Components
-const Overlay$2 = styled__default["default"].div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  ${props => props.animate && styled.css`
-      animation: ${fadeIn} 0.3s ease-out forwards;
-    `}
-`;
-const ModalContainer = styled__default["default"].div`
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-  position: relative;
-  max-width: 90%;
-  max-height: 90%;
-  overflow-y: auto;
-  ${props => props.animate && styled.css`
-      animation: ${slideIn} 0.3s ease-out forwards;
-    `}
-`;
-const CloseButton = styled__default["default"].button`
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.25rem;
-  color: #333;
-
-  &:hover {
-    color: #555;
-  }
-`;
-const ModalContent = styled__default["default"].div`
-  padding: 16px;
-`;
-const ModalTitle = styled__default["default"].h2`
-  font-size: 1.5rem;
-  margin-bottom: 8px;
-  color: #333;
-`;
-const ModalBody = styled__default["default"].div`
-  font-size: 1rem;
-  color: #555;
-`;
-
-// Modal Component
-const Modal = ({
-  isModalOpen,
-  closeModal,
-  title,
-  children,
-  animate = true
-}) => {
-  React.useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isModalOpen]);
-  React.useEffect(() => {
-    const handleEsc = event => {
-      if (event.key === "Escape" && isModalOpen) {
-        closeModal();
-      }
-    };
-    window.addEventListener("keydown", handleEsc);
-    return () => {
-      window.removeEventListener("keydown", handleEsc);
-    };
-  }, [isModalOpen, closeModal]);
-  if (!isModalOpen) return null;
-  return /*#__PURE__*/ReactDOM__default["default"].createPortal(/*#__PURE__*/React__default["default"].createElement(Overlay$2, {
-    animate: animate,
-    onClick: closeModal
-  }, /*#__PURE__*/React__default["default"].createElement(ModalContainer, {
-    animate: animate,
-    onClick: e => e.stopPropagation(),
-    "aria-modal": "true",
-    role: "dialog",
-    "aria-labelledby": "modal-title"
-  }, /*#__PURE__*/React__default["default"].createElement(CloseButton, {
-    onClick: closeModal,
-    "aria-label": "Close Modal"
-  }, /*#__PURE__*/React__default["default"].createElement(XIcon, null)), /*#__PURE__*/React__default["default"].createElement(ModalContent, null, title && /*#__PURE__*/React__default["default"].createElement(ModalTitle, {
-    id: "modal-title"
-  }, title), /*#__PURE__*/React__default["default"].createElement(ModalBody, null, children)))), document.getElementById("modal-root"));
-};
-Modal.propTypes = {
-  isModalOpen: PropTypes__default["default"].bool.isRequired,
-  closeModal: PropTypes__default["default"].func.isRequired,
-  title: PropTypes__default["default"].string,
-  children: PropTypes__default["default"].node.isRequired,
-  animate: PropTypes__default["default"].bool // Enable or disable animations
-};
-
 // src/components/PollItem.jsx
 
 // Container for the entire component
@@ -7667,7 +7711,7 @@ position: absolute;
 `;
 
 // Container for the option buttons
-const ButtonsContainer$1 = styled__default["default"].div`
+const ButtonsContainer = styled__default["default"].div`
   display: flex;
   justify-content: space-between;
 `;
@@ -7771,7 +7815,7 @@ const PollItem = ({
     style: {
       margin: 0
     }
-  }, question), /*#__PURE__*/React__default["default"].createElement(Badge, null, category)), !showBar ? /*#__PURE__*/React__default["default"].createElement(ButtonsContainer$1, null, /*#__PURE__*/React__default["default"].createElement(OptionButton, {
+  }, question), /*#__PURE__*/React__default["default"].createElement(Badge, null, category)), !showBar ? /*#__PURE__*/React__default["default"].createElement(ButtonsContainer, null, /*#__PURE__*/React__default["default"].createElement(OptionButton, {
     "aria-label": `Select ${opt1}`,
     onClick: () => handleOptionClick(opt1)
   }, opt1), /*#__PURE__*/React__default["default"].createElement(OptionButton, {
@@ -9558,163 +9602,6 @@ SearchResultItem.propTypes = {
   }).isRequired
 };
 
-// Styled components...
-const ResultsWrapper = styled__default["default"].div`
-  margin-top: 16px;
-  padding: 16px;
-  background-color: #f9f9f9;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-`;
-const ButtonsContainer = styled__default["default"].div`
-  display: flex;
-  align-items: center;
-`;
-const SearchPageDrawer = ({
-  trendingItems,
-  searchResults,
-  filters,
-  // Now passed as a prop
-  sortOptions // Now passed as a prop
-}) => {
-  const [isSearchDrawerOpen, setSearchDrawerOpen] = React.useState(false);
-  const [isFilterDrawerOpen, setFilterDrawerOpen] = React.useState(false);
-
-  // Separate states for the search input and the search term used for filtering
-  const [searchInput, setSearchInput] = React.useState("");
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const [selectedFilters, setSelectedFilters] = React.useState({});
-  const [selectedSortOption, setSelectedSortOption] = React.useState("");
-
-  // Handlers for opening and closing drawers
-  const handleSearchDrawerOpen = () => setSearchDrawerOpen(true);
-  const handleSearchDrawerClose = () => setSearchDrawerOpen(false);
-  const handleFilterDrawerOpen = () => setFilterDrawerOpen(true);
-  const handleFilterDrawerClose = () => setFilterDrawerOpen(false);
-
-  // Handler for search input change in the drawer
-  const handleQueryChange = newQuery => {
-    setSearchInput(newQuery);
-  };
-
-  // Handler for submitting the search
-  const handleSearchSubmit = () => {
-    setSearchTerm(searchInput); // Update the search term for filtering main results
-    setSearchInput(""); // Clear the search input in the drawer
-    setSelectedFilters({}); // Reset filters when a new search is submitted
-    setSelectedSortOption(""); // Reset sort option if desired
-    setSearchDrawerOpen(false); // Close search drawer
-  };
-  const handleFilterChange = filters => {
-    setSelectedFilters(filters);
-    setFilterDrawerOpen(false); // Close filter drawer
-  };
-  const handleSortChange = newSortOption => {
-    setSelectedSortOption(newSortOption);
-  };
-
-  // Compute filtered results based on searchTerm and selected filters
-  const filteredResults = searchResults.filter(result => {
-    // Apply searchTerm filtering
-    const matchesQuery = searchTerm === "" || result.title.toLowerCase().includes(searchTerm.toLowerCase());
-    if (!matchesQuery) {
-      return false;
-    }
-
-    // Apply filters
-    let matchesFilters = true;
-    for (const [filterKey, filterValue] of Object.entries(selectedFilters)) {
-      if (filterValue !== undefined && filterValue !== null && filterValue !== "") {
-        if (typeof filterValue === "boolean") {
-          // Handle toggle filters
-          if (result[filterKey] !== filterValue) {
-            matchesFilters = false;
-            break;
-          }
-        } else {
-          // Handle other filters
-          if (result[filterKey] !== filterValue) {
-            matchesFilters = false;
-            break;
-          }
-        }
-      }
-    }
-    return matchesFilters;
-  });
-
-  // Apply sorting to the filtered results
-  const sortedResults = [...filteredResults]; // Create a copy to avoid mutating the original array
-
-  if (selectedSortOption) {
-    sortedResults.sort((a, b) => {
-      switch (selectedSortOption) {
-        case "title_asc":
-          return a.title.localeCompare(b.title);
-        case "title_desc":
-          return b.title.localeCompare(a.title);
-        case "date_newest":
-          return new Date(b.date) - new Date(a.date);
-        case "date_oldest":
-          return new Date(a.date) - new Date(b.date);
-        default:
-          return 0;
-      }
-    });
-  }
-
-  // Custom renderer for search results
-  const renderSearchResult = (result, index) => /*#__PURE__*/React__default["default"].createElement(SearchResultItem, {
-    key: index,
-    data: result
-  });
-
-  // Custom renderer for trending items
-  const renderTrendingItem = (item, index) => /*#__PURE__*/React__default["default"].createElement(SearchResultItem, {
-    key: index,
-    data: {
-      title: item,
-      description: "Trending topic",
-      thumbnail: null
-    }
-  });
-  return /*#__PURE__*/React__default["default"].createElement("div", null, /*#__PURE__*/React__default["default"].createElement(ButtonsContainer, null, /*#__PURE__*/React__default["default"].createElement(SearchButton, {
-    onClick: handleSearchDrawerOpen
-  }), /*#__PURE__*/React__default["default"].createElement(FilterButton, {
-    onClick: handleFilterDrawerOpen
-  })), sortedResults.length > 0 ? /*#__PURE__*/React__default["default"].createElement(ResultsWrapper, null, /*#__PURE__*/React__default["default"].createElement("h3", null, "Search Results"), sortedResults.map((result, index) => renderSearchResult(result, index))) : /*#__PURE__*/React__default["default"].createElement(ResultsWrapper, null, /*#__PURE__*/React__default["default"].createElement("h3", null, "No Results Found")), /*#__PURE__*/React__default["default"].createElement(BottomDrawer, {
-    isOpen: isSearchDrawerOpen,
-    onClose: handleSearchDrawerClose,
-    transitionDuration: 100,
-    height: "100vh"
-  }, /*#__PURE__*/React__default["default"].createElement(SearchDrawer, {
-    trendingItems: trendingItems,
-    query: searchInput // Use searchInput for the input field
-    ,
-    onQueryChange: handleQueryChange,
-    searchResults: searchResults // Pass full search results
-    ,
-    closeDrawer: handleSearchDrawerClose,
-    onSearchSubmit: handleSearchSubmit,
-    renderSearchResult: renderSearchResult,
-    renderTrendingItem: renderTrendingItem,
-    isOpen: isSearchDrawerOpen // Pass isOpen prop to SearchDrawer
-  })), /*#__PURE__*/React__default["default"].createElement(BottomDrawer, {
-    isOpen: isFilterDrawerOpen,
-    onClose: handleFilterDrawerClose,
-    transitionDuration: 300,
-    height: "60vh"
-  }, /*#__PURE__*/React__default["default"].createElement(FilterDrawer, {
-    filters: filters,
-    selectedFilters: selectedFilters,
-    onFilterChange: handleFilterChange,
-    closeDrawer: handleFilterDrawerClose,
-    sortOptions: sortOptions,
-    selectedSortOption: selectedSortOption,
-    onSortChange: handleSortChange
-  })));
-};
-
 const SearchResults = ({
   results,
   loading,
@@ -10779,11 +10666,11 @@ exports.FeedItem2 = FeedItem2;
 exports.FileUpload = FileUpload;
 exports.Filter = Filter;
 exports.Filter2 = Filter2;
-exports.Filter3 = Filter3;
 exports.FilterButton = FilterButton;
 exports.FilterDrawer = FilterDrawer;
 exports.FilterIcon = FilterIcon;
 exports.FilterLogic = FilterLogic;
+exports.FilterModal = FilterModal;
 exports.Footer = Footer$1;
 exports.ForkAndKnifeIcon = ForkAndKnifeIcon;
 exports.GhostLoader = GhostLoader;
@@ -10845,7 +10732,6 @@ exports.SearchDrawer = SearchDrawer;
 exports.SearchFilters = SearchFilters;
 exports.SearchIcon = SearchIcon;
 exports.SearchIcon2 = SearchIcon2;
-exports.SearchPageDrawer = SearchPageDrawer;
 exports.SearchResultItem = SearchResultItem;
 exports.SearchResults = SearchResults;
 exports.SearchSort = SearchSort;

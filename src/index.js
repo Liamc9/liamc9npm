@@ -24,6 +24,7 @@ export { default as EditableTextField } from './components/atoms/menuitem/Editab
 export { default as Feed } from './components/search/Feed';
 export { default as FeedItem } from './components/search/FeedItem';
 export { default as FeedItem2 } from './components/search/FeedItem2';
+export { default as FeedLogic } from './components/search/FeedLogic';
 export { default as FileUpload } from './components/atoms/inputs/FileUpload';
 export { default as Filter } from './components/search/Filter';
 export { default as Filter2 } from './components/search/Filter2';

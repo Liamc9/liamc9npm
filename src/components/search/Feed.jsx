@@ -1,91 +1,106 @@
 // ../../components/search/Feed.jsx
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import FeedItem from './FeedItem';
+import FeedLogic from './FeedLogic'; // <--- newly created
 
+// ---------------------- Styled Components ----------------------
 const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const Feed = ({ 
-  items = [], 
-  sortBy, 
-  selectedFilters = {}, 
-  ItemComponent = FeedItem, // default component for rendering items
-  infiniteScroll // number of items to load per batch
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 8px;
+`;
+
+const PageButton = styled.button`
+  padding: 8px 12px;
+  border: none;
+  background-color: ${({ active }) => (active ? '#007bff' : '#e0e0e0')};
+  color: ${({ active }) => (active ? '#fff' : '#000')};
+  cursor: pointer;
+  border-radius: 4px;
+  
+  &:hover {
+    background-color: ${({ active }) => (active ? '#0056b3' : '#ccc')};
+  }
+`;
+
+const LoadMoreButton = styled.button`
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+// ---------------------- Feed Component ----------------------
+const Feed = ({
+  items = [],
+  sortBy,
+  selectedFilters = {},
+  ItemComponent = FeedItem,
+  pagination,         // optional number of items per page
+  loadMore,           // optional number of items to load per click
+  infiniteScroll,     // optional number of items to load on bottom scroll
+  scrollContainerRef  // optional container ref for infinite scrolling
 }) => {
-  // Filtering
-  const filteredItems = items.filter(item =>
-    Object.entries(selectedFilters).every(([category, values]) => {
-      if (!values || values.length === 0) return true;
-      return values.includes(item[category]);
-    })
-  );
 
-  // Sorting
-  const sortedItems = sortBy ? [...filteredItems].sort(sortBy) : filteredItems;
+  // -- 1) Retrieve all the logic from FeedLogic
+  const {
+    itemsToRender,
+    pages,
+    currentPage,
+    setCurrentPage,
+    hasMoreItems,
+    handleLoadMore
+  } = FeedLogic({
+    items,
+    sortBy,
+    selectedFilters,
+    pagination,
+    loadMore,
+    infiniteScroll,
+    scrollContainerRef
+  });
 
-  // Infinite scroll state
-  const [visibleCount, setVisibleCount] = useState(
-    infiniteScroll ? infiniteScroll : sortedItems.length
-  );
-
-  // Reference to the loader element
-  const loaderRef = useRef(null);
-
-  // Callback for intersection observer
-  const handleObserver = useCallback(
-    entries => {
-      const target = entries[0];
-      if (target.isIntersecting) {
-        setVisibleCount((prev) => {
-          const newCount = prev + infiniteScroll;
-          return newCount > sortedItems.length ? sortedItems.length : newCount;
-        });
-      }
-    },
-    [infiniteScroll, sortedItems.length]
-  );
-
-  useEffect(() => {
-    // Reset visibleCount when the sortedItems list changes
-    if (infiniteScroll) {
-      setVisibleCount(infiniteScroll);
-    }
-  }, [sortedItems, infiniteScroll]);
-
-  useEffect(() => {
-    // Only set up IntersectionObserver if infiniteScroll prop exists
-    if (!infiniteScroll) return;
-
-    const option = {
-      root: null,
-      rootMargin: '20px',
-      threshold: 1.0
-    };
-
-    const observer = new IntersectionObserver(handleObserver, option);
-    if (loaderRef.current) observer.observe(loaderRef.current);
-
-    return () => {
-      if (loaderRef.current) observer.unobserve(loaderRef.current);
-    };
-  }, [handleObserver, infiniteScroll]);
-
-  // Determine which items to display based on infiniteScroll logic
-  const itemsToRender = infiniteScroll
-    ? sortedItems.slice(0, visibleCount)
-    : sortedItems;
-
+  // -- 2) Render
   return (
     <FeedContainer>
       {itemsToRender.map((item, index) => (
         <ItemComponent key={index} data={item} />
       ))}
-      {/* Loader element observed for infinite scroll */}
-      {infiniteScroll && visibleCount < sortedItems.length && (
-        <div ref={loaderRef} style={{ height: '20px' }} />
+
+      {/* Pagination controls (if pagination is used) */}
+      {pages?.length > 1 && (
+        <PaginationContainer>
+          {pages.map((page) => (
+            <PageButton
+              key={page}
+              active={page === currentPage}
+              onClick={() => setCurrentPage(page)}
+            >
+              {page}
+            </PageButton>
+          ))}
+        </PaginationContainer>
+      )}
+
+      {/* Load-more button (if loadMore is used) */}
+      {loadMore && hasMoreItems && (
+        <LoadMoreButton onClick={handleLoadMore}>
+          Load More
+        </LoadMoreButton>
       )}
     </FeedContainer>
   );
