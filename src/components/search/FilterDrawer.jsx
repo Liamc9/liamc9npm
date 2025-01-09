@@ -1,4 +1,4 @@
-// src/components/Filter3.jsx
+// src/components/FilterDrawer.jsx
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import BottomDrawer from '../atoms/Drawers/BottomDrawer'; // Adjust the import path as necessary
@@ -67,7 +67,7 @@ const filtersConfig = {
   },
 };
 
-const Filter3 = ({ onChange }) => {
+const FilterDrawer = ({ onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpenDrawer = () => setIsOpen(true);
@@ -133,4 +133,4 @@ const Filter3 = ({ onChange }) => {
   );
 };
 
-export default Filter3;
+export default FilterDrawer;

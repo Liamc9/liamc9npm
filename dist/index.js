@@ -2368,7 +2368,7 @@ const ButtonContainer = styled__default["default"].div`
   justify-content: center;
   gap: 0.5rem;
 `;
-const Button$8 = styled__default["default"].button`
+const Button$9 = styled__default["default"].button`
   border-radius: 9999px;
   padding: 0.5rem 1.25rem;
   font-size: 0.875rem;
@@ -2381,7 +2381,7 @@ const Button$8 = styled__default["default"].button`
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   }
 `;
-const CancelButton$1 = styled__default["default"](Button$8)`
+const CancelButton$1 = styled__default["default"](Button$9)`
   border-color: #d1d5db;
   background-color: #e5e7eb;
   color: #4b5563;
@@ -2391,7 +2391,7 @@ const CancelButton$1 = styled__default["default"](Button$8)`
     background-color: #d1d5db;
   }
 `;
-const ConfirmButton = styled__default["default"](Button$8)`
+const ConfirmButton = styled__default["default"](Button$9)`
   border-color: #ef4444;
   background-color: #ef4444;
   color: white;
@@ -4162,7 +4162,7 @@ const RangeSlider = ({
   min = 0,
   max = 100,
   step = 1,
-  minimumGap = 10,
+  minimumGap = 1,
   label = "Range",
   valuePrefix = "",
   valueSuffix = "",
@@ -4306,20 +4306,20 @@ const SelectInput = ({
 };
 
 // Filter.jsx
-const FilterContainer = styled__default["default"].div`
+const FilterContainer$1 = styled__default["default"].div`
   display: grid;
   gap: 2rem;
 `;
-const GroupContainer = styled__default["default"].div`
+const GroupContainer$1 = styled__default["default"].div`
   display: flex;
   flex-direction: column;
 `;
-const GroupLabel = styled__default["default"].h5`
+const GroupLabel$1 = styled__default["default"].h5`
   margin-bottom: 0.5rem;
 `;
 
 // Define filter configurations explicitly
-const filtersConfig = {
+const filtersConfig$1 = {
   status: {
     category: 'status',
     label: 'Status',
@@ -4360,7 +4360,7 @@ const filtersConfig = {
 const Filter = ({
   onChange
 }) => /*#__PURE__*/React__default["default"].createElement(FilterLogic, {
-  filters: Object.values(filtersConfig),
+  filters: Object.values(filtersConfig$1),
   onChange: selectedFilters => {
     if (onChange) {
       onChange(selectedFilters); // Pass the selectedFilters up to the parent
@@ -4370,16 +4370,16 @@ const Filter = ({
   selectedFilters,
   setSelection
 }) => {
-  const statusFilter = filtersConfig.status;
-  const priorityFilter = filtersConfig.priority;
-  return /*#__PURE__*/React__default["default"].createElement(FilterContainer, null, /*#__PURE__*/React__default["default"].createElement(GroupContainer, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel, null, statusFilter.label), /*#__PURE__*/React__default["default"].createElement(SelectInput, {
+  const statusFilter = filtersConfig$1.status;
+  const priorityFilter = filtersConfig$1.priority;
+  return /*#__PURE__*/React__default["default"].createElement(FilterContainer$1, null, /*#__PURE__*/React__default["default"].createElement(GroupContainer$1, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel$1, null, statusFilter.label), /*#__PURE__*/React__default["default"].createElement(SelectInput, {
     name: statusFilter.category,
     label: `Select ${statusFilter.label}`,
     value: selectedFilters[statusFilter.category] && selectedFilters[statusFilter.category][0] ? selectedFilters[statusFilter.category][0] : '',
     onChange: e => setSelection(statusFilter.category, e.target.value),
     options: statusFilter.options,
     color: "#000"
-  })), /*#__PURE__*/React__default["default"].createElement(GroupContainer, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
+  })), /*#__PURE__*/React__default["default"].createElement(GroupContainer$1, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel$1, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
     min: 0,
     max: priorityFilter.options.length - 1,
     label: priorityFilter.label,
@@ -4442,6 +4442,124 @@ const Filter2 = ({
     checked: (selectedFilters[group.category] || []).includes(opt.value),
     onChange: () => handleToggle(group.category, opt.value)
   }), opt.label))))));
+};
+
+// src/components/Filter3.jsx
+
+// Styled components for button and filter layout
+const Button$8 = styled__default["default"].button`
+  padding: 10px 20px;
+  background-color: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  margin: 1rem;
+
+  &:hover {
+    background-color: #1d4ed8;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
+  }
+`;
+const FilterContainer = styled__default["default"].div`
+  display: grid;
+  gap: 2rem;
+  padding: 1rem;
+`;
+const GroupContainer = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+`;
+const GroupLabel = styled__default["default"].h5`
+  margin-bottom: 0.5rem;
+`;
+
+// Define filter configurations explicitly
+const filtersConfig = {
+  status: {
+    category: 'status',
+    label: 'Status',
+    type: 'dropdown',
+    options: [{
+      value: 'completed',
+      label: 'Completed',
+      initial: false
+    }, {
+      value: 'pending',
+      label: 'Pending',
+      initial: false
+    }, {
+      value: 'inProgress',
+      label: 'In Progress',
+      initial: false
+    }]
+  },
+  priority: {
+    category: 'priority',
+    label: 'Priority',
+    type: 'range',
+    options: [{
+      value: 'high',
+      label: 'High',
+      initial: false
+    }, {
+      value: 'medium',
+      label: 'Medium',
+      initial: false
+    }, {
+      value: 'low',
+      label: 'Low',
+      initial: false
+    }]
+  }
+};
+const Filter3 = ({
+  onChange
+}) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const handleOpenDrawer = () => setIsOpen(true);
+  const handleCloseDrawer = () => setIsOpen(false);
+  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(Button$8, {
+    onClick: handleOpenDrawer
+  }, "Open Filters"), /*#__PURE__*/React__default["default"].createElement(BottomDrawer, {
+    isOpen: isOpen,
+    onClose: handleCloseDrawer
+  }, /*#__PURE__*/React__default["default"].createElement(FilterLogic, {
+    filters: Object.values(filtersConfig),
+    onChange: selectedFilters => {
+      if (onChange) {
+        onChange(selectedFilters);
+      }
+    }
+  }, ({
+    selectedFilters,
+    setSelection
+  }) => {
+    const statusFilter = filtersConfig.status;
+    const priorityFilter = filtersConfig.priority;
+    return /*#__PURE__*/React__default["default"].createElement(FilterContainer, null, /*#__PURE__*/React__default["default"].createElement(GroupContainer, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel, null, statusFilter.label), /*#__PURE__*/React__default["default"].createElement(SelectInput, {
+      name: statusFilter.category,
+      label: `Select ${statusFilter.label}`,
+      value: selectedFilters[statusFilter.category] && selectedFilters[statusFilter.category][0] ? selectedFilters[statusFilter.category][0] : '',
+      onChange: e => setSelection(statusFilter.category, e.target.value),
+      options: statusFilter.options,
+      color: "#000"
+    })), /*#__PURE__*/React__default["default"].createElement(GroupContainer, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
+      min: 0,
+      max: priorityFilter.options.length - 1,
+      label: priorityFilter.label,
+      onChange: index => {
+        const value = priorityFilter.options[index]?.value;
+        if (value) setSelection(priorityFilter.category, value);
+      }
+    })));
+  })));
 };
 
 const Button$7 = styled__default["default"].button`
@@ -10661,6 +10779,7 @@ exports.FeedItem2 = FeedItem2;
 exports.FileUpload = FileUpload;
 exports.Filter = Filter;
 exports.Filter2 = Filter2;
+exports.Filter3 = Filter3;
 exports.FilterButton = FilterButton;
 exports.FilterDrawer = FilterDrawer;
 exports.FilterIcon = FilterIcon;
