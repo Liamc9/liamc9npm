@@ -1264,7 +1264,7 @@ const ContentContainer$1 = styled.div`
   padding: 16px;
   
 `;
-const Title$6 = styled.p`
+const Title$7 = styled.p`
   font-size: 24px;
   font-weight: bold;
   color: #1a202c;
@@ -1289,7 +1289,7 @@ const AccordionContent = styled.div`
   overflow: hidden;
   transition: max-height 0.5s ease-in-out;
 `;
-const Description$1 = styled.p`
+const Description$2 = styled.p`
   padding: 24px;
   background-color: #f7fafc;
   border-top: 1px solid #e2e8f0;
@@ -1315,7 +1315,7 @@ function AccordionCard({
   }, /*#__PURE__*/React.createElement(IconContainer$1, null, /*#__PURE__*/React.createElement(Icon, {
     size: 80,
     color: "#38a169"
-  })), /*#__PURE__*/React.createElement(ContentContainer$1, null, /*#__PURE__*/React.createElement(Title$6, null, title), /*#__PURE__*/React.createElement(Subtitle, null, subtitle), /*#__PURE__*/React.createElement(Institution, null, institution)), /*#__PURE__*/React.createElement(GradeContainer, null, /*#__PURE__*/React.createElement("p", null, "Grade: ", grade), /*#__PURE__*/React.createElement("p", null, "GPA: ", gpa), isOpen ? /*#__PURE__*/React.createElement(ChevronUpIcon, {
+  })), /*#__PURE__*/React.createElement(ContentContainer$1, null, /*#__PURE__*/React.createElement(Title$7, null, title), /*#__PURE__*/React.createElement(Subtitle, null, subtitle), /*#__PURE__*/React.createElement(Institution, null, institution)), /*#__PURE__*/React.createElement(GradeContainer, null, /*#__PURE__*/React.createElement("p", null, "Grade: ", grade), /*#__PURE__*/React.createElement("p", null, "GPA: ", gpa), isOpen ? /*#__PURE__*/React.createElement(ChevronUpIcon, {
     size: 24,
     color: "#718096"
   }) : /*#__PURE__*/React.createElement(ChevronDownIcon, {
@@ -1323,7 +1323,7 @@ function AccordionCard({
     color: "#718096"
   }))), /*#__PURE__*/React.createElement(AccordionContent, {
     isOpen: isOpen
-  }, /*#__PURE__*/React.createElement(Description$1, null, description)));
+  }, /*#__PURE__*/React.createElement(Description$2, null, description)));
 }
 
 function AppCard({
@@ -1548,9 +1548,10 @@ const NavItem = styled(NavLink)`
   font-size: 0.875rem;
 
   &.active {
-    color: #a855f7;
+    color: ${({
+  activeColor
+}) => activeColor || "#000"};
   }
-
 
   svg {
     width: 24px;
@@ -1570,7 +1571,8 @@ const NotificationDot = styled.span`
 
 // Component
 const BottomNav = ({
-  items
+  items,
+  activeColor
 }) => {
   return /*#__PURE__*/React.createElement(BottomNavContainer, null, items.map(({
     text,
@@ -1579,7 +1581,8 @@ const BottomNav = ({
     hasNotification
   }, index) => /*#__PURE__*/React.createElement(NavItem, {
     key: index,
-    to: path
+    to: path,
+    activeColor: activeColor
   }, /*#__PURE__*/React.createElement(Icon, null), hasNotification && /*#__PURE__*/React.createElement(NotificationDot, null), text)));
 };
 
@@ -2336,7 +2339,7 @@ const Icon = styled.svg`
   fill: #ef4444; /* Red color for the icon */
   margin-bottom: 1rem;
 `;
-const Title$5 = styled.h2`
+const Title$6 = styled.h2`
   font-size: 1.25rem;
   font-weight: bold;
   color: #1f2937;
@@ -2410,7 +2413,7 @@ const DeleteModal = ({
     clipRule: "evenodd",
     d: "M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z",
     fillRule: "evenodd"
-  })), /*#__PURE__*/React.createElement(Title$5, null, title || "Are you sure?"), /*#__PURE__*/React.createElement(Message$1, null, message || "Do you really want to continue? This process cannot be undone.")), /*#__PURE__*/React.createElement(ButtonContainer, null, /*#__PURE__*/React.createElement(CancelButton$1, {
+  })), /*#__PURE__*/React.createElement(Title$6, null, title || "Are you sure?"), /*#__PURE__*/React.createElement(Message$1, null, message || "Do you really want to continue? This process cannot be undone.")), /*#__PURE__*/React.createElement(ButtonContainer, null, /*#__PURE__*/React.createElement(CancelButton$1, {
     onClick: onCancel
   }, "Cancel"), /*#__PURE__*/React.createElement(ConfirmButton, {
     onClick: onConfirm
@@ -3920,6 +3923,41 @@ const EditStackedList = ({
   return /*#__PURE__*/React.createElement(CategoryWrapper$1, null, /*#__PURE__*/React.createElement(CategoryTitle$1, null, title), /*#__PURE__*/React.createElement(ItemsContainer$1, null, items.map((item, index) => /*#__PURE__*/React.createElement(ListItem$1, {
     key: index
   }, renderComponent(item, index)))));
+};
+
+const FeedItemContainer = styled.div`
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 4px;
+  background: #fff;
+`;
+const Title$5 = styled.h3`
+  margin: 0 0 0.5rem 0;
+`;
+const Description$1 = styled.p`
+  margin: 0;
+`;
+const FeedItem = ({
+  data
+}) => {
+  return /*#__PURE__*/React.createElement(FeedItemContainer, null, /*#__PURE__*/React.createElement(Title$5, null, data.title), /*#__PURE__*/React.createElement(Description$1, null, data.description));
+};
+
+const FeedContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+const Feed = ({
+  items,
+  sortBy
+}) => {
+  // If a sortBy function is provided, sort the items accordingly.
+  const sortedItems = sortBy ? [...items].sort(sortBy) : items;
+  return /*#__PURE__*/React.createElement(FeedContainer, null, sortedItems.map((item, index) => /*#__PURE__*/React.createElement(FeedItem, {
+    key: index,
+    data: item
+  })));
 };
 
 /**
@@ -9823,6 +9861,57 @@ function SocialButtons() {
   }), " ")))));
 }
 
+const Select = styled.select`
+  padding: 0.5rem;
+  margin: 1rem 0;
+  font-size: 1rem;
+`;
+const Sort = ({
+  options,
+  onChange
+}) => {
+  const handleSelectChange = e => {
+    const selectedComparator = options.find(option => option.label === e.target.value)?.comparator;
+    // Pass the selected comparator to the parent callback
+    onChange(selectedComparator || null);
+  };
+  return /*#__PURE__*/React.createElement(Select, {
+    onChange: handleSelectChange
+  }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "-- Select sorting option --"), options.map((option, index) => /*#__PURE__*/React.createElement("option", {
+    key: index,
+    value: option.label
+  }, option.label)));
+};
+
+const ButtonGroup = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+`;
+const SortButton = styled.button`
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  &:hover {
+    background: #eee;
+  }
+`;
+const Sort2 = ({
+  options,
+  onChange
+}) => {
+  const handleButtonClick = comparator => {
+    onChange(comparator);
+  };
+  return /*#__PURE__*/React.createElement(ButtonGroup, null, options.map((option, idx) => /*#__PURE__*/React.createElement(SortButton, {
+    key: idx,
+    onClick: () => handleButtonClick(option.comparator)
+  }, option.label)));
+};
+
 const Container$1 = styled.div`
   position: relative;
   display: flex;
@@ -9842,9 +9931,6 @@ const Button = styled.button`
   activeColor
 }) => isActive ? activeColor : 'inherit'};
 
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
-  }
 `;
 const Underline = styled.div`
   position: absolute;
@@ -10247,5 +10333,5 @@ const UneditableTextField = ({
   return /*#__PURE__*/React.createElement(FieldContainer, null, IconComponent && /*#__PURE__*/React.createElement(IconWrapper, null, /*#__PURE__*/React.createElement(IconComponent, null)), /*#__PURE__*/React.createElement(TextWrapper, null, /*#__PURE__*/React.createElement(FieldName, null, name), /*#__PURE__*/React.createElement(FieldValue, null, value)));
 };
 
-export { AccordionCard, AppCard, AppleIcon, ArrowRightIcon, BookIcon, BookOpenIcon, BookmarkIcon, BottomDrawer, BottomNav, ButtonArrowIcon, CV, CalendarIcon, Card2, Card3, CardProduct, CardSocial, CartIcon, ChatIcon, CheckedItem, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon, ChevronUpIcon, ClockIcon, CodeIcon, CogIcon, CollegeIcon, ConversationItem, ConversationList, CookbookCard, CookbookProfile, CustomButton, CustomFileUpload, DataIcon, DeleteModal, DragAndDrop, EditIcon, EditStackedList, EditableTextField, FileUpload, FilterButton, FilterDrawer, FilterIcon, Footer$1 as Footer, ForkAndKnifeIcon, GhostLoader, GithubIcon, GoogleIcon, HeartIcon, Hero, HeroContent, HomeIcon, HomeIcon2, HomeIcon3, IdeaIcon, ImageCarousel, ImageCarousel2, Input, InstagramIcon, LettzFilterDrawer, LettzIcon, LettzSearchButton, LinkedInIcon, ListYourPlaceCard, ListingCard, Loader, LocationIcon, LoginIcon, LoginPage, ManageAccount, ManageNotifications, ManagePaymentMethods, MarketingIcon, MenuIcon, MenuIcon3, MenuItem, MessageForm, MessagesPrompt, MessagesView, Modal, MoneyIcon, MoneyIcon2, MuteIcon, NotificationsIcon, PasswordIcon, PeriodIcon, PlusIcon, PollItem, Popover, PortfolioMainSlider, ProgressBar, ProjectCard, RangeSlider, RecipeCard$1 as RecipeCard, RecipeSwipeComponent, RoomsView, ScriptIcon, SearchBar, SearchBar2, SearchButton, SearchDrawer, SearchFilters, SearchIcon, SearchIcon2, SearchPageDrawer, SearchResultItem, SearchResults, SearchSort, SecurityIcon, SelectField, SelectInput, SelectToTextInput, Settings, SettingsIcon, SideBar, SideNav, SocialButtons, SortIcon, StackedList, StrategyIcon, TabGroup, TargetIcon, ToastMessage, ToggleField, Tooltip, TopNavBar, TopNavBar2, TopNavBar3, TopWSideNav, TrashIcon, TwitterIcon, UneditableTextField, UserIcon2, UserIcon3, UsersIcon, VolumeIcon, WebsiteIcon, WhatsAppIcon, XIcon };
+export { AccordionCard, AppCard, AppleIcon, ArrowRightIcon, BookIcon, BookOpenIcon, BookmarkIcon, BottomDrawer, BottomNav, ButtonArrowIcon, CV, CalendarIcon, Card2, Card3, CardProduct, CardSocial, CartIcon, ChatIcon, CheckedItem, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon, ChevronUpIcon, ClockIcon, CodeIcon, CogIcon, CollegeIcon, ConversationItem, ConversationList, CookbookCard, CookbookProfile, CustomButton, CustomFileUpload, DataIcon, DeleteModal, DragAndDrop, EditIcon, EditStackedList, EditableTextField, Feed, FeedItem, FileUpload, FilterButton, FilterDrawer, FilterIcon, Footer$1 as Footer, ForkAndKnifeIcon, GhostLoader, GithubIcon, GoogleIcon, HeartIcon, Hero, HeroContent, HomeIcon, HomeIcon2, HomeIcon3, IdeaIcon, ImageCarousel, ImageCarousel2, Input, InstagramIcon, LettzFilterDrawer, LettzIcon, LettzSearchButton, LinkedInIcon, ListYourPlaceCard, ListingCard, Loader, LocationIcon, LoginIcon, LoginPage, ManageAccount, ManageNotifications, ManagePaymentMethods, MarketingIcon, MenuIcon, MenuIcon3, MenuItem, MessageForm, MessagesPrompt, MessagesView, Modal, MoneyIcon, MoneyIcon2, MuteIcon, NotificationsIcon, PasswordIcon, PeriodIcon, PlusIcon, PollItem, Popover, PortfolioMainSlider, ProgressBar, ProjectCard, RangeSlider, RecipeCard$1 as RecipeCard, RecipeSwipeComponent, RoomsView, ScriptIcon, SearchBar, SearchBar2, SearchButton, SearchDrawer, SearchFilters, SearchIcon, SearchIcon2, SearchPageDrawer, SearchResultItem, SearchResults, SearchSort, SecurityIcon, SelectField, SelectInput, SelectToTextInput, Settings, SettingsIcon, SideBar, SideNav, SocialButtons, Sort, Sort2, SortIcon, StackedList, StrategyIcon, TabGroup, TargetIcon, ToastMessage, ToggleField, Tooltip, TopNavBar, TopNavBar2, TopNavBar3, TopWSideNav, TrashIcon, TwitterIcon, UneditableTextField, UserIcon2, UserIcon3, UsersIcon, VolumeIcon, WebsiteIcon, WhatsAppIcon, XIcon };
 //# sourceMappingURL=index.es.js.map

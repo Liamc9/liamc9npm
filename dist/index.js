@@ -1277,7 +1277,7 @@ const ContentContainer$1 = styled__default["default"].div`
   padding: 16px;
   
 `;
-const Title$6 = styled__default["default"].p`
+const Title$7 = styled__default["default"].p`
   font-size: 24px;
   font-weight: bold;
   color: #1a202c;
@@ -1302,7 +1302,7 @@ const AccordionContent = styled__default["default"].div`
   overflow: hidden;
   transition: max-height 0.5s ease-in-out;
 `;
-const Description$1 = styled__default["default"].p`
+const Description$2 = styled__default["default"].p`
   padding: 24px;
   background-color: #f7fafc;
   border-top: 1px solid #e2e8f0;
@@ -1328,7 +1328,7 @@ function AccordionCard({
   }, /*#__PURE__*/React__default["default"].createElement(IconContainer$1, null, /*#__PURE__*/React__default["default"].createElement(Icon, {
     size: 80,
     color: "#38a169"
-  })), /*#__PURE__*/React__default["default"].createElement(ContentContainer$1, null, /*#__PURE__*/React__default["default"].createElement(Title$6, null, title), /*#__PURE__*/React__default["default"].createElement(Subtitle, null, subtitle), /*#__PURE__*/React__default["default"].createElement(Institution, null, institution)), /*#__PURE__*/React__default["default"].createElement(GradeContainer, null, /*#__PURE__*/React__default["default"].createElement("p", null, "Grade: ", grade), /*#__PURE__*/React__default["default"].createElement("p", null, "GPA: ", gpa), isOpen ? /*#__PURE__*/React__default["default"].createElement(ChevronUpIcon, {
+  })), /*#__PURE__*/React__default["default"].createElement(ContentContainer$1, null, /*#__PURE__*/React__default["default"].createElement(Title$7, null, title), /*#__PURE__*/React__default["default"].createElement(Subtitle, null, subtitle), /*#__PURE__*/React__default["default"].createElement(Institution, null, institution)), /*#__PURE__*/React__default["default"].createElement(GradeContainer, null, /*#__PURE__*/React__default["default"].createElement("p", null, "Grade: ", grade), /*#__PURE__*/React__default["default"].createElement("p", null, "GPA: ", gpa), isOpen ? /*#__PURE__*/React__default["default"].createElement(ChevronUpIcon, {
     size: 24,
     color: "#718096"
   }) : /*#__PURE__*/React__default["default"].createElement(ChevronDownIcon, {
@@ -1336,7 +1336,7 @@ function AccordionCard({
     color: "#718096"
   }))), /*#__PURE__*/React__default["default"].createElement(AccordionContent, {
     isOpen: isOpen
-  }, /*#__PURE__*/React__default["default"].createElement(Description$1, null, description)));
+  }, /*#__PURE__*/React__default["default"].createElement(Description$2, null, description)));
 }
 
 function AppCard({
@@ -1561,9 +1561,10 @@ const NavItem = styled__default["default"](reactRouterDom.NavLink)`
   font-size: 0.875rem;
 
   &.active {
-    color: #a855f7;
+    color: ${({
+  activeColor
+}) => activeColor || "#000"};
   }
-
 
   svg {
     width: 24px;
@@ -1583,7 +1584,8 @@ const NotificationDot = styled__default["default"].span`
 
 // Component
 const BottomNav = ({
-  items
+  items,
+  activeColor
 }) => {
   return /*#__PURE__*/React__default["default"].createElement(BottomNavContainer, null, items.map(({
     text,
@@ -1592,7 +1594,8 @@ const BottomNav = ({
     hasNotification
   }, index) => /*#__PURE__*/React__default["default"].createElement(NavItem, {
     key: index,
-    to: path
+    to: path,
+    activeColor: activeColor
   }, /*#__PURE__*/React__default["default"].createElement(Icon, null), hasNotification && /*#__PURE__*/React__default["default"].createElement(NotificationDot, null), text)));
 };
 
@@ -2349,7 +2352,7 @@ const Icon = styled__default["default"].svg`
   fill: #ef4444; /* Red color for the icon */
   margin-bottom: 1rem;
 `;
-const Title$5 = styled__default["default"].h2`
+const Title$6 = styled__default["default"].h2`
   font-size: 1.25rem;
   font-weight: bold;
   color: #1f2937;
@@ -2423,7 +2426,7 @@ const DeleteModal = ({
     clipRule: "evenodd",
     d: "M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z",
     fillRule: "evenodd"
-  })), /*#__PURE__*/React__default["default"].createElement(Title$5, null, title || "Are you sure?"), /*#__PURE__*/React__default["default"].createElement(Message$1, null, message || "Do you really want to continue? This process cannot be undone.")), /*#__PURE__*/React__default["default"].createElement(ButtonContainer, null, /*#__PURE__*/React__default["default"].createElement(CancelButton$1, {
+  })), /*#__PURE__*/React__default["default"].createElement(Title$6, null, title || "Are you sure?"), /*#__PURE__*/React__default["default"].createElement(Message$1, null, message || "Do you really want to continue? This process cannot be undone.")), /*#__PURE__*/React__default["default"].createElement(ButtonContainer, null, /*#__PURE__*/React__default["default"].createElement(CancelButton$1, {
     onClick: onCancel
   }, "Cancel"), /*#__PURE__*/React__default["default"].createElement(ConfirmButton, {
     onClick: onConfirm
@@ -3933,6 +3936,41 @@ const EditStackedList = ({
   return /*#__PURE__*/React__default["default"].createElement(CategoryWrapper$1, null, /*#__PURE__*/React__default["default"].createElement(CategoryTitle$1, null, title), /*#__PURE__*/React__default["default"].createElement(ItemsContainer$1, null, items.map((item, index) => /*#__PURE__*/React__default["default"].createElement(ListItem$1, {
     key: index
   }, renderComponent(item, index)))));
+};
+
+const FeedItemContainer = styled__default["default"].div`
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 4px;
+  background: #fff;
+`;
+const Title$5 = styled__default["default"].h3`
+  margin: 0 0 0.5rem 0;
+`;
+const Description$1 = styled__default["default"].p`
+  margin: 0;
+`;
+const FeedItem = ({
+  data
+}) => {
+  return /*#__PURE__*/React__default["default"].createElement(FeedItemContainer, null, /*#__PURE__*/React__default["default"].createElement(Title$5, null, data.title), /*#__PURE__*/React__default["default"].createElement(Description$1, null, data.description));
+};
+
+const FeedContainer = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+const Feed = ({
+  items,
+  sortBy
+}) => {
+  // If a sortBy function is provided, sort the items accordingly.
+  const sortedItems = sortBy ? [...items].sort(sortBy) : items;
+  return /*#__PURE__*/React__default["default"].createElement(FeedContainer, null, sortedItems.map((item, index) => /*#__PURE__*/React__default["default"].createElement(FeedItem, {
+    key: index,
+    data: item
+  })));
 };
 
 /**
@@ -9836,6 +9874,57 @@ function SocialButtons() {
   }), " ")))));
 }
 
+const Select = styled__default["default"].select`
+  padding: 0.5rem;
+  margin: 1rem 0;
+  font-size: 1rem;
+`;
+const Sort = ({
+  options,
+  onChange
+}) => {
+  const handleSelectChange = e => {
+    const selectedComparator = options.find(option => option.label === e.target.value)?.comparator;
+    // Pass the selected comparator to the parent callback
+    onChange(selectedComparator || null);
+  };
+  return /*#__PURE__*/React__default["default"].createElement(Select, {
+    onChange: handleSelectChange
+  }, /*#__PURE__*/React__default["default"].createElement("option", {
+    value: ""
+  }, "-- Select sorting option --"), options.map((option, index) => /*#__PURE__*/React__default["default"].createElement("option", {
+    key: index,
+    value: option.label
+  }, option.label)));
+};
+
+const ButtonGroup = styled__default["default"].div`
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+`;
+const SortButton = styled__default["default"].button`
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  &:hover {
+    background: #eee;
+  }
+`;
+const Sort2 = ({
+  options,
+  onChange
+}) => {
+  const handleButtonClick = comparator => {
+    onChange(comparator);
+  };
+  return /*#__PURE__*/React__default["default"].createElement(ButtonGroup, null, options.map((option, idx) => /*#__PURE__*/React__default["default"].createElement(SortButton, {
+    key: idx,
+    onClick: () => handleButtonClick(option.comparator)
+  }, option.label)));
+};
+
 const Container$1 = styled__default["default"].div`
   position: relative;
   display: flex;
@@ -9855,9 +9944,6 @@ const Button = styled__default["default"].button`
   activeColor
 }) => isActive ? activeColor : 'inherit'};
 
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
-  }
 `;
 const Underline = styled__default["default"].div`
   position: absolute;
@@ -10300,6 +10386,8 @@ exports.DragAndDrop = DragAndDrop;
 exports.EditIcon = EditIcon;
 exports.EditStackedList = EditStackedList;
 exports.EditableTextField = EditableTextField;
+exports.Feed = Feed;
+exports.FeedItem = FeedItem;
 exports.FileUpload = FileUpload;
 exports.FilterButton = FilterButton;
 exports.FilterDrawer = FilterDrawer;
@@ -10378,6 +10466,8 @@ exports.SettingsIcon = SettingsIcon;
 exports.SideBar = SideBar;
 exports.SideNav = SideNav;
 exports.SocialButtons = SocialButtons;
+exports.Sort = Sort;
+exports.Sort2 = Sort2;
 exports.SortIcon = SortIcon;
 exports.StackedList = StackedList;
 exports.StrategyIcon = StrategyIcon;

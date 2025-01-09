@@ -8,9 +8,18 @@ const FeedContainer = styled.div`
   gap: 1rem;
 `;
 
-const Feed = ({ items, sortBy }) => {
-  // If a sortBy function is provided, sort the items accordingly.
-  const sortedItems = sortBy ? [...items].sort(sortBy) : items;
+const Feed = ({ items, sortBy, selectedFilters = {} }) => {
+
+  // Filtering
+  const filteredItems = items.filter(item =>
+    Object.entries(selectedFilters).every(([category, values]) => {
+      if (!values || values.length === 0) return true;
+      return values.includes(item[category]);
+    })
+  );
+
+  // Sorting
+  const sortedItems = sortBy ? [...filteredItems].sort(sortBy) : filteredItems;
 
   return (
     <FeedContainer>
@@ -22,4 +31,3 @@ const Feed = ({ items, sortBy }) => {
 };
 
 export default Feed;
-
