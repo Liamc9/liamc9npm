@@ -28,7 +28,6 @@ export { default as FileUpload } from './components/atoms/inputs/FileUpload';
 export { default as Filter } from './components/search/Filter';
 export { default as Filter2 } from './components/search/Filter2';
 export { default as FilterButton } from './components/molecules/search/FilterButton';
-export { default as FilterDrawer } from './components/molecules/search/FilterDrawer';
 export { default as FilterDrawer } from './components/search/FilterDrawer';
 export { default as FilterLogic } from './components/search/FilterLogic';
 export { default as FilterModal } from './components/search/FilterModal';
@@ -67,7 +66,6 @@ export { default as SearchBar2 } from './components/molecules/search/SearchBar2'
 export { default as SearchButton } from './components/molecules/search/SearchButton';
 export { default as SearchDrawer } from './components/molecules/search/SearchDrawer';
 export { default as SearchFilters } from './components/molecules/search/SearchFilters';
-export { default as SearchPageDrawer } from './components/molecules/search/SearchPageDrawer';
 export { default as SearchResultItem } from './components/molecules/search/SearchResultItem';
 export { default as SearchResults } from './components/molecules/search/SearchResults';
 export { default as SearchSort } from './components/molecules/search/SearchSort';
