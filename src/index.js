@@ -27,6 +27,7 @@ export { default as FeedItem2 } from './components/search/FeedItem2';
 export { default as FileUpload } from './components/atoms/inputs/FileUpload';
 export { default as Filter } from './components/search/Filter';
 export { default as Filter2 } from './components/search/Filter2';
+export { default as Filter3 } from './components/search/Filter3';
 export { default as FilterButton } from './components/molecules/search/FilterButton';
 export { default as FilterDrawer } from './components/molecules/search/FilterDrawer';
 export { default as FilterLogic } from './components/search/FilterLogic';

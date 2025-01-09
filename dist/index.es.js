@@ -3943,15 +3943,16 @@ const FeedItem = ({
   return /*#__PURE__*/React.createElement(FeedItemContainer, null, /*#__PURE__*/React.createElement(Title$5, null, data.title), /*#__PURE__*/React.createElement(Description$1, null, data.description));
 };
 
+// ../../components/search/Feed.jsx
 const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 `;
 const Feed = ({
-  items,
+  items = [],
   sortBy,
-  selectedFilters = {}
+  selectedFilters = {},
+  ItemComponent = FeedItem // default component for rendering items
 }) => {
   // Filtering
   const filteredItems = items.filter(item => Object.entries(selectedFilters).every(([category, values]) => {
@@ -3961,10 +3962,22 @@ const Feed = ({
 
   // Sorting
   const sortedItems = sortBy ? [...filteredItems].sort(sortBy) : filteredItems;
-  return /*#__PURE__*/React.createElement(FeedContainer, null, sortedItems.map((item, index) => /*#__PURE__*/React.createElement(FeedItem, {
+  return /*#__PURE__*/React.createElement(FeedContainer, null, sortedItems.map((item, index) => /*#__PURE__*/React.createElement(ItemComponent, {
     key: index,
     data: item
   })));
+};
+
+// ../../components/search/FeedItem2.jsx
+const ItemContainer$1 = styled.div`
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+const FeedItem2 = ({
+  data
+}) => {
+  return /*#__PURE__*/React.createElement(ItemContainer$1, null, /*#__PURE__*/React.createElement("h3", null, data.title, " (FeedItem2)"), /*#__PURE__*/React.createElement("p", null, data.description), /*#__PURE__*/React.createElement("p", null, "Status: ", data.status), /*#__PURE__*/React.createElement("p", null, "Priority: ", data.priority), /*#__PURE__*/React.createElement("p", null, "Date: ", data.date));
 };
 
 /**
@@ -10084,44 +10097,27 @@ const Select = styled.select`
   border: 1px solid #ccc;
 `;
 
-// Project-specific sort options
-const sortOptions$1 = [{
-  value: '',
-  label: ''
+// Simplified sorting options with labels as values
+const sortingOptions$1 = [{
+  label: 'Select sorting',
+  comparator: null
 }, {
-  value: 'titleAsc',
-  label: 'Title: A-Z'
+  label: 'Title: A-Z',
+  comparator: (a, b) => a.title.localeCompare(b.title)
 }, {
-  value: 'titleDesc',
-  label: 'Title: Z-A'
+  label: 'Title: Z-A',
+  comparator: (a, b) => b.title.localeCompare(a.title)
 }, {
-  value: 'dateNewest',
-  label: 'Date: Newest'
+  label: 'Date: Newest',
+  comparator: (a, b) => new Date(b.date) - new Date(a.date)
 }, {
-  value: 'dateOldest',
-  label: 'Date: Oldest'
+  label: 'Date: Oldest',
+  comparator: (a, b) => new Date(a.date) - new Date(b.date)
 }];
-
-// Project-specific comparator function
-const getSortComparator$1 = criteria => {
-  switch (criteria) {
-    case 'titleAsc':
-      return (a, b) => a.title.localeCompare(b.title);
-    case 'titleDesc':
-      return (a, b) => b.title.localeCompare(a.title);
-    case 'dateNewest':
-      return (a, b) => new Date(b.date) - new Date(a.date);
-    case 'dateOldest':
-      return (a, b) => new Date(a.date) - new Date(b.date);
-    default:
-      return null;
-  }
-};
 const Sort = ({
   items,
   onSortedChange
 }) => {
-  // Use the enhanced generic hook, passing in items and the callback
   const {
     updateSort
   } = SortLogic({
@@ -10130,51 +10126,35 @@ const Sort = ({
   });
   return /*#__PURE__*/React.createElement(SortContainer, null, /*#__PURE__*/React.createElement(Select, {
     onChange: e => {
-      const comparator = getSortComparator$1(e.target.value);
-      updateSort(comparator);
+      const selectedOption = sortingOptions$1.find(option => option.label === e.target.value);
+      updateSort(selectedOption?.comparator || null);
     }
-  }, sortOptions$1.map(opt => /*#__PURE__*/React.createElement("option", {
-    value: opt.value,
-    key: opt.value
-  }, opt.label))));
+  }, sortingOptions$1.map(option => /*#__PURE__*/React.createElement("option", {
+    value: option.label,
+    key: option.label
+  }, option.label))));
 };
 
 // Sort2.jsx
 
-// Project-specific sort options
-const sortOptions = [{
-  value: 'titleAsc',
-  label: 'Title: A-Z'
+// Simplified sorting options with labels as values
+const sortingOptions = [{
+  label: 'Title: A-Z',
+  comparator: (a, b) => a.title.localeCompare(b.title)
 }, {
-  value: 'titleDesc',
-  label: 'Title: Z-A'
+  label: 'Title: Z-A',
+  comparator: (a, b) => b.title.localeCompare(a.title)
 }, {
-  value: 'dateNewest',
-  label: 'Date: Newest'
+  label: 'Date: Newest',
+  comparator: (a, b) => new Date(b.date) - new Date(a.date)
 }, {
-  value: 'dateOldest',
-  label: 'Date: Oldest'
+  label: 'Date: Oldest',
+  comparator: (a, b) => new Date(a.date) - new Date(b.date)
 }];
-
-// Project-specific comparator logic
-const getSortComparator = criteria => {
-  switch (criteria) {
-    case 'titleAsc':
-      return (a, b) => a.title.localeCompare(b.title);
-    case 'titleDesc':
-      return (a, b) => b.title.localeCompare(a.title);
-    case 'dateNewest':
-      return (a, b) => new Date(b.date) - new Date(a.date);
-    case 'dateOldest':
-      return (a, b) => new Date(a.date) - new Date(b.date);
-    default:
-      return null;
-  }
-};
 const Sort2 = ({
   items,
   onSortedChange,
-  label = "Sort by",
+  label = 'Sort by',
   color
 }) => {
   // Use generic sorting logic
@@ -10188,10 +10168,15 @@ const Sort2 = ({
     name: "sort2",
     label: label,
     color: color,
-    options: sortOptions,
+    options: sortingOptions.map(({
+      label
+    }) => ({
+      value: label,
+      label
+    })),
     onChange: e => {
-      const comparator = getSortComparator(e.target.value);
-      updateSort(comparator);
+      const selectedOption = sortingOptions.find(option => option.label === e.target.value);
+      updateSort(selectedOption?.comparator || null);
     }
   });
 };
@@ -10617,5 +10602,5 @@ const UneditableTextField = ({
   return /*#__PURE__*/React.createElement(FieldContainer, null, IconComponent && /*#__PURE__*/React.createElement(IconWrapper, null, /*#__PURE__*/React.createElement(IconComponent, null)), /*#__PURE__*/React.createElement(TextWrapper, null, /*#__PURE__*/React.createElement(FieldName, null, name), /*#__PURE__*/React.createElement(FieldValue, null, value)));
 };
 
-export { AccordionCard, AppCard, AppleIcon, ArrowRightIcon, BookIcon, BookOpenIcon, BookmarkIcon, BottomDrawer, BottomNav, ButtonArrowIcon, CV, CalendarIcon, Card2, Card3, CardProduct, CardSocial, CartIcon, ChatIcon, CheckedItem, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon, ChevronUpIcon, ClockIcon, CodeIcon, CogIcon, CollegeIcon, ConversationItem, ConversationList, CookbookCard, CookbookProfile, CustomButton, CustomFileUpload, DataIcon, DeleteModal, DragAndDrop, EditIcon, EditStackedList, EditableTextField, Feed, FeedItem, FileUpload, Filter, Filter2, FilterButton, FilterDrawer, FilterIcon, FilterLogic, Footer$1 as Footer, ForkAndKnifeIcon, GhostLoader, GithubIcon, GoogleIcon, HeartIcon, Hero, HeroContent, HomeIcon, HomeIcon2, HomeIcon3, IdeaIcon, ImageCarousel, ImageCarousel2, Input, InstagramIcon, LettzFilterDrawer, LettzIcon, LettzSearchButton, LinkedInIcon, ListYourPlaceCard, ListingCard, Loader, LocationIcon, LoginIcon, LoginPage, ManageAccount, ManageNotifications, ManagePaymentMethods, MarketingIcon, MenuIcon, MenuIcon3, MenuItem, MessageForm, MessagesPrompt, MessagesView, Modal, MoneyIcon, MoneyIcon2, MuteIcon, NotificationsIcon, PasswordIcon, PeriodIcon, PlusIcon, PollItem, Popover, PortfolioMainSlider, ProgressBar, ProjectCard, RangeSlider, RecipeCard$1 as RecipeCard, RecipeSwipeComponent, RoomsView, ScriptIcon, SearchBar, SearchBar2, SearchButton, SearchDrawer, SearchFilters, SearchIcon, SearchIcon2, SearchPageDrawer, SearchResultItem, SearchResults, SearchSort, SecurityIcon, SelectField, SelectInput, SelectToTextInput, Settings, SettingsIcon, SideBar, SideNav, SocialButtons, Sort, Sort2, SortIcon, SortLogic, StackedList, StrategyIcon, TabGroup, TargetIcon, ToastMessage, ToggleField, Tooltip, TopNavBar, TopNavBar2, TopNavBar3, TopWSideNav, TrashIcon, TwitterIcon, UneditableTextField, UserIcon2, UserIcon3, UsersIcon, VolumeIcon, WebsiteIcon, WhatsAppIcon, XIcon };
+export { AccordionCard, AppCard, AppleIcon, ArrowRightIcon, BookIcon, BookOpenIcon, BookmarkIcon, BottomDrawer, BottomNav, ButtonArrowIcon, CV, CalendarIcon, Card2, Card3, CardProduct, CardSocial, CartIcon, ChatIcon, CheckedItem, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon, ChevronUpIcon, ClockIcon, CodeIcon, CogIcon, CollegeIcon, ConversationItem, ConversationList, CookbookCard, CookbookProfile, CustomButton, CustomFileUpload, DataIcon, DeleteModal, DragAndDrop, EditIcon, EditStackedList, EditableTextField, Feed, FeedItem, FeedItem2, FileUpload, Filter, Filter2, FilterButton, FilterDrawer, FilterIcon, FilterLogic, Footer$1 as Footer, ForkAndKnifeIcon, GhostLoader, GithubIcon, GoogleIcon, HeartIcon, Hero, HeroContent, HomeIcon, HomeIcon2, HomeIcon3, IdeaIcon, ImageCarousel, ImageCarousel2, Input, InstagramIcon, LettzFilterDrawer, LettzIcon, LettzSearchButton, LinkedInIcon, ListYourPlaceCard, ListingCard, Loader, LocationIcon, LoginIcon, LoginPage, ManageAccount, ManageNotifications, ManagePaymentMethods, MarketingIcon, MenuIcon, MenuIcon3, MenuItem, MessageForm, MessagesPrompt, MessagesView, Modal, MoneyIcon, MoneyIcon2, MuteIcon, NotificationsIcon, PasswordIcon, PeriodIcon, PlusIcon, PollItem, Popover, PortfolioMainSlider, ProgressBar, ProjectCard, RangeSlider, RecipeCard$1 as RecipeCard, RecipeSwipeComponent, RoomsView, ScriptIcon, SearchBar, SearchBar2, SearchButton, SearchDrawer, SearchFilters, SearchIcon, SearchIcon2, SearchPageDrawer, SearchResultItem, SearchResults, SearchSort, SecurityIcon, SelectField, SelectInput, SelectToTextInput, Settings, SettingsIcon, SideBar, SideNav, SocialButtons, Sort, Sort2, SortIcon, SortLogic, StackedList, StrategyIcon, TabGroup, TargetIcon, ToastMessage, ToggleField, Tooltip, TopNavBar, TopNavBar2, TopNavBar3, TopWSideNav, TrashIcon, TwitterIcon, UneditableTextField, UserIcon2, UserIcon3, UsersIcon, VolumeIcon, WebsiteIcon, WhatsAppIcon, XIcon };
 //# sourceMappingURL=index.es.js.map
