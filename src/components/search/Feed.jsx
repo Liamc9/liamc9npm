@@ -1,3 +1,4 @@
+// ../../components/search/Feed.jsx
 import React from 'react';
 import styled from 'styled-components';
 import FeedItem from './FeedItem';
@@ -5,11 +6,14 @@ import FeedItem from './FeedItem';
 const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 `;
 
-const Feed = ({ items, sortBy, selectedFilters = {} }) => {
-
+const Feed = ({ 
+  items = [], 
+  sortBy, 
+  selectedFilters = {}, 
+  ItemComponent = FeedItem // default component for rendering items
+}) => {
   // Filtering
   const filteredItems = items.filter(item =>
     Object.entries(selectedFilters).every(([category, values]) => {
@@ -24,7 +28,7 @@ const Feed = ({ items, sortBy, selectedFilters = {} }) => {
   return (
     <FeedContainer>
       {sortedItems.map((item, index) => (
-        <FeedItem key={index} data={item} />
+        <ItemComponent key={index} data={item} />
       ))}
     </FeedContainer>
   );

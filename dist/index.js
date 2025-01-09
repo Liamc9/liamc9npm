@@ -3963,10 +3963,17 @@ const FeedContainer = styled__default["default"].div`
 `;
 const Feed = ({
   items,
-  sortBy
+  sortBy,
+  selectedFilters = {}
 }) => {
-  // If a sortBy function is provided, sort the items accordingly.
-  const sortedItems = sortBy ? [...items].sort(sortBy) : items;
+  // Filtering
+  const filteredItems = items.filter(item => Object.entries(selectedFilters).every(([category, values]) => {
+    if (!values || values.length === 0) return true;
+    return values.includes(item[category]);
+  }));
+
+  // Sorting
+  const sortedItems = sortBy ? [...filteredItems].sort(sortBy) : filteredItems;
   return /*#__PURE__*/React__default["default"].createElement(FeedContainer, null, sortedItems.map((item, index) => /*#__PURE__*/React__default["default"].createElement(FeedItem, {
     key: index,
     data: item
@@ -4024,6 +4031,404 @@ const FileUpload = ({
     onChange: handleFileChange,
     className: "hidden"
   })));
+};
+
+// FilterLogic.js
+const FilterLogic = ({
+  filters,
+  onChange,
+  children
+}) => {
+  // Initialize state with no selections for each filter group
+  const initialSelections = filters.reduce((acc, group) => {
+    acc[group.category] = []; // No preselected filters
+    return acc;
+  }, {});
+  const [selectedFilters, setSelectedFilters] = React.useState(initialSelections);
+
+  // Single-selection logic per category for simplicity
+  const setSelection = (category, value) => {
+    setSelectedFilters(prev => {
+      const newSelections = {
+        ...prev,
+        [category]: [value]
+      };
+      if (onChange) onChange(newSelections);
+      return newSelections;
+    });
+  };
+
+  // Provide filter options, current selections, and a setter function to children
+  if (typeof children === 'function') {
+    return children({
+      filters,
+      selectedFilters,
+      setSelection
+    });
+  }
+  return null;
+};
+
+const SliderContainer = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+`;
+const Label = styled__default["default"].label`
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+`;
+const RangeInputContainer = styled__default["default"].div`
+  position: relative;
+  width: 100%;
+  height: 50px;
+`;
+const Track = styled__default["default"].div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 5px;
+  width: 100%;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: ${props => props.left}%;
+    right: ${props => 100 - props.right}%;
+    height: 100%;
+    background: #A855F7;
+    border-radius: 5px;
+    z-index: 1;
+  }
+`;
+const ThumbValue = styled__default["default"].div`
+  position: absolute;
+  top: -10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #A855F7;
+  white-space: nowrap;
+`;
+const Slider = styled__default["default"].input`
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: transparent;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  pointer-events: none;
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #A855F7;
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  &::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+`;
+const RangeSlider = ({
+  min = 0,
+  max = 100,
+  step = 1,
+  minimumGap = 10,
+  label = "Range",
+  valuePrefix = "",
+  valueSuffix = "",
+  onChange
+}) => {
+  const [range, setRange] = React.useState([min, max]);
+  const handleMinChange = e => {
+    const newMin = Math.min(Number(e.target.value), range[1] - minimumGap);
+    const newRange = [newMin, range[1]];
+    setRange(newRange);
+    if (onChange) onChange(newRange);
+  };
+  const handleMaxChange = e => {
+    const newMax = Math.max(Number(e.target.value), range[0] + minimumGap);
+    const newRange = [range[0], newMax];
+    setRange(newRange);
+    if (onChange) onChange(newRange);
+  };
+  const calculatePercentage = value => (value - min) / (max - min) * 100;
+  return /*#__PURE__*/React__default["default"].createElement(SliderContainer, null, /*#__PURE__*/React__default["default"].createElement(Label, null, label), /*#__PURE__*/React__default["default"].createElement(RangeInputContainer, null, /*#__PURE__*/React__default["default"].createElement(ThumbValue, {
+    style: {
+      left: `calc(${calculatePercentage(range[0])}% - 14px)`
+    }
+  }, valuePrefix, range[0], valueSuffix), /*#__PURE__*/React__default["default"].createElement(ThumbValue, {
+    style: {
+      left: `calc(${calculatePercentage(range[1])}% - 14px)`
+    }
+  }, valuePrefix, range[1], valueSuffix), /*#__PURE__*/React__default["default"].createElement(Track, {
+    left: calculatePercentage(range[0]),
+    right: calculatePercentage(range[1])
+  }), /*#__PURE__*/React__default["default"].createElement(Slider, {
+    type: "range",
+    min: min,
+    max: max,
+    step: step,
+    value: range[0],
+    onChange: handleMinChange
+  }), /*#__PURE__*/React__default["default"].createElement(Slider, {
+    type: "range",
+    min: min,
+    max: max,
+    step: step,
+    value: range[1],
+    onChange: handleMaxChange
+  })));
+};
+
+const SelectContainer = styled__default["default"].div`
+  position: relative;
+  font-family: sans-serif;
+`;
+const sharedSelectStyles = styled.css`
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 2px solid;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+  appearance: none;
+  transition: border-color 0.3s ease-in-out;
+`;
+const StyledSelect = styled__default["default"].select`
+  ${sharedSelectStyles}
+  border-color: ${({
+  isFocused,
+  color
+}) => isFocused ? color : '#D1D5DB'};
+  color: ${({
+  value
+}) => value ? '#000' : '#6B7280'}; /* Default placeholder style */
+`;
+const StyledLabel$1 = styled__default["default"].label`
+  position: absolute;
+  left: 0;
+  margin: 0.25rem;
+  padding: 0.25rem;
+  background: white;
+  color: ${({
+  isFocused,
+  color
+}) => isFocused ? color : '#6B7280'};
+  font-size: 1rem;
+  pointer-events: none;
+  transform: ${({
+  hasValue,
+  isFocused
+}) => hasValue || isFocused ? 'translate(1.25rem, -70%) scale(0.9)' : 'translate(0.625rem, 0)'};
+  transform-origin: left top;
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+`;
+const StyledArrow = styled__default["default"].div`
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 1rem;
+  color: ${({
+  isFocused,
+  color
+}) => isFocused ? color : '#6B7280'};
+`;
+const SelectInput = ({
+  name,
+  value,
+  onChange,
+  color = '#000',
+  label,
+  options = []
+}) => {
+  const [isFocused, setIsFocused] = React.useState(false);
+  const handleFocus = () => setIsFocused(true);
+  const handleBlur = () => setIsFocused(false);
+  return /*#__PURE__*/React__default["default"].createElement(SelectContainer, null, /*#__PURE__*/React__default["default"].createElement(StyledSelect, {
+    name: name,
+    id: name,
+    value: value,
+    onChange: onChange,
+    onFocus: handleFocus,
+    onBlur: handleBlur,
+    isFocused: isFocused,
+    color: color
+  }, /*#__PURE__*/React__default["default"].createElement("option", {
+    value: "",
+    disabled: true
+  }), options.map(option => /*#__PURE__*/React__default["default"].createElement("option", {
+    key: option.value,
+    value: option.value
+  }, option.label))), /*#__PURE__*/React__default["default"].createElement(StyledLabel$1, {
+    htmlFor: name,
+    isFocused: isFocused,
+    color: color,
+    hasValue: Boolean(value)
+  }, label), /*#__PURE__*/React__default["default"].createElement(StyledArrow, {
+    isFocused: isFocused,
+    color: color
+  }, /*#__PURE__*/React__default["default"].createElement(ChevronDownIcon, {
+    className: "w-4 h-4"
+  })));
+};
+
+// Filter.jsx
+const FilterContainer = styled__default["default"].div`
+  display: grid;
+  gap: 2rem;
+`;
+const GroupContainer = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+`;
+const GroupLabel = styled__default["default"].h5`
+  margin-bottom: 0.5rem;
+`;
+
+// Define filter configurations explicitly
+const filtersConfig = {
+  status: {
+    category: 'status',
+    label: 'Status',
+    type: 'dropdown',
+    options: [{
+      value: 'completed',
+      label: 'Completed',
+      initial: false
+    }, {
+      value: 'pending',
+      label: 'Pending',
+      initial: false
+    }, {
+      value: 'inProgress',
+      label: 'In Progress',
+      initial: false
+    }]
+  },
+  priority: {
+    category: 'priority',
+    label: 'Priority',
+    type: 'range',
+    options: [{
+      value: 'high',
+      label: 'High',
+      initial: false
+    }, {
+      value: 'medium',
+      label: 'Medium',
+      initial: false
+    }, {
+      value: 'low',
+      label: 'Low',
+      initial: false
+    }]
+  }
+};
+const Filter = ({
+  onChange
+}) => /*#__PURE__*/React__default["default"].createElement(FilterLogic, {
+  filters: Object.values(filtersConfig),
+  onChange: selectedFilters => {
+    if (onChange) {
+      onChange(selectedFilters); // Pass the selectedFilters up to the parent
+    }
+  }
+}, ({
+  selectedFilters,
+  setSelection
+}) => {
+  const statusFilter = filtersConfig.status;
+  const priorityFilter = filtersConfig.priority;
+  return /*#__PURE__*/React__default["default"].createElement(FilterContainer, null, /*#__PURE__*/React__default["default"].createElement(GroupContainer, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel, null, statusFilter.label), /*#__PURE__*/React__default["default"].createElement(SelectInput, {
+    name: statusFilter.category,
+    label: `Select ${statusFilter.label}`,
+    value: selectedFilters[statusFilter.category] && selectedFilters[statusFilter.category][0] ? selectedFilters[statusFilter.category][0] : '',
+    onChange: e => setSelection(statusFilter.category, e.target.value),
+    options: statusFilter.options,
+    color: "#000"
+  })), /*#__PURE__*/React__default["default"].createElement(GroupContainer, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
+    min: 0,
+    max: priorityFilter.options.length - 1,
+    label: priorityFilter.label,
+    onChange: index => {
+      const value = priorityFilter.options[index]?.value;
+      if (value) setSelection(priorityFilter.category, value);
+    }
+  })));
+});
+
+// Filter2.js
+const Filter2Container = styled__default["default"].div`
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+const FilterGroup = styled__default["default"].div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
+const FilterLabel = styled__default["default"].label`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+`;
+const GroupTitle = styled__default["default"].h4`
+  margin: 0;
+`;
+const Filter2 = ({
+  filters,
+  onChange
+}) => {
+  // Initialize state: an object where each key is a filter category and value is an array of selected options for that category
+  const initialState = filters.reduce((acc, group) => {
+    acc[group.category] = group.options.filter(opt => opt.initial).map(opt => opt.value);
+    return acc;
+  }, {});
+  const [selectedFilters, setSelectedFilters] = React.useState(initialState);
+  const handleToggle = (category, value) => {
+    const current = selectedFilters[category] || [];
+    const newSelected = current.includes(value) ? current.filter(v => v !== value) : [...current, value];
+    const newState = {
+      ...selectedFilters,
+      [category]: newSelected
+    };
+    setSelectedFilters(newState);
+    if (onChange) {
+      onChange(newState);
+    }
+  };
+  return /*#__PURE__*/React__default["default"].createElement(Filter2Container, null, filters.map(group => /*#__PURE__*/React__default["default"].createElement("div", {
+    key: group.category
+  }, /*#__PURE__*/React__default["default"].createElement(GroupTitle, null, group.label || group.category), /*#__PURE__*/React__default["default"].createElement(FilterGroup, null, group.options.map(opt => /*#__PURE__*/React__default["default"].createElement(FilterLabel, {
+    key: `${group.category}-${opt.value}`
+  }, /*#__PURE__*/React__default["default"].createElement("input", {
+    type: "checkbox",
+    checked: (selectedFilters[group.category] || []).includes(opt.value),
+    onChange: () => handleToggle(group.category, opt.value)
+  }), opt.label))))));
 };
 
 const Button$7 = styled__default["default"].button`
@@ -4466,7 +4871,7 @@ const StyledTextarea = styled__default["default"].textarea`
   color
 }) => isFocused ? color : '#D1D5DB'};
 `;
-const StyledLabel$1 = styled__default["default"].label`
+const StyledLabel = styled__default["default"].label`
   position: absolute;
   left: 0;
   margin: 0.25rem;
@@ -4518,235 +4923,12 @@ const Input = ({
     isFocused: isFocused,
     color: color
   });
-  return /*#__PURE__*/React__default["default"].createElement(InputContainer$1, null, inputElement, /*#__PURE__*/React__default["default"].createElement(StyledLabel$1, {
+  return /*#__PURE__*/React__default["default"].createElement(InputContainer$1, null, inputElement, /*#__PURE__*/React__default["default"].createElement(StyledLabel, {
     htmlFor: name,
     isFocused: isFocused,
     color: color,
     hasValue: Boolean(value)
   }, label));
-};
-
-const SelectContainer = styled__default["default"].div`
-  position: relative;
-  font-family: sans-serif;
-`;
-const sharedSelectStyles = styled.css`
-  width: 100%;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 2px solid;
-  background: transparent;
-  font-size: 1rem;
-  outline: none;
-  appearance: none;
-  transition: border-color 0.3s ease-in-out;
-`;
-const StyledSelect = styled__default["default"].select`
-  ${sharedSelectStyles}
-  border-color: ${({
-  isFocused,
-  color
-}) => isFocused ? color : '#D1D5DB'};
-  color: ${({
-  value
-}) => value ? '#000' : '#6B7280'}; /* Default placeholder style */
-`;
-const StyledLabel = styled__default["default"].label`
-  position: absolute;
-  left: 0;
-  margin: 0.25rem;
-  padding: 0.25rem;
-  background: white;
-  color: ${({
-  isFocused,
-  color
-}) => isFocused ? color : '#6B7280'};
-  font-size: 1rem;
-  pointer-events: none;
-  transform: ${({
-  hasValue,
-  isFocused
-}) => hasValue || isFocused ? 'translate(1.25rem, -70%) scale(0.9)' : 'translate(0.625rem, 0)'};
-  transform-origin: left top;
-  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
-`;
-const StyledArrow = styled__default["default"].div`
-  position: absolute;
-  top: 50%;
-  right: 0.75rem;
-  transform: translateY(-50%);
-  pointer-events: none;
-  font-size: 1rem;
-  color: ${({
-  isFocused,
-  color
-}) => isFocused ? color : '#6B7280'};
-`;
-const SelectInput = ({
-  name,
-  value,
-  onChange,
-  color = '#000',
-  label,
-  options = []
-}) => {
-  const [isFocused, setIsFocused] = React.useState(false);
-  const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
-  return /*#__PURE__*/React__default["default"].createElement(SelectContainer, null, /*#__PURE__*/React__default["default"].createElement(StyledSelect, {
-    name: name,
-    id: name,
-    value: value,
-    onChange: onChange,
-    onFocus: handleFocus,
-    onBlur: handleBlur,
-    isFocused: isFocused,
-    color: color
-  }, /*#__PURE__*/React__default["default"].createElement("option", {
-    value: "",
-    disabled: true
-  }), options.map(option => /*#__PURE__*/React__default["default"].createElement("option", {
-    key: option.value,
-    value: option.value
-  }, option.label))), /*#__PURE__*/React__default["default"].createElement(StyledLabel, {
-    htmlFor: name,
-    isFocused: isFocused,
-    color: color,
-    hasValue: Boolean(value)
-  }, label), /*#__PURE__*/React__default["default"].createElement(StyledArrow, {
-    isFocused: isFocused,
-    color: color
-  }, /*#__PURE__*/React__default["default"].createElement(ChevronDownIcon, {
-    className: "w-4 h-4"
-  })));
-};
-
-const SliderContainer = styled__default["default"].div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-`;
-const Label = styled__default["default"].label`
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
-`;
-const RangeInputContainer = styled__default["default"].div`
-  position: relative;
-  width: 100%;
-  height: 50px;
-`;
-const Track = styled__default["default"].div`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 8px;
-  background: #e0e0e0;
-  border-radius: 5px;
-  width: 100%;
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: ${props => props.left}%;
-    right: ${props => 100 - props.right}%;
-    height: 100%;
-    background: #A855F7;
-    border-radius: 5px;
-    z-index: 1;
-  }
-`;
-const ThumbValue = styled__default["default"].div`
-  position: absolute;
-  top: -10px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #A855F7;
-  white-space: nowrap;
-`;
-const Slider = styled__default["default"].input`
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 8px;
-  background: transparent;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 3;
-  pointer-events: none;
-
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    background: #A855F7;
-    border-radius: 50%;
-    cursor: pointer;
-    pointer-events: auto;
-  }
-
-  &::-moz-range-thumb {
-    width: 14px;
-    height: 14px;
-    background: #007bff;
-    border-radius: 50%;
-    cursor: pointer;
-    pointer-events: auto;
-  }
-`;
-const RangeSlider = ({
-  min = 0,
-  max = 100,
-  step = 1,
-  minimumGap = 10,
-  label = "Range",
-  valuePrefix = "",
-  valueSuffix = "",
-  onChange
-}) => {
-  const [range, setRange] = React.useState([min, max]);
-  const handleMinChange = e => {
-    const newMin = Math.min(Number(e.target.value), range[1] - minimumGap);
-    const newRange = [newMin, range[1]];
-    setRange(newRange);
-    if (onChange) onChange(newRange);
-  };
-  const handleMaxChange = e => {
-    const newMax = Math.max(Number(e.target.value), range[0] + minimumGap);
-    const newRange = [range[0], newMax];
-    setRange(newRange);
-    if (onChange) onChange(newRange);
-  };
-  const calculatePercentage = value => (value - min) / (max - min) * 100;
-  return /*#__PURE__*/React__default["default"].createElement(SliderContainer, null, /*#__PURE__*/React__default["default"].createElement(Label, null, label), /*#__PURE__*/React__default["default"].createElement(RangeInputContainer, null, /*#__PURE__*/React__default["default"].createElement(ThumbValue, {
-    style: {
-      left: `calc(${calculatePercentage(range[0])}% - 14px)`
-    }
-  }, valuePrefix, range[0], valueSuffix), /*#__PURE__*/React__default["default"].createElement(ThumbValue, {
-    style: {
-      left: `calc(${calculatePercentage(range[1])}% - 14px)`
-    }
-  }, valuePrefix, range[1], valueSuffix), /*#__PURE__*/React__default["default"].createElement(Track, {
-    left: calculatePercentage(range[0]),
-    right: calculatePercentage(range[1])
-  }), /*#__PURE__*/React__default["default"].createElement(Slider, {
-    type: "range",
-    min: min,
-    max: max,
-    step: step,
-    value: range[0],
-    onChange: handleMinChange
-  }), /*#__PURE__*/React__default["default"].createElement(Slider, {
-    type: "range",
-    min: min,
-    max: max,
-    step: step,
-    value: range[1],
-    onChange: handleMaxChange
-  })));
 };
 
 // LettzFilterDrawer.js
@@ -9874,55 +10056,157 @@ function SocialButtons() {
   }), " ")))));
 }
 
-const Select = styled__default["default"].select`
-  padding: 0.5rem;
-  margin: 1rem 0;
-  font-size: 1rem;
-`;
-const Sort = ({
-  options,
-  onChange
+// sortLogic.js
+const SortLogic = ({
+  items,
+  onSortedChange
 }) => {
-  const handleSelectChange = e => {
-    const selectedComparator = options.find(option => option.label === e.target.value)?.comparator;
-    // Pass the selected comparator to the parent callback
-    onChange(selectedComparator || null);
+  const [sortBy, setSortBy] = React.useState(null);
+  const updateSort = React.useCallback(comparator => {
+    setSortBy(() => comparator);
+  }, []);
+
+  // Compute sorted items based on current comparator and provided items
+  const sortedItems = React.useMemo(() => {
+    if (sortBy && items) {
+      return [...items].sort(sortBy);
+    }
+    return items;
+  }, [items, sortBy]);
+
+  // Notify parent of sorted items whenever they change
+  React.useEffect(() => {
+    if (onSortedChange) {
+      onSortedChange(sortedItems);
+    }
+  }, [sortedItems, onSortedChange]);
+  return {
+    sortBy,
+    updateSort,
+    sortedItems
   };
-  return /*#__PURE__*/React__default["default"].createElement(Select, {
-    onChange: handleSelectChange
-  }, /*#__PURE__*/React__default["default"].createElement("option", {
-    value: ""
-  }, "-- Select sorting option --"), options.map((option, index) => /*#__PURE__*/React__default["default"].createElement("option", {
-    key: index,
-    value: option.label
-  }, option.label)));
 };
 
-const ButtonGroup = styled__default["default"].div`
-  display: flex;
-  gap: 0.5rem;
-  margin: 1rem 0;
+// Sort.jsx
+const SortContainer = styled__default["default"].div`
+  margin-bottom: 1rem;
 `;
-const SortButton = styled__default["default"].button`
-  padding: 0.5rem 1rem;
+const Select = styled__default["default"].select`
+  padding: 0.5rem;
+  border-radius: 4px;
   border: 1px solid #ccc;
-  background: white;
-  cursor: pointer;
-  &:hover {
-    background: #eee;
-  }
 `;
-const Sort2 = ({
-  options,
-  onChange
+
+// Project-specific sort options
+const sortOptions$1 = [{
+  value: '',
+  label: ''
+}, {
+  value: 'titleAsc',
+  label: 'Title: A-Z'
+}, {
+  value: 'titleDesc',
+  label: 'Title: Z-A'
+}, {
+  value: 'dateNewest',
+  label: 'Date: Newest'
+}, {
+  value: 'dateOldest',
+  label: 'Date: Oldest'
+}];
+
+// Project-specific comparator function
+const getSortComparator$1 = criteria => {
+  switch (criteria) {
+    case 'titleAsc':
+      return (a, b) => a.title.localeCompare(b.title);
+    case 'titleDesc':
+      return (a, b) => b.title.localeCompare(a.title);
+    case 'dateNewest':
+      return (a, b) => new Date(b.date) - new Date(a.date);
+    case 'dateOldest':
+      return (a, b) => new Date(a.date) - new Date(b.date);
+    default:
+      return null;
+  }
+};
+const Sort = ({
+  items,
+  onSortedChange
 }) => {
-  const handleButtonClick = comparator => {
-    onChange(comparator);
-  };
-  return /*#__PURE__*/React__default["default"].createElement(ButtonGroup, null, options.map((option, idx) => /*#__PURE__*/React__default["default"].createElement(SortButton, {
-    key: idx,
-    onClick: () => handleButtonClick(option.comparator)
-  }, option.label)));
+  // Use the enhanced generic hook, passing in items and the callback
+  const {
+    updateSort
+  } = SortLogic({
+    items,
+    onSortedChange
+  });
+  return /*#__PURE__*/React__default["default"].createElement(SortContainer, null, /*#__PURE__*/React__default["default"].createElement(Select, {
+    onChange: e => {
+      const comparator = getSortComparator$1(e.target.value);
+      updateSort(comparator);
+    }
+  }, sortOptions$1.map(opt => /*#__PURE__*/React__default["default"].createElement("option", {
+    value: opt.value,
+    key: opt.value
+  }, opt.label))));
+};
+
+// Sort2.jsx
+
+// Project-specific sort options
+const sortOptions = [{
+  value: 'titleAsc',
+  label: 'Title: A-Z'
+}, {
+  value: 'titleDesc',
+  label: 'Title: Z-A'
+}, {
+  value: 'dateNewest',
+  label: 'Date: Newest'
+}, {
+  value: 'dateOldest',
+  label: 'Date: Oldest'
+}];
+
+// Project-specific comparator logic
+const getSortComparator = criteria => {
+  switch (criteria) {
+    case 'titleAsc':
+      return (a, b) => a.title.localeCompare(b.title);
+    case 'titleDesc':
+      return (a, b) => b.title.localeCompare(a.title);
+    case 'dateNewest':
+      return (a, b) => new Date(b.date) - new Date(a.date);
+    case 'dateOldest':
+      return (a, b) => new Date(a.date) - new Date(b.date);
+    default:
+      return null;
+  }
+};
+const Sort2 = ({
+  items,
+  onSortedChange,
+  label = "Sort by",
+  color
+}) => {
+  // Use generic sorting logic
+  const {
+    updateSort
+  } = SortLogic({
+    items,
+    onSortedChange
+  });
+  return /*#__PURE__*/React__default["default"].createElement(SelectInput, {
+    name: "sort2",
+    label: label,
+    color: color,
+    options: sortOptions,
+    onChange: e => {
+      const comparator = getSortComparator(e.target.value);
+      updateSort(comparator);
+    }
+  });
 };
 
 const Container$1 = styled__default["default"].div`
@@ -10389,9 +10673,12 @@ exports.EditableTextField = EditableTextField;
 exports.Feed = Feed;
 exports.FeedItem = FeedItem;
 exports.FileUpload = FileUpload;
+exports.Filter = Filter;
+exports.Filter2 = Filter2;
 exports.FilterButton = FilterButton;
 exports.FilterDrawer = FilterDrawer;
 exports.FilterIcon = FilterIcon;
+exports.FilterLogic = FilterLogic;
 exports.Footer = Footer$1;
 exports.ForkAndKnifeIcon = ForkAndKnifeIcon;
 exports.GhostLoader = GhostLoader;
@@ -10469,6 +10756,7 @@ exports.SocialButtons = SocialButtons;
 exports.Sort = Sort;
 exports.Sort2 = Sort2;
 exports.SortIcon = SortIcon;
+exports.SortLogic = SortLogic;
 exports.StackedList = StackedList;
 exports.StrategyIcon = StrategyIcon;
 exports.TabGroup = TabGroup;

@@ -13,44 +13,46 @@ const Select = styled.select`
   border: 1px solid #ccc;
 `;
 
-// Project-specific sort options
-const sortOptions = [
-  { value: '', label: '' },
-  { value: 'titleAsc', label: 'Title: A-Z' },
-  { value: 'titleDesc', label: 'Title: Z-A' },
-  { value: 'dateNewest', label: 'Date: Newest' },
-  { value: 'dateOldest', label: 'Date: Oldest' },
+// Simplified sorting options with labels as values
+const sortingOptions = [
+  {
+    label: 'Select sorting',
+    comparator: null,
+  },
+  {
+    label: 'Title: A-Z',
+    comparator: (a, b) => a.title.localeCompare(b.title),
+  },
+  {
+    label: 'Title: Z-A',
+    comparator: (a, b) => b.title.localeCompare(a.title),
+  },
+  {
+    label: 'Date: Newest',
+    comparator: (a, b) => new Date(b.date) - new Date(a.date),
+  },
+  {
+    label: 'Date: Oldest',
+    comparator: (a, b) => new Date(a.date) - new Date(b.date),
+  },
 ];
 
-// Project-specific comparator function
-const getSortComparator = (criteria) => {
-  switch (criteria) {
-    case 'titleAsc':
-      return (a, b) => a.title.localeCompare(b.title);
-    case 'titleDesc':
-      return (a, b) => b.title.localeCompare(a.title);
-    case 'dateNewest':
-      return (a, b) => new Date(b.date) - new Date(a.date);
-    case 'dateOldest':
-      return (a, b) => new Date(a.date) - new Date(b.date);
-    default:
-      return null;
-  }
-};
-
 const Sort = ({ items, onSortedChange }) => {
-  // Use the enhanced generic hook, passing in items and the callback
   const { updateSort } = SortLogic({ items, onSortedChange });
 
   return (
     <SortContainer>
-      <Select onChange={e => {
-          const comparator = getSortComparator(e.target.value);
-          updateSort(comparator);
-      }}>
-        {sortOptions.map(opt => (
-          <option value={opt.value} key={opt.value}>
-            {opt.label}
+      <Select
+        onChange={(e) => {
+          const selectedOption = sortingOptions.find(
+            (option) => option.label === e.target.value
+          );
+          updateSort(selectedOption?.comparator || null);
+        }}
+      >
+        {sortingOptions.map((option) => (
+          <option value={option.label} key={option.label}>
+            {option.label}
           </option>
         ))}
       </Select>

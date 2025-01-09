@@ -1,33 +1,29 @@
 // Sort2.jsx
 import React from 'react';
 import SortLogic from './SortLogic'; // Reusable sorting logic
-import SelectInput from '../atoms/inputs/SelectInput';    // Custom styled select component
+import SelectInput from '../atoms/inputs/SelectInput'; // Custom styled select component
 
-// Project-specific sort options
-const sortOptions = [
-  { value: 'titleAsc', label: 'Title: A-Z' },
-  { value: 'titleDesc', label: 'Title: Z-A' },
-  { value: 'dateNewest', label: 'Date: Newest' },
-  { value: 'dateOldest', label: 'Date: Oldest' },
+// Simplified sorting options with labels as values
+const sortingOptions = [
+  {
+    label: 'Title: A-Z',
+    comparator: (a, b) => a.title.localeCompare(b.title),
+  },
+  {
+    label: 'Title: Z-A',
+    comparator: (a, b) => b.title.localeCompare(a.title),
+  },
+  {
+    label: 'Date: Newest',
+    comparator: (a, b) => new Date(b.date) - new Date(a.date),
+  },
+  {
+    label: 'Date: Oldest',
+    comparator: (a, b) => new Date(a.date) - new Date(b.date),
+  },
 ];
 
-// Project-specific comparator logic
-const getSortComparator = (criteria) => {
-  switch (criteria) {
-    case 'titleAsc':
-      return (a, b) => a.title.localeCompare(b.title);
-    case 'titleDesc':
-      return (a, b) => b.title.localeCompare(a.title);
-    case 'dateNewest':
-      return (a, b) => new Date(b.date) - new Date(a.date);
-    case 'dateOldest':
-      return (a, b) => new Date(a.date) - new Date(b.date);
-    default:
-      return null;
-  }
-};
-
-const Sort2 = ({ items, onSortedChange, label = "Sort by", color }) => {
+const Sort2 = ({ items, onSortedChange, label = 'Sort by', color }) => {
   // Use generic sorting logic
   const { updateSort } = SortLogic({ items, onSortedChange });
 
@@ -36,10 +32,12 @@ const Sort2 = ({ items, onSortedChange, label = "Sort by", color }) => {
       name="sort2"
       label={label}
       color={color}
-      options={sortOptions}
+      options={sortingOptions.map(({ label }) => ({ value: label, label }))}
       onChange={(e) => {
-        const comparator = getSortComparator(e.target.value);
-        updateSort(comparator);
+        const selectedOption = sortingOptions.find(
+          (option) => option.label === e.target.value
+        );
+        updateSort(selectedOption?.comparator || null);
       }}
     />
   );
