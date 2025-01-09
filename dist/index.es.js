@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, useSyncExternalStore, useLayoutEffect, isValidElement, cloneElement, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useSyncExternalStore, useLayoutEffect, isValidElement, cloneElement, useCallback, useMemo } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import { Link as Link$1, NavLink, useNavigate } from 'react-router-dom';
 import ReactDOM, { createPortal } from 'react-dom';
@@ -3943,76 +3943,220 @@ const FeedItem = ({
   return /*#__PURE__*/React.createElement(FeedItemContainer, null, /*#__PURE__*/React.createElement(Title$5, null, data.title), /*#__PURE__*/React.createElement(Description$1, null, data.description));
 };
 
+// ../../components/search/FeedLogic.jsx
+function FeedLogic({
+  items = [],
+  sortBy,
+  selectedFilters = {},
+  pagination,
+  // number of items per page for pagination
+  loadMore,
+  // number of items to load per click
+  infiniteScroll,
+  // number of items to load each time we reach the bottom
+  scrollContainerRef // container ref for infinite scrolling
+}) {
+  // ---------------------- Filter & Sort ----------------------
+  const filteredItems = items.filter(item => Object.entries(selectedFilters).every(([category, values]) => {
+    // If no filter values for this category, accept the item
+    if (!values || values.length === 0) return true;
+    return values.includes(item[category]);
+  }));
+  const sortedItems = sortBy ? [...filteredItems].sort(sortBy) : filteredItems;
+
+  // ---------------------- State ----------------------
+  // Current page for pagination
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Decide initial visibleCount (for load-more or infinite-scroll)
+  const [visibleCount, setVisibleCount] = useState(() => {
+    if (infiniteScroll) return infiniteScroll;
+    if (loadMore) return loadMore;
+    return sortedItems.length; // default: show all
+  });
+
+  // Items per page if using pagination
+  const itemsPerPage = pagination || sortedItems.length;
+  const totalPages = Math.ceil(sortedItems.length / itemsPerPage);
+
+  // ---------------------- Pagination Reset ----------------------
+  useEffect(() => {
+    if (pagination && currentPage > totalPages) {
+      setCurrentPage(1);
+    }
+  }, [pagination, totalPages, currentPage]);
+
+  // ---------------------- Infinite Scroll ----------------------
+  useEffect(() => {
+    if (!infiniteScroll) return;
+    const handleScroll = () => {
+      const threshold = 50; // how close to bottom before triggering load
+      let distanceFromBottom = 0;
+      if (scrollContainerRef?.current) {
+        // Container-based scrolling
+        const {
+          scrollTop,
+          scrollHeight,
+          clientHeight
+        } = scrollContainerRef.current;
+        distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+      } else {
+        // Page-level scrolling
+        const {
+          scrollY,
+          innerHeight
+        } = window;
+        const {
+          offsetHeight
+        } = document.body;
+        distanceFromBottom = offsetHeight - (scrollY + innerHeight);
+      }
+
+      // If near bottom, load more items
+      if (distanceFromBottom < threshold) {
+        setVisibleCount(prev => Math.min(prev + infiniteScroll, sortedItems.length));
+      }
+    };
+
+    // Attach scroll listener
+    const scrollTarget = scrollContainerRef?.current || window;
+    scrollTarget.addEventListener('scroll', handleScroll);
+    return () => {
+      scrollTarget.removeEventListener('scroll', handleScroll);
+    };
+  }, [infiniteScroll, sortedItems.length, scrollContainerRef]);
+
+  // ---------------------- Determine Items to Render ----------------------
+  let itemsToRender = sortedItems;
+  let pages = null; // array of page numbers (for pagination)
+  let hasMoreItems = false; // for Load More logic
+
+  // (1) Pagination
+  if (pagination) {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    itemsToRender = sortedItems.slice(startIndex, endIndex);
+    if (totalPages > 1) {
+      // e.g. [1,2,3,...n]
+      pages = Array.from({
+        length: totalPages
+      }, (_, i) => i + 1);
+    }
+  }
+  // (2) Infinite Scroll
+  else if (infiniteScroll) {
+    itemsToRender = sortedItems.slice(0, visibleCount);
+  }
+  // (3) Load More
+  else if (loadMore) {
+    itemsToRender = sortedItems.slice(0, visibleCount);
+    hasMoreItems = visibleCount < sortedItems.length;
+  }
+
+  // Handler for "Load More" button
+  const handleLoadMore = () => {
+    setVisibleCount(prev => Math.min(prev + loadMore, sortedItems.length));
+  };
+
+  // Return all data/states that the Feed component needs for rendering
+  return {
+    itemsToRender,
+    pages,
+    currentPage,
+    setCurrentPage,
+    hasMoreItems,
+    handleLoadMore
+  };
+}
+
 // ../../components/search/Feed.jsx
+
+// ---------------------- Styled Components ----------------------
 const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 8px;
+`;
+const PageButton = styled.button`
+  padding: 8px 12px;
+  border: none;
+  background-color: ${({
+  active
+}) => active ? '#007bff' : '#e0e0e0'};
+  color: ${({
+  active
+}) => active ? '#fff' : '#000'};
+  cursor: pointer;
+  border-radius: 4px;
+  
+  &:hover {
+    background-color: ${({
+  active
+}) => active ? '#0056b3' : '#ccc'};
+  }
+`;
+const LoadMoreButton = styled.button`
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+// ---------------------- Feed Component ----------------------
 const Feed = ({
   items = [],
   sortBy,
   selectedFilters = {},
   ItemComponent = FeedItem,
-  // default component for rendering items
-  infiniteScroll // number of items to load per batch
+  pagination,
+  // optional number of items per page
+  loadMore,
+  // optional number of items to load per click
+  infiniteScroll,
+  // optional number of items to load on bottom scroll
+  scrollContainerRef // optional container ref for infinite scrolling
 }) => {
-  // Filtering
-  const filteredItems = items.filter(item => Object.entries(selectedFilters).every(([category, values]) => {
-    if (!values || values.length === 0) return true;
-    return values.includes(item[category]);
-  }));
+  // -- 1) Retrieve all the logic from FeedLogic
+  const {
+    itemsToRender,
+    pages,
+    currentPage,
+    setCurrentPage,
+    hasMoreItems,
+    handleLoadMore
+  } = FeedLogic({
+    items,
+    sortBy,
+    selectedFilters,
+    pagination,
+    loadMore,
+    infiniteScroll,
+    scrollContainerRef
+  });
 
-  // Sorting
-  const sortedItems = sortBy ? [...filteredItems].sort(sortBy) : filteredItems;
-
-  // Infinite scroll state
-  const [visibleCount, setVisibleCount] = useState(infiniteScroll ? infiniteScroll : sortedItems.length);
-
-  // Reference to the loader element
-  const loaderRef = useRef(null);
-
-  // Callback for intersection observer
-  const handleObserver = useCallback(entries => {
-    const target = entries[0];
-    if (target.isIntersecting) {
-      setVisibleCount(prev => {
-        const newCount = prev + infiniteScroll;
-        return newCount > sortedItems.length ? sortedItems.length : newCount;
-      });
-    }
-  }, [infiniteScroll, sortedItems.length]);
-  useEffect(() => {
-    // Reset visibleCount when the sortedItems list changes
-    if (infiniteScroll) {
-      setVisibleCount(infiniteScroll);
-    }
-  }, [sortedItems, infiniteScroll]);
-  useEffect(() => {
-    // Only set up IntersectionObserver if infiniteScroll prop exists
-    if (!infiniteScroll) return;
-    const option = {
-      root: null,
-      rootMargin: '20px',
-      threshold: 1.0
-    };
-    const observer = new IntersectionObserver(handleObserver, option);
-    if (loaderRef.current) observer.observe(loaderRef.current);
-    return () => {
-      if (loaderRef.current) observer.unobserve(loaderRef.current);
-    };
-  }, [handleObserver, infiniteScroll]);
-
-  // Determine which items to display based on infiniteScroll logic
-  const itemsToRender = infiniteScroll ? sortedItems.slice(0, visibleCount) : sortedItems;
+  // -- 2) Render
   return /*#__PURE__*/React.createElement(FeedContainer, null, itemsToRender.map((item, index) => /*#__PURE__*/React.createElement(ItemComponent, {
     key: index,
     data: item
-  })), infiniteScroll && visibleCount < sortedItems.length && /*#__PURE__*/React.createElement("div", {
-    ref: loaderRef,
-    style: {
-      height: '20px'
-    }
-  }));
+  })), pages?.length > 1 && /*#__PURE__*/React.createElement(PaginationContainer, null, pages.map(page => /*#__PURE__*/React.createElement(PageButton, {
+    key: page,
+    active: page === currentPage,
+    onClick: () => setCurrentPage(page)
+  }, page))), loadMore && hasMoreItems && /*#__PURE__*/React.createElement(LoadMoreButton, {
+    onClick: handleLoadMore
+  }, "Load More"));
 };
 
 // ../../components/search/FeedItem2.jsx
@@ -10607,5 +10751,5 @@ const UneditableTextField = ({
   return /*#__PURE__*/React.createElement(FieldContainer, null, IconComponent && /*#__PURE__*/React.createElement(IconWrapper, null, /*#__PURE__*/React.createElement(IconComponent, null)), /*#__PURE__*/React.createElement(TextWrapper, null, /*#__PURE__*/React.createElement(FieldName, null, name), /*#__PURE__*/React.createElement(FieldValue, null, value)));
 };
 
-export { AccordionCard, AppCard, AppleIcon, ArrowRightIcon, BookIcon, BookOpenIcon, BookmarkIcon, BottomDrawer, BottomNav, ButtonArrowIcon, CV, CalendarIcon, Card2, Card3, CardProduct, CardSocial, CartIcon, ChatIcon, CheckedItem, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon, ChevronUpIcon, ClockIcon, CodeIcon, CogIcon, CollegeIcon, ConversationItem, ConversationList, CookbookCard, CookbookProfile, CustomButton, CustomFileUpload, DataIcon, DeleteModal, DragAndDrop, EditIcon, EditStackedList, EditableTextField, Feed, FeedItem, FeedItem2, FileUpload, Filter, Filter2, FilterButton, FilterDrawer, FilterIcon, FilterLogic, FilterModal, Footer$1 as Footer, ForkAndKnifeIcon, GhostLoader, GithubIcon, GoogleIcon, HeartIcon, Hero, HeroContent, HomeIcon, HomeIcon2, HomeIcon3, IdeaIcon, ImageCarousel, ImageCarousel2, Input, InstagramIcon, LettzFilterDrawer, LettzIcon, LettzSearchButton, LinkedInIcon, ListYourPlaceCard, ListingCard, Loader, LocationIcon, LoginIcon, LoginPage, ManageAccount, ManageNotifications, ManagePaymentMethods, MarketingIcon, MenuIcon, MenuIcon3, MenuItem, MessageForm, MessagesPrompt, MessagesView, Modal, MoneyIcon, MoneyIcon2, MuteIcon, NotificationsIcon, PasswordIcon, PeriodIcon, PlusIcon, PollItem, Popover, PortfolioMainSlider, ProgressBar, ProjectCard, RangeSlider, RecipeCard$1 as RecipeCard, RecipeSwipeComponent, RoomsView, ScriptIcon, SearchBar, SearchBar2, SearchButton, SearchDrawer, SearchFilters, SearchIcon, SearchIcon2, SearchResultItem, SearchResults, SearchSort, SecurityIcon, SelectField, SelectInput, SelectToTextInput, Settings, SettingsIcon, SideBar, SideNav, SocialButtons, Sort, Sort2, SortIcon, SortLogic, StackedList, StrategyIcon, TabGroup, TargetIcon, ToastMessage, ToggleField, Tooltip, TopNavBar, TopNavBar2, TopNavBar3, TopWSideNav, TrashIcon, TwitterIcon, UneditableTextField, UserIcon2, UserIcon3, UsersIcon, VolumeIcon, WebsiteIcon, WhatsAppIcon, XIcon };
+export { AccordionCard, AppCard, AppleIcon, ArrowRightIcon, BookIcon, BookOpenIcon, BookmarkIcon, BottomDrawer, BottomNav, ButtonArrowIcon, CV, CalendarIcon, Card2, Card3, CardProduct, CardSocial, CartIcon, ChatIcon, CheckedItem, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon, ChevronUpIcon, ClockIcon, CodeIcon, CogIcon, CollegeIcon, ConversationItem, ConversationList, CookbookCard, CookbookProfile, CustomButton, CustomFileUpload, DataIcon, DeleteModal, DragAndDrop, EditIcon, EditStackedList, EditableTextField, Feed, FeedItem, FeedItem2, FeedLogic, FileUpload, Filter, Filter2, FilterButton, FilterDrawer, FilterIcon, FilterLogic, FilterModal, Footer$1 as Footer, ForkAndKnifeIcon, GhostLoader, GithubIcon, GoogleIcon, HeartIcon, Hero, HeroContent, HomeIcon, HomeIcon2, HomeIcon3, IdeaIcon, ImageCarousel, ImageCarousel2, Input, InstagramIcon, LettzFilterDrawer, LettzIcon, LettzSearchButton, LinkedInIcon, ListYourPlaceCard, ListingCard, Loader, LocationIcon, LoginIcon, LoginPage, ManageAccount, ManageNotifications, ManagePaymentMethods, MarketingIcon, MenuIcon, MenuIcon3, MenuItem, MessageForm, MessagesPrompt, MessagesView, Modal, MoneyIcon, MoneyIcon2, MuteIcon, NotificationsIcon, PasswordIcon, PeriodIcon, PlusIcon, PollItem, Popover, PortfolioMainSlider, ProgressBar, ProjectCard, RangeSlider, RecipeCard$1 as RecipeCard, RecipeSwipeComponent, RoomsView, ScriptIcon, SearchBar, SearchBar2, SearchButton, SearchDrawer, SearchFilters, SearchIcon, SearchIcon2, SearchResultItem, SearchResults, SearchSort, SecurityIcon, SelectField, SelectInput, SelectToTextInput, Settings, SettingsIcon, SideBar, SideNav, SocialButtons, Sort, Sort2, SortIcon, SortLogic, StackedList, StrategyIcon, TabGroup, TargetIcon, ToastMessage, ToggleField, Tooltip, TopNavBar, TopNavBar2, TopNavBar3, TopWSideNav, TrashIcon, TwitterIcon, UneditableTextField, UserIcon2, UserIcon3, UsersIcon, VolumeIcon, WebsiteIcon, WhatsAppIcon, XIcon };
 //# sourceMappingURL=index.es.js.map
