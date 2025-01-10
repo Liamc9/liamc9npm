@@ -5,27 +5,29 @@ import BottomDrawer from '../atoms/Drawers/BottomDrawer'; // Adjust the import p
 import FilterLogic from './FilterLogic';
 import RangeSlider from '../atoms/inputs/RangeSlider';  // Adjust import paths as needed
 import SelectInput from '../atoms/inputs/SelectInput';
+import { FilterIcon } from '../Branding/icons/Icons';
 
 // Styled components for button and filter layout
 const Button = styled.button`
+  display: flex;
+  flex-direction: row;
   padding: 10px 20px;
-  background-color: #2563eb;
-  color: #fff;
   border: none;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
-  margin: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-  &:hover {
-    background-color: #1d4ed8;
+  .svg {
+    margin-right: 0.5rem;
+    width: 24px;
+    height: 24px;
+    align-self: center;
   }
 
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
-  }
 `;
 
 const FilterContainer = styled.div`
@@ -75,7 +77,7 @@ const FilterDrawer = ({ onChange }) => {
 
   return (
     <>
-      <Button onClick={handleOpenDrawer}>Open Filters</Button>
+      <Button onClick={handleOpenDrawer}><FilterIcon className='svg'/> Filters</Button>
       <BottomDrawer isOpen={isOpen} onClose={handleCloseDrawer}>
         <FilterLogic
           filters={Object.values(filtersConfig)}

@@ -11221,7 +11221,7 @@ function useFuzzySearch(items, options = {}) {
     suggestions
   };
 }
-function useSearch({
+function SearchLogic({
   items,
   onSearch,
   historyItems = []
@@ -11466,7 +11466,7 @@ const Search2 = ({
     handleInputChange,
     handleSuggestionClick,
     handleSearchForClick
-  } = useSearch({
+  } = SearchLogic({
     items,
     onSearch,
     historyItems
@@ -12942,5 +12942,5 @@ const UneditableTextField = ({
   return /*#__PURE__*/React.createElement(FieldContainer, null, IconComponent && /*#__PURE__*/React.createElement(IconWrapper, null, /*#__PURE__*/React.createElement(IconComponent, null)), /*#__PURE__*/React.createElement(TextWrapper, null, /*#__PURE__*/React.createElement(FieldName, null, name), /*#__PURE__*/React.createElement(FieldValue, null, value)));
 };
 
-export { AccordionCard, AppCard, AppleIcon, ArrowRightIcon, BookIcon, BookOpenIcon, BookmarkIcon, BottomDrawer, BottomNav, ButtonArrowIcon, CV, CalendarIcon, Card2, Card3, CardProduct, CardSocial, CartIcon, ChatIcon, CheckedItem, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon, ChevronUpIcon, ClockIcon, CodeIcon, CogIcon, CollegeIcon, ConversationItem, ConversationList, CookbookCard, CookbookProfile, CustomButton, CustomFileUpload, DataIcon, DeleteModal, DragAndDrop, EditIcon, EditStackedList, EditableTextField, Feed, FeedItem, FeedItem2, FeedLogic, FileUpload, Filter, Filter2, FilterButton, FilterDrawer, FilterIcon, FilterLogic, FilterModal, Footer$1 as Footer, ForkAndKnifeIcon, GhostLoader, GithubIcon, GoogleIcon, HeartIcon, Hero, HeroContent, HomeIcon, HomeIcon2, HomeIcon3, IdeaIcon, ImageCarousel, ImageCarousel2, Input, InstagramIcon, LettzFilterDrawer, LettzIcon, LettzSearchButton, LinkedInIcon, ListYourPlaceCard, ListingCard, Loader, LocationIcon, LoginIcon, LoginPage, ManageAccount, ManageNotifications, ManagePaymentMethods, MarketingIcon, MenuIcon, MenuIcon3, MenuItem, MessageForm, MessagesPrompt, MessagesView, Modal, MoneyIcon, MoneyIcon2, MuteIcon, NotificationsIcon, PasswordIcon, PeriodIcon, PlusIcon, PollItem, Popover, PortfolioMainSlider, ProgressBar, ProjectCard, RangeSlider, RecipeCard$1 as RecipeCard, RecipeSwipeComponent, RoomsView, ScriptIcon, Search, Search2, SearchBar, SearchBar2, SearchButton, SearchDrawer, SearchFilters, SearchIcon, SearchIcon2, useSearch as SearchLogic, SearchResultItem, SearchResults, SearchSort, SecurityIcon, SelectField, SelectInput, SelectToTextInput, Settings, SettingsIcon, SideBar, SideNav, SocialButtons, Sort, Sort2, SortIcon, SortLogic, SortRadio, StackedList, StrategyIcon, TabGroup, TargetIcon, ToastMessage, ToggleField, Tooltip, TopNavBar, TopNavBar2, TopNavBar3, TopWSideNav, TrashIcon, TwitterIcon, UneditableTextField, UserIcon2, UserIcon3, UsersIcon, VolumeIcon, WebsiteIcon, WhatsAppIcon, XIcon };
+export { AccordionCard, AppCard, AppleIcon, ArrowRightIcon, BookIcon, BookOpenIcon, BookmarkIcon, BottomDrawer, BottomNav, ButtonArrowIcon, CV, CalendarIcon, Card2, Card3, CardProduct, CardSocial, CartIcon, ChatIcon, CheckedItem, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, ChevronUpDownIcon, ChevronUpIcon, ClockIcon, CodeIcon, CogIcon, CollegeIcon, ConversationItem, ConversationList, CookbookCard, CookbookProfile, CustomButton, CustomFileUpload, DataIcon, DeleteModal, DragAndDrop, EditIcon, EditStackedList, EditableTextField, Feed, FeedItem, FeedItem2, FeedLogic, FileUpload, Filter, Filter2, FilterButton, FilterDrawer, FilterIcon, FilterLogic, FilterModal, Footer$1 as Footer, ForkAndKnifeIcon, GhostLoader, GithubIcon, GoogleIcon, HeartIcon, Hero, HeroContent, HomeIcon, HomeIcon2, HomeIcon3, IdeaIcon, ImageCarousel, ImageCarousel2, Input, InstagramIcon, LettzFilterDrawer, LettzIcon, LettzSearchButton, LinkedInIcon, ListYourPlaceCard, ListingCard, Loader, LocationIcon, LoginIcon, LoginPage, ManageAccount, ManageNotifications, ManagePaymentMethods, MarketingIcon, MenuIcon, MenuIcon3, MenuItem, MessageForm, MessagesPrompt, MessagesView, Modal, MoneyIcon, MoneyIcon2, MuteIcon, NotificationsIcon, PasswordIcon, PeriodIcon, PlusIcon, PollItem, Popover, PortfolioMainSlider, ProgressBar, ProjectCard, RangeSlider, RecipeCard$1 as RecipeCard, RecipeSwipeComponent, RoomsView, ScriptIcon, Search, Search2, SearchBar, SearchBar2, SearchButton, SearchDrawer, SearchFilters, SearchIcon, SearchIcon2, SearchLogic, SearchResultItem, SearchResults, SearchSort, SecurityIcon, SelectField, SelectInput, SelectToTextInput, Settings, SettingsIcon, SideBar, SideNav, SocialButtons, Sort, Sort2, SortIcon, SortLogic, SortRadio, StackedList, StrategyIcon, TabGroup, TargetIcon, ToastMessage, ToggleField, Tooltip, TopNavBar, TopNavBar2, TopNavBar3, TopWSideNav, TrashIcon, TwitterIcon, UneditableTextField, UserIcon2, UserIcon3, UsersIcon, VolumeIcon, WebsiteIcon, WhatsAppIcon, XIcon };
 //# sourceMappingURL=index.es.js.map

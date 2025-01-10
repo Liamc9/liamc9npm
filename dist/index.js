@@ -11234,7 +11234,7 @@ function useFuzzySearch(items, options = {}) {
     suggestions
   };
 }
-function useSearch({
+function SearchLogic({
   items,
   onSearch,
   historyItems = []
@@ -11479,7 +11479,7 @@ const Search2 = ({
     handleInputChange,
     handleSuggestionClick,
     handleSearchForClick
-  } = useSearch({
+  } = SearchLogic({
     items,
     onSearch,
     historyItems
@@ -13070,7 +13070,7 @@ exports.SearchDrawer = SearchDrawer;
 exports.SearchFilters = SearchFilters;
 exports.SearchIcon = SearchIcon;
 exports.SearchIcon2 = SearchIcon2;
-exports.SearchLogic = useSearch;
+exports.SearchLogic = SearchLogic;
 exports.SearchResultItem = SearchResultItem;
 exports.SearchResults = SearchResults;
 exports.SearchSort = SearchSort;
