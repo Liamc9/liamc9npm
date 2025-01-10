@@ -10260,7 +10260,7 @@ const Select = styled__default["default"].select`
 `;
 
 // Simplified sorting options with labels as values
-const sortingOptions$1 = [{
+const sortingOptions$2 = [{
   label: 'Select sorting',
   comparator: null
 }, {
@@ -10288,10 +10288,10 @@ const Sort = ({
   });
   return /*#__PURE__*/React__default["default"].createElement(SortContainer, null, /*#__PURE__*/React__default["default"].createElement(Select, {
     onChange: e => {
-      const selectedOption = sortingOptions$1.find(option => option.label === e.target.value);
+      const selectedOption = sortingOptions$2.find(option => option.label === e.target.value);
       updateSort(selectedOption?.comparator || null);
     }
-  }, sortingOptions$1.map(option => /*#__PURE__*/React__default["default"].createElement("option", {
+  }, sortingOptions$2.map(option => /*#__PURE__*/React__default["default"].createElement("option", {
     value: option.label,
     key: option.label
   }, option.label))));
@@ -10300,7 +10300,7 @@ const Sort = ({
 // Sort2.jsx
 
 // Simplified sorting options with labels as values
-const sortingOptions = [{
+const sortingOptions$1 = [{
   label: 'Title: A-Z',
   comparator: (a, b) => a.title.localeCompare(b.title)
 }, {
@@ -10330,17 +10330,87 @@ const Sort2 = ({
     name: "sort2",
     label: label,
     color: color,
-    options: sortingOptions.map(({
+    options: sortingOptions$1.map(({
       label
     }) => ({
       value: label,
       label
     })),
     onChange: e => {
-      const selectedOption = sortingOptions.find(option => option.label === e.target.value);
+      const selectedOption = sortingOptions$1.find(option => option.label === e.target.value);
       updateSort(selectedOption?.comparator || null);
     }
   });
+};
+
+// SortRadio.jsx
+const sortingOptions = [{
+  label: 'Title: A-Z',
+  comparator: (a, b) => a.title.localeCompare(b.title)
+}, {
+  label: 'Title: Z-A',
+  comparator: (a, b) => b.title.localeCompare(a.title)
+}, {
+  label: 'Date: Newest',
+  comparator: (a, b) => new Date(b.date) - new Date(a.date)
+}, {
+  label: 'Date: Oldest',
+  comparator: (a, b) => new Date(a.date) - new Date(b.date)
+}];
+const RadioContainer = styled__default["default"].div`
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+const SortButton = styled__default["default"].button`
+  padding: 0.5rem 1rem;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+`;
+const RadioLabel = styled__default["default"].label`
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+`;
+const RadioOption = styled__default["default"].div`
+  display: flex;
+  align-items: center;
+`;
+const SortRadio = ({
+  items,
+  onSortedChange
+}) => {
+  const [isDrawerOpen, setDrawerOpen] = React.useState(false);
+  const {
+    updateSort
+  } = SortLogic({
+    items,
+    onSortedChange
+  });
+  const handleChange = e => {
+    const selectedOption = sortingOptions.find(option => option.label === e.target.value);
+    updateSort(selectedOption?.comparator || null);
+  };
+  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(SortButton, {
+    onClick: () => setDrawerOpen(true)
+  }, "Sort"), /*#__PURE__*/React__default["default"].createElement(BottomDrawer, {
+    isOpen: isDrawerOpen,
+    onClose: () => setDrawerOpen(false)
+  }, /*#__PURE__*/React__default["default"].createElement(RadioContainer, null, sortingOptions.map(option => /*#__PURE__*/React__default["default"].createElement(RadioOption, {
+    key: option.label
+  }, /*#__PURE__*/React__default["default"].createElement("input", {
+    type: "radio",
+    id: option.label,
+    name: "sort",
+    value: option.label,
+    onChange: handleChange
+  }), /*#__PURE__*/React__default["default"].createElement(RadioLabel, {
+    htmlFor: option.label
+  }, option.label))))));
 };
 
 const Container$1 = styled__default["default"].div`
@@ -10893,6 +10963,7 @@ exports.Sort = Sort;
 exports.Sort2 = Sort2;
 exports.SortIcon = SortIcon;
 exports.SortLogic = SortLogic;
+exports.SortRadio = SortRadio;
 exports.StackedList = StackedList;
 exports.StrategyIcon = StrategyIcon;
 exports.TabGroup = TabGroup;
