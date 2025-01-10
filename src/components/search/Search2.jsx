@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import BottomDrawer from '../atoms/Drawers/BottomDrawer'; // adjust path as needed
-import { useSearch } from './SearchLogic'; // adjust path as needed
+import { SearchLogic } from './SearchLogic'; // adjust path as needed
 
 
 // Styled components for Search2 UI
@@ -107,7 +107,7 @@ const Search2 = ({ items, onSearch, historyItems = [] }) => {
     handleInputChange,
     handleSuggestionClick,
     handleSearchForClick,
-  } = useSearch({ items, onSearch, historyItems }, { keys: ['title'] });
+  } = SearchLogic({ items, onSearch, historyItems }, { keys: ['title'] });
 
   return (
     <>

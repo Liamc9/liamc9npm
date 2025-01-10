@@ -64,7 +64,7 @@ export function useFuzzySearch(items, options = {}) {
 
 
 
-export function useSearch({ items, onSearch, historyItems = [] }, fuseOptions = {}) {
+export function SearchLogic({ items, onSearch, historyItems = [] }, fuseOptions = {}) {
     const [isOpen, setIsOpen] = useState(false);
     const { query, setQuery, suggestions } = useFuzzySearch(items, fuseOptions);
     const [lastQuery, setLastQuery] = useState('');
@@ -115,4 +115,4 @@ export function useSearch({ items, onSearch, historyItems = [] }, fuseOptions = 
     };
   }
 
-  export default useSearch;
+  export default SearchLogic;
