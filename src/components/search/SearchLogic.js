@@ -114,3 +114,5 @@ export function useSearch({ items, onSearch, historyItems = [] }, fuseOptions = 
       handleSearchForClick,
     };
   }
+
+  export default useSearch;
