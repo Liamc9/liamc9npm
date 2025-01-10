@@ -80,6 +80,7 @@ export { default as SocialButtons } from './components/atoms/other/SocialButtons
 export { default as Sort } from './components/search/Sort';
 export { default as Sort2 } from './components/search/Sort2';
 export { default as SortLogic } from './components/search/SortLogic';
+export { default as SortRadio } from './components/search/SortRadio';
 export { default as StackedList } from './components/molecules/stackedlist/StackedList';
 export { default as TabGroup } from './components/navigation/TabGroup';
 export { default as ToastMessage } from './components/atoms/other/ToastMessage';
