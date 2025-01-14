@@ -10,6 +10,19 @@ export default function FeedLogic({
   infiniteScroll,     // number of items to load each time we reach the bottom
   scrollContainerRef, // container ref for infinite scrolling
 }) {
+  // -------------- Normalize `items` to ensure it's always an array --------------
+  if (!Array.isArray(items)) {
+    if (items && typeof items === 'object') {
+      // If items is an object, attempt to convert its values to an array
+      items = Object.values(items);
+      console.warn('Converted non-array items object to array:', items);
+    } else {
+      // For other types (e.g., null, undefined, string), default to empty array
+      console.warn('Expected items to be an array but got a different type. Defaulting to empty array.');
+      items = [];
+    }
+  }
+
   // ---------------------- Filter & Sort ----------------------
   const filteredItems = items.filter((item) =>
     Object.entries(selectedFilters).every(([category, values]) => {

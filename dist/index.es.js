@@ -358,14 +358,11 @@ const FilterIcon = ({
   id: "icons_Q2",
   "data-name": "icons Q2"
 }, /*#__PURE__*/React.createElement("path", {
-  d: "M41.8,8H21.7A6.2,6.2,0,0,0,16,4a6,6,0,0,0-5.6,4H6.2A2.1,2.1,0,0,0,4,10a2.1,2.1,0,0,0,2.2,2h4.2A6,6,0,0,0,16,16a6.2,6.2,0,0,0,5.7-4H41.8A2.1,2.1,0,0,0,44,10,2.1,2.1,0,0,0,41.8,8ZM16,12a2,2,0,1,1,2-2A2,2,0,0,1,16,12Z",
-  fill: "#000000"
+  d: "M41.8,8H21.7A6.2,6.2,0,0,0,16,4a6,6,0,0,0-5.6,4H6.2A2.1,2.1,0,0,0,4,10a2.1,2.1,0,0,0,2.2,2h4.2A6,6,0,0,0,16,16a6.2,6.2,0,0,0,5.7-4H41.8A2.1,2.1,0,0,0,44,10,2.1,2.1,0,0,0,41.8,8ZM16,12a2,2,0,1,1,2-2A2,2,0,0,1,16,12Z"
 }), /*#__PURE__*/React.createElement("path", {
-  d: "M41.8,22H37.7A6.2,6.2,0,0,0,32,18a6,6,0,0,0-5.6,4H6.2a2,2,0,1,0,0,4H26.4A6,6,0,0,0,32,30a6.2,6.2,0,0,0,5.7-4h4.1a2,2,0,1,0,0-4ZM32,26a2,2,0,1,1,2-2A2,2,0,0,1,32,26Z",
-  fill: "#000000"
+  d: "M41.8,22H37.7A6.2,6.2,0,0,0,32,18a6,6,0,0,0-5.6,4H6.2a2,2,0,1,0,0,4H26.4A6,6,0,0,0,32,30a6.2,6.2,0,0,0,5.7-4h4.1a2,2,0,1,0,0-4ZM32,26a2,2,0,1,1,2-2A2,2,0,0,1,32,26Z"
 }), /*#__PURE__*/React.createElement("path", {
-  d: "M41.8,36H24.7A6.2,6.2,0,0,0,19,32a6,6,0,0,0-5.6,4H6.2a2,2,0,1,0,0,4h7.2A6,6,0,0,0,19,44a6.2,6.2,0,0,0,5.7-4H41.8a2,2,0,1,0,0-4ZM19,40a2,2,0,1,1,2-2A2,2,0,0,1,19,40Z",
-  fill: "#000000"
+  d: "M41.8,36H24.7A6.2,6.2,0,0,0,19,32a6,6,0,0,0-5.6,4H6.2a2,2,0,1,0,0,4h7.2A6,6,0,0,0,19,44a6.2,6.2,0,0,0,5.7-4H41.8a2,2,0,1,0,0-4ZM19,40a2,2,0,1,1,2-2A2,2,0,0,1,19,40Z"
 }))));
 const PasswordIcon = ({
   className
@@ -4673,24 +4670,25 @@ FilterButton.propTypes = {
 
 // Styled components for button and filter layout
 const Button$8 = styled.button`
+  display: flex;
+  flex-direction: row;
   padding: 10px 20px;
-  background-color: #2563eb;
-  color: #fff;
   border: none;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
-  margin: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-  &:hover {
-    background-color: #1d4ed8;
+  .svg {
+    margin-right: 0.5rem;
+    width: 24px;
+    height: 24px;
+    align-self: center;
   }
 
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
-  }
 `;
 const FilterContainer$1 = styled.div`
   display: grid;
@@ -4752,7 +4750,9 @@ const FilterDrawer = ({
   const handleCloseDrawer = () => setIsOpen(false);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Button$8, {
     onClick: handleOpenDrawer
-  }, "Open Filters"), /*#__PURE__*/React.createElement(BottomDrawer, {
+  }, /*#__PURE__*/React.createElement(FilterIcon, {
+    className: "svg"
+  }), " Filters"), /*#__PURE__*/React.createElement(BottomDrawer, {
     isOpen: isOpen,
     onClose: handleCloseDrawer
   }, /*#__PURE__*/React.createElement(FilterLogic, {
@@ -12359,7 +12359,6 @@ const SortLogic = ({
 
 // Sort.jsx
 const SortContainer = styled.div`
-  margin-bottom: 1rem;
 `;
 const Select = styled.select`
   padding: 0.5rem;
@@ -12369,7 +12368,7 @@ const Select = styled.select`
 
 // Simplified sorting options with labels as values
 const sortingOptions$2 = [{
-  label: 'Select sorting',
+  label: 'Sort By',
   comparator: null
 }, {
   label: 'Title: A-Z',
