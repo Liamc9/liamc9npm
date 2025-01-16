@@ -38,7 +38,10 @@ const EditStackedList = ({ title, items, updateState }) => {
 
     const childProps = {
       ...props,
-      onChange: (newValue) => updateState(props.fieldName, newValue),
+      // Use the provided onChange if available; otherwise fall back to updateState
+      onChange: props.onChange 
+        ? props.onChange 
+        : (newValue) => updateState(props.fieldName, newValue),
     };
 
     switch (type) {
@@ -55,7 +58,7 @@ const EditStackedList = ({ title, items, updateState }) => {
 
   return (
     <CategoryWrapper>
-      <CategoryTitle>{title}</CategoryTitle>
+      {title && <CategoryTitle>{title}</CategoryTitle>}
       <ItemsContainer>
         {items.map((item, index) => (
           <ListItem key={index}>{renderComponent(item, index)}</ListItem>

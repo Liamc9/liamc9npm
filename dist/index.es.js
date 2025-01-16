@@ -6808,6 +6808,11 @@ const IconWrapper$3 = styled.div`
   align-items: center;
   justify-content: center;
   color: inherit;
+
+  .svg {
+    width: 100%;
+    height: 100%;
+  }
 `;
 const TextWrapper$1 = styled.div`
   display: flex;
@@ -6828,7 +6833,9 @@ const MenuItem = ({
 }) => {
   return /*#__PURE__*/React.createElement(StyledLink$2, {
     to: link
-  }, /*#__PURE__*/React.createElement(TextWrapper$1, null, IconComponent && /*#__PURE__*/React.createElement(IconWrapper$3, null, /*#__PURE__*/React.createElement(IconComponent, null)), /*#__PURE__*/React.createElement("div", null, text)), /*#__PURE__*/React.createElement(IconContainer, null, /*#__PURE__*/React.createElement(ChevronRightIcon, null)));
+  }, /*#__PURE__*/React.createElement(TextWrapper$1, null, IconComponent && /*#__PURE__*/React.createElement(IconWrapper$3, null, /*#__PURE__*/React.createElement(IconComponent, {
+    className: "svg"
+  })), /*#__PURE__*/React.createElement("div", null, text)), /*#__PURE__*/React.createElement(IconContainer, null, /*#__PURE__*/React.createElement(ChevronRightIcon, null)));
 };
 
 function r(e) {

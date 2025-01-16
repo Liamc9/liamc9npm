@@ -6821,6 +6821,11 @@ const IconWrapper$3 = styled__default["default"].div`
   align-items: center;
   justify-content: center;
   color: inherit;
+
+  .svg {
+    width: 100%;
+    height: 100%;
+  }
 `;
 const TextWrapper$1 = styled__default["default"].div`
   display: flex;
@@ -6841,7 +6846,9 @@ const MenuItem = ({
 }) => {
   return /*#__PURE__*/React__default["default"].createElement(StyledLink$2, {
     to: link
-  }, /*#__PURE__*/React__default["default"].createElement(TextWrapper$1, null, IconComponent && /*#__PURE__*/React__default["default"].createElement(IconWrapper$3, null, /*#__PURE__*/React__default["default"].createElement(IconComponent, null)), /*#__PURE__*/React__default["default"].createElement("div", null, text)), /*#__PURE__*/React__default["default"].createElement(IconContainer, null, /*#__PURE__*/React__default["default"].createElement(ChevronRightIcon, null)));
+  }, /*#__PURE__*/React__default["default"].createElement(TextWrapper$1, null, IconComponent && /*#__PURE__*/React__default["default"].createElement(IconWrapper$3, null, /*#__PURE__*/React__default["default"].createElement(IconComponent, {
+    className: "svg"
+  })), /*#__PURE__*/React__default["default"].createElement("div", null, text)), /*#__PURE__*/React__default["default"].createElement(IconContainer, null, /*#__PURE__*/React__default["default"].createElement(ChevronRightIcon, null)));
 };
 
 function r(e) {
