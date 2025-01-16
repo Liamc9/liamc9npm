@@ -25,6 +25,7 @@ const StyledInput = styled.input`
 const StyledTextarea = styled.textarea`
   ${sharedInputStyles}
   border-color: ${({ isFocused, color }) => (isFocused ? color : '#D1D5DB')};
+  min-height: ${({ minHeight }) => minHeight || 'auto'};  /* Use provided minHeight or default */
 `;
 
 const StyledLabel = styled.label`
@@ -42,7 +43,7 @@ const StyledLabel = styled.label`
   transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 `;
 
-const Input = ({ name, type, value, onChange, color = '#000', label }) => {
+const Input = ({ name, type, value, onChange, color = '#000', minHeight, label }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => setIsFocused(true);
@@ -60,6 +61,7 @@ const Input = ({ name, type, value, onChange, color = '#000', label }) => {
         onBlur={handleBlur}
         isFocused={isFocused}
         color={color}
+        minHeight={minHeight}  // Pass the minHeight prop
       />
     ) : (
       <StyledInput
