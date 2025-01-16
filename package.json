@@ -1,6 +1,6 @@
 {
   "name": "liamc9npm",
-  "version": "2.0.30",
+  "version": "2.0.31",
   "description": "A simple React component packaged as an npm module",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
