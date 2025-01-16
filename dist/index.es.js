@@ -3974,7 +3974,8 @@ const EditStackedList = ({
     } = item;
     const childProps = {
       ...props,
-      onChange: newValue => updateState(props.fieldName, newValue)
+      // Use the provided onChange if available; otherwise fall back to updateState
+      onChange: props.onChange ? props.onChange : newValue => updateState(props.fieldName, newValue)
     };
     switch (type) {
       case "EditableTextField":
@@ -3993,7 +3994,7 @@ const EditStackedList = ({
         return null;
     }
   };
-  return /*#__PURE__*/React.createElement(CategoryWrapper$1, null, /*#__PURE__*/React.createElement(CategoryTitle$1, null, title), /*#__PURE__*/React.createElement(ItemsContainer$1, null, items.map((item, index) => /*#__PURE__*/React.createElement(ListItem$1, {
+  return /*#__PURE__*/React.createElement(CategoryWrapper$1, null, title && /*#__PURE__*/React.createElement(CategoryTitle$1, null, title), /*#__PURE__*/React.createElement(ItemsContainer$1, null, items.map((item, index) => /*#__PURE__*/React.createElement(ListItem$1, {
     key: index
   }, renderComponent(item, index)))));
 };

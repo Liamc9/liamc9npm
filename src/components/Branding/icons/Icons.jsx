@@ -1316,6 +1316,7 @@ export const BedIcon = ({ className }) => (
   </svg>
 );
 
+
 export const TwoBedsIcon = ({ className }) => (
   <svg
     className={className}
@@ -1333,6 +1334,7 @@ export const TwoBedsIcon = ({ className }) => (
     </g>
   </svg>
 );
+
 
 export const MaleIcon = ({ className }) => (
   <svg
