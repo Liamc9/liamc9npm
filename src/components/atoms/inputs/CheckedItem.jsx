@@ -72,16 +72,6 @@ const StyledSpan = styled.span`
     }
   }
 
-  /* Hover State */
-  &:hover {
-    border-color: ${({ color }) => color || "#3b82f6"};
-
-    &::before {
-      transform: scale(1);
-      opacity: 1;
-    }
-  }
-
   /* Pseudo-element before */
   &::before {
     content: '';

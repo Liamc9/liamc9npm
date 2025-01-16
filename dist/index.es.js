@@ -5450,6 +5450,9 @@ const StyledTextarea = styled.textarea`
   isFocused,
   color
 }) => isFocused ? color : '#D1D5DB'};
+  min-height: ${({
+  minHeight
+}) => minHeight || 'auto'};  /* Use provided minHeight or default */
 `;
 const StyledLabel = styled.label`
   position: absolute;
@@ -5476,6 +5479,7 @@ const Input = ({
   value,
   onChange,
   color = '#000',
+  minHeight,
   label
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -5490,7 +5494,8 @@ const Input = ({
     onFocus: handleFocus,
     onBlur: handleBlur,
     isFocused: isFocused,
-    color: color
+    color: color,
+    minHeight: minHeight // Pass the minHeight prop
   }) : /*#__PURE__*/React.createElement(StyledInput, {
     name: name,
     id: name,
