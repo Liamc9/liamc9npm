@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const SliderContainer = styled.div`
@@ -82,6 +82,7 @@ const Slider = styled.input`
     pointer-events: auto;
   }
 `;
+
 const RangeSlider = ({
   min = 0,
   max = 100,
@@ -90,19 +91,9 @@ const RangeSlider = ({
   label = "Range",
   valuePrefix = "",
   valueSuffix = "",
-  value,            // Accept external value
   onChange,
 }) => {
-  const [range, setRange] = useState(value || [min, max]);
-
-  // Update internal state whenever the external value prop changes
-  useEffect(() => {
-    if (value && Array.isArray(value)) {
-      setRange(value);
-    } else {
-      setRange([min, max]);
-    }
-  }, [value, min, max]);
+  const [range, setRange] = useState([min, max]);
 
   const handleMinChange = (e) => {
     const newMin = Math.min(Number(e.target.value), range[1] - minimumGap);
