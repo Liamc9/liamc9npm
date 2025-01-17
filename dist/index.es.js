@@ -4526,7 +4526,7 @@ const Slider = styled.input`
   &::-moz-range-thumb {
     width: 14px;
     height: 14px;
-    background: #007bff;
+    background: #A855F7;
     border-radius: 50%;
     cursor: pointer;
     pointer-events: auto;
@@ -4540,46 +4540,45 @@ const RangeSlider = ({
   label = "Range",
   valuePrefix = "",
   valueSuffix = "",
+  value = [min, max],
   onChange
 }) => {
-  const [range, setRange] = useState([min, max]);
+  // Helper to calculate the slider thumb positions as percentages
+  const calculatePercentage = val => (val - min) / (max - min) * 100;
+
+  // Handlers for each slider
   const handleMinChange = e => {
-    const newMin = Math.min(Number(e.target.value), range[1] - minimumGap);
-    const newRange = [newMin, range[1]];
-    setRange(newRange);
-    if (onChange) onChange(newRange);
+    const newMin = Math.min(Number(e.target.value), value[1] - minimumGap);
+    onChange && onChange([newMin, value[1]]);
   };
   const handleMaxChange = e => {
-    const newMax = Math.max(Number(e.target.value), range[0] + minimumGap);
-    const newRange = [range[0], newMax];
-    setRange(newRange);
-    if (onChange) onChange(newRange);
+    const newMax = Math.max(Number(e.target.value), value[0] + minimumGap);
+    onChange && onChange([value[0], newMax]);
   };
-  const calculatePercentage = value => (value - min) / (max - min) * 100;
   return /*#__PURE__*/React.createElement(SliderContainer, null, /*#__PURE__*/React.createElement(Label, null, label), /*#__PURE__*/React.createElement(RangeInputContainer, null, /*#__PURE__*/React.createElement(ThumbValue, {
     style: {
-      left: `calc(${calculatePercentage(range[0])}% - 14px)`
+      left: `calc(${calculatePercentage(value[0])}% - 14px)`
     }
-  }, valuePrefix, range[0], valueSuffix), /*#__PURE__*/React.createElement(ThumbValue, {
+  }, valuePrefix, value[0], valueSuffix), /*#__PURE__*/React.createElement(ThumbValue, {
     style: {
-      left: `calc(${calculatePercentage(range[1])}% - 14px)`
+      left: `calc(${calculatePercentage(value[1])}% - 14px)`
     }
-  }, valuePrefix, range[1], valueSuffix), /*#__PURE__*/React.createElement(Track, {
-    left: calculatePercentage(range[0]),
-    right: calculatePercentage(range[1])
+  }, valuePrefix, value[1], valueSuffix), /*#__PURE__*/React.createElement(Track, {
+    left: calculatePercentage(value[0]),
+    right: calculatePercentage(value[1])
   }), /*#__PURE__*/React.createElement(Slider, {
     type: "range",
     min: min,
     max: max,
     step: step,
-    value: range[0],
+    value: value[0],
     onChange: handleMinChange
   }), /*#__PURE__*/React.createElement(Slider, {
     type: "range",
     min: min,
     max: max,
     step: step,
-    value: range[1],
+    value: value[1],
     onChange: handleMaxChange
   })));
 };
