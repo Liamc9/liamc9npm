@@ -4540,20 +4540,9 @@ const RangeSlider = ({
   label = "Range",
   valuePrefix = "",
   valueSuffix = "",
-  value,
-  // Accept external value
   onChange
 }) => {
-  const [range, setRange] = useState(value || [min, max]);
-
-  // Update internal state whenever the external value prop changes
-  useEffect(() => {
-    if (value && Array.isArray(value)) {
-      setRange(value);
-    } else {
-      setRange([min, max]);
-    }
-  }, [value, min, max]);
+  const [range, setRange] = useState([min, max]);
   const handleMinChange = e => {
     const newMin = Math.min(Number(e.target.value), range[1] - minimumGap);
     const newRange = [newMin, range[1]];
