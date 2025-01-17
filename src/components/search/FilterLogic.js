@@ -1,4 +1,3 @@
-// FilterLogic.js
 import React, { useState } from 'react';
 
 const FilterLogic = ({ filters, onChange, children }) => {
@@ -19,12 +18,19 @@ const FilterLogic = ({ filters, onChange, children }) => {
     });
   };
 
-  // Provide filter options, current selections, and a setter function to children
+  // New clearAll function to reset all filters
+  const clearAll = () => {
+    setSelectedFilters(initialSelections);
+    if(onChange) onChange(initialSelections);
+  };
+
+  // Provide filter options, current selections, and setter functions to children
   if (typeof children === 'function') {
     return children({
       filters,
       selectedFilters,
       setSelection,
+      clearAll, // Pass clearAll to children
     });
   }
 
