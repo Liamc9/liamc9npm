@@ -4427,7 +4427,6 @@ const FileUpload = ({
   })));
 };
 
-// FilterLogic.js
 const FilterLogic = ({
   filters,
   onChange,
@@ -4452,12 +4451,19 @@ const FilterLogic = ({
     });
   };
 
-  // Provide filter options, current selections, and a setter function to children
+  // New clearAll function to reset all filters
+  const clearAll = () => {
+    setSelectedFilters(initialSelections);
+    if (onChange) onChange(initialSelections);
+  };
+
+  // Provide filter options, current selections, and setter functions to children
   if (typeof children === 'function') {
     return children({
       filters,
       selectedFilters,
-      setSelection
+      setSelection,
+      clearAll // Pass clearAll to children
     });
   }
   return null;
