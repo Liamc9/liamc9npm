@@ -3,39 +3,17 @@ import React, { useState } from 'react';
 const FilterLogic = ({ filters, onChange, children }) => {
   // Initialize state with no selections for each filter group
   const initialSelections = filters.reduce((acc, group) => {
-    acc[group.category] = [];
+    acc[group.category] = [];  // No preselected filters
     return acc;
   }, {});
 
   const [selectedFilters, setSelectedFilters] = useState(initialSelections);
 
-  const setSelection = (category, value, remove = false) => {
+  // Single-selection logic per category for simplicity
+  const setSelection = (category, value) => {
     setSelectedFilters(prev => {
-      const newSelections = { ...prev };
-
-      // Handle the case for arrays (e.g., range slider or explicitly passing an entire array)
-      if (Array.isArray(value)) {
-        /**
-         * For a range slider, `value` will be something like [200, 800].
-         * Just store that array directly in newSelections.
-         */
-        newSelections[category] = value;
-      } else {
-        // For single or multiple (checkbox) selections
-        const currentValues = newSelections[category] || [];
-
-        if (remove) {
-          // Remove the value if it's currently in the array
-          newSelections[category] = currentValues.filter(item => item !== value);
-        } else {
-          newSelections[category] = [value]; // Single-select approach
-        }
-      }
-
-      // Fire the onChange callback with the new filter state
-      if (onChange) {
-        onChange(newSelections);
-      }
+      const newSelections = { ...prev, [category]: [value] };
+      if (onChange) onChange(newSelections);
       return newSelections;
     });
   };
@@ -43,7 +21,7 @@ const FilterLogic = ({ filters, onChange, children }) => {
   // New clearAll function to reset all filters
   const clearAll = () => {
     setSelectedFilters(initialSelections);
-    if (onChange) onChange(initialSelections);
+    if(onChange) onChange(initialSelections);
   };
 
   // Provide filter options, current selections, and setter functions to children
@@ -52,7 +30,7 @@ const FilterLogic = ({ filters, onChange, children }) => {
       filters,
       selectedFilters,
       setSelection,
-      clearAll,
+      clearAll, // Pass clearAll to children
     });
   }
 
