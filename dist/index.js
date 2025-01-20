@@ -4560,7 +4560,7 @@ const RangeSlider = ({
   const [range, setRange] = React.useState(value || [min, max]);
 
   // Update internal state when `value` prop changes
-  useEffect(() => {
+  React.useEffect(() => {
     if (value && Array.isArray(value) && value.length === 2) {
       setRange(value);
     }
