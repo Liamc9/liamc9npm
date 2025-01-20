@@ -4421,38 +4421,19 @@ const FilterLogic = ({
 }) => {
   // Initialize state with no selections for each filter group
   const initialSelections = filters.reduce((acc, group) => {
-    acc[group.category] = [];
+    acc[group.category] = []; // No preselected filters
     return acc;
   }, {});
   const [selectedFilters, setSelectedFilters] = useState(initialSelections);
-  const setSelection = (category, value, remove = false) => {
+
+  // Single-selection logic per category for simplicity
+  const setSelection = (category, value) => {
     setSelectedFilters(prev => {
       const newSelections = {
-        ...prev
+        ...prev,
+        [category]: [value]
       };
-
-      // Handle the case for arrays (e.g., range slider or explicitly passing an entire array)
-      if (Array.isArray(value)) {
-        /**
-         * For a range slider, `value` will be something like [200, 800].
-         * Just store that array directly in newSelections.
-         */
-        newSelections[category] = value;
-      } else {
-        // For single or multiple (checkbox) selections
-        const currentValues = newSelections[category] || [];
-        if (remove) {
-          // Remove the value if it's currently in the array
-          newSelections[category] = currentValues.filter(item => item !== value);
-        } else {
-          newSelections[category] = [value]; // Single-select approach
-        }
-      }
-
-      // Fire the onChange callback with the new filter state
-      if (onChange) {
-        onChange(newSelections);
-      }
+      if (onChange) onChange(newSelections);
       return newSelections;
     });
   };
@@ -4469,7 +4450,7 @@ const FilterLogic = ({
       filters,
       selectedFilters,
       setSelection,
-      clearAll
+      clearAll // Pass clearAll to children
     });
   }
   return null;
@@ -4545,7 +4526,7 @@ const Slider = styled.input`
   &::-moz-range-thumb {
     width: 14px;
     height: 14px;
-    background: #A855F7;
+    background: #007bff;
     border-radius: 50%;
     cursor: pointer;
     pointer-events: auto;
@@ -4559,45 +4540,46 @@ const RangeSlider = ({
   label = "Range",
   valuePrefix = "",
   valueSuffix = "",
-  value = [min, max],
   onChange
 }) => {
-  // Helper to calculate the slider thumb positions as percentages
-  const calculatePercentage = val => (val - min) / (max - min) * 100;
-
-  // Handlers for each slider
+  const [range, setRange] = useState([min, max]);
   const handleMinChange = e => {
-    const newMin = Math.min(Number(e.target.value), value[1] - minimumGap);
-    onChange && onChange([newMin, value[1]]);
+    const newMin = Math.min(Number(e.target.value), range[1] - minimumGap);
+    const newRange = [newMin, range[1]];
+    setRange(newRange);
+    if (onChange) onChange(newRange);
   };
   const handleMaxChange = e => {
-    const newMax = Math.max(Number(e.target.value), value[0] + minimumGap);
-    onChange && onChange([value[0], newMax]);
+    const newMax = Math.max(Number(e.target.value), range[0] + minimumGap);
+    const newRange = [range[0], newMax];
+    setRange(newRange);
+    if (onChange) onChange(newRange);
   };
+  const calculatePercentage = value => (value - min) / (max - min) * 100;
   return /*#__PURE__*/React.createElement(SliderContainer, null, /*#__PURE__*/React.createElement(Label, null, label), /*#__PURE__*/React.createElement(RangeInputContainer, null, /*#__PURE__*/React.createElement(ThumbValue, {
     style: {
-      left: `calc(${calculatePercentage(value[0])}% - 14px)`
+      left: `calc(${calculatePercentage(range[0])}% - 14px)`
     }
-  }, valuePrefix, value[0], valueSuffix), /*#__PURE__*/React.createElement(ThumbValue, {
+  }, valuePrefix, range[0], valueSuffix), /*#__PURE__*/React.createElement(ThumbValue, {
     style: {
-      left: `calc(${calculatePercentage(value[1])}% - 14px)`
+      left: `calc(${calculatePercentage(range[1])}% - 14px)`
     }
-  }, valuePrefix, value[1], valueSuffix), /*#__PURE__*/React.createElement(Track, {
-    left: calculatePercentage(value[0]),
-    right: calculatePercentage(value[1])
+  }, valuePrefix, range[1], valueSuffix), /*#__PURE__*/React.createElement(Track, {
+    left: calculatePercentage(range[0]),
+    right: calculatePercentage(range[1])
   }), /*#__PURE__*/React.createElement(Slider, {
     type: "range",
     min: min,
     max: max,
     step: step,
-    value: value[0],
+    value: range[0],
     onChange: handleMinChange
   }), /*#__PURE__*/React.createElement(Slider, {
     type: "range",
     min: min,
     max: max,
     step: step,
-    value: value[1],
+    value: range[1],
     onChange: handleMaxChange
   })));
 };
