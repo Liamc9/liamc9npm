@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const SliderContainer = styled.div`
@@ -83,6 +83,7 @@ const Slider = styled.input`
   }
 `;
 
+
 const RangeSlider = ({
   min = 0,
   max = 100,
@@ -91,9 +92,17 @@ const RangeSlider = ({
   label = "Range",
   valuePrefix = "",
   valueSuffix = "",
+  value,   // receive value as prop
   onChange,
 }) => {
-  const [range, setRange] = useState([min, max]);
+  const [range, setRange] = useState(value || [min, max]);
+
+  // Update internal state when `value` prop changes
+  useEffect(() => {
+    if (value && Array.isArray(value) && value.length === 2) {
+      setRange(value);
+    }
+  }, [value]);
 
   const handleMinChange = (e) => {
     const newMin = Math.min(Number(e.target.value), range[1] - minimumGap);
