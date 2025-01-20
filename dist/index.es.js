@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useSyncExternalStore, useLayoutEffect, isValidElement, cloneElement, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useEffect as useEffect$1, useSyncExternalStore, useLayoutEffect, isValidElement, cloneElement, useMemo, useCallback } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import { Link as Link$1, NavLink, useNavigate } from 'react-router-dom';
 import ReactDOM, { createPortal } from 'react-dom';
@@ -1672,7 +1672,7 @@ function BottomDrawer({
   const drawerRef = useRef();
 
   // Close the drawer when clicking outside of it
-  useEffect(() => {
+  useEffect$1(() => {
     const handleClickOutside = event => {
       if (drawerRef.current && !drawerRef.current.contains(event.target)) {
         onClose();
@@ -3497,7 +3497,7 @@ function DragAndDrop() {
   const trashRef = useRef(null);
 
   // useEffect to initialize Dragula after component mounts
-  useEffect(() => {
+  useEffect$1(() => {
     const drake = dragula_1([toDoRef.current, doingRef.current, doneRef.current, trashRef.current], {
       removeOnSpill: false
     }).on('drag', el => {
@@ -3949,7 +3949,7 @@ const SelectField = ({
   };
 
   // Close dropdown when clicking outside
-  useEffect(() => {
+  useEffect$1(() => {
     const handleClickOutside = event => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
@@ -4170,14 +4170,14 @@ function FeedLogic({
   const totalPages = Math.ceil(sortedItems.length / itemsPerPage);
 
   // ---------------------- Pagination Reset ----------------------
-  useEffect(() => {
+  useEffect$1(() => {
     if (pagination && currentPage > totalPages) {
       setCurrentPage(1);
     }
   }, [pagination, totalPages, currentPage]);
 
   // ---------------------- Infinite Scroll ----------------------
-  useEffect(() => {
+  useEffect$1(() => {
     if (!infiniteScroll) return;
     const handleScroll = () => {
       const threshold = 50; // how close to bottom before triggering load
@@ -4540,9 +4540,18 @@ const RangeSlider = ({
   label = "Range",
   valuePrefix = "",
   valueSuffix = "",
+  value,
+  // receive value as prop
   onChange
 }) => {
-  const [range, setRange] = useState([min, max]);
+  const [range, setRange] = useState(value || [min, max]);
+
+  // Update internal state when `value` prop changes
+  useEffect(() => {
+    if (value && Array.isArray(value) && value.length === 2) {
+      setRange(value);
+    }
+  }, [value]);
   const handleMinChange = e => {
     const newMin = Math.min(Number(e.target.value), range[1] - minimumGap);
     const newRange = [newMin, range[1]];
@@ -5124,7 +5133,7 @@ const Modal = ({
   children,
   animate = true
 }) => {
-  useEffect(() => {
+  useEffect$1(() => {
     if (isModalOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -5134,7 +5143,7 @@ const Modal = ({
       document.body.style.overflow = "";
     };
   }, [isModalOpen]);
-  useEffect(() => {
+  useEffect$1(() => {
     const handleEsc = event => {
       if (event.key === "Escape" && isModalOpen) {
         closeModal();
@@ -5734,12 +5743,12 @@ const LettzFilterDrawer = ({
   const [localSortOption, setLocalSortOption] = useState(selectedSortOption || "");
 
   // Update local state when selectedFilters prop changes
-  useEffect(() => {
+  useEffect$1(() => {
     setLocalFilters(selectedFilters || {});
   }, [selectedFilters]);
 
   // Update local sort option when selectedSortOption prop changes
-  useEffect(() => {
+  useEffect$1(() => {
     setLocalSortOption(selectedSortOption || "");
   }, [selectedSortOption]);
   const handleFilterChange = (key, value) => {
@@ -7022,7 +7031,7 @@ function $({
       (() => {
         f.classList.add(...p), f.addEventListener("animationend", b), f.addEventListener("animationcancel", b);
       })();
-    }, []), useEffect(() => {
+    }, []), useEffect$1(() => {
       let f = g.current,
         p = () => {
           f.removeEventListener("animationend", p), r ? Z(f, T, s) : T();
@@ -7491,7 +7500,7 @@ function At(t) {
     id: t.toastId,
     containerId: t.containerId,
     fn: e
-  }), useEffect(() => {
+  }), useEffect$1(() => {
     if (t.pauseOnFocusLoss) return x(), () => {
       C();
     };
@@ -7564,7 +7573,7 @@ function At(t) {
     eventHandlers: h
   };
 }
-var Ot = typeof window != "undefined" ? useLayoutEffect : useEffect;
+var Ot = typeof window != "undefined" ? useLayoutEffect : useEffect$1;
 var G = ({
   theme: t,
   type: o,
@@ -7796,7 +7805,7 @@ function Lt(t) {
         _.style.setProperty("--y", `${i ? k : k * -1}px`), _.style.setProperty("--g", `${b}`), _.style.setProperty("--s", `${1 - (r ? u : 0)}`), n += _.offsetHeight, u += .025;
       });
     }
-  }, [r, c, e]), useEffect(() => {
+  }, [r, c, e]), useEffect$1(() => {
     function f(p) {
       var i;
       let b = l.current;
@@ -8191,7 +8200,7 @@ const PollItem = ({
   const [showBar, setShowBar] = useState(!!initialChosenOpt);
   const [displayedPercOpt1, setDisplayedPercOpt1] = useState(50);
   const [displayedPercOpt2, setDisplayedPercOpt2] = useState(50);
-  useEffect(() => {
+  useEffect$1(() => {
     if (showBar) {
       // Initialize to 50-50 split
       setDisplayedPercOpt1(50);
@@ -8257,7 +8266,7 @@ const Popover = ({
   const handleTogglePopover = () => {
     setIsOpen(!isOpen);
   };
-  useEffect(() => {
+  useEffect$1(() => {
     const handleClickOutside = event => {
       if (popoverRef.current && !popoverRef.current.contains(event.target) && triggerRef.current && !triggerRef.current.contains(event.target)) {
         setIsOpen(false);
@@ -8575,7 +8584,7 @@ const TopNavBar2 = ({
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const toggleSideNav = () => setIsSideNavOpen(prev => !prev);
   const closeSideNav = () => setIsSideNavOpen(false);
-  useEffect(() => {
+  useEffect$1(() => {
     setActiveTab(propActiveTab);
   }, [propActiveTab]);
   const handleTabClick = item => {
@@ -8689,10 +8698,10 @@ const PortfolioMainSlider = ({
   const isPlayingRef = useRef(isPlaying);
 
   // Keep isPlayingRef updated with the latest isPlaying state
-  useEffect(() => {
+  useEffect$1(() => {
     isPlayingRef.current = isPlaying;
   }, [isPlaying]);
-  useEffect(() => {
+  useEffect$1(() => {
     let autoSlideInterval;
     let progressInterval;
     if (isPlaying) {
@@ -8720,7 +8729,7 @@ const PortfolioMainSlider = ({
   }, [isPlaying, currentSlideIndex]);
 
   // Scroll event handler
-  useEffect(() => {
+  useEffect$1(() => {
     const handleScroll = () => {
       if (additionalContentRef.current) {
         const contentTop = additionalContentRef.current.getBoundingClientRect().top;
@@ -11479,7 +11488,7 @@ function useFuzzySearch(items, options = {}) {
 
   // Create a memoized Fuse instance so it doesn't get recreated unnecessarily
   const fuseInstance = useMemo(() => createFuseInstance(items, options), [items, options]);
-  useEffect(() => {
+  useEffect$1(() => {
     const results = performFuzzySearch(fuseInstance, query);
     setSuggestions(results);
   }, [query, fuseInstance]);
@@ -12186,7 +12195,7 @@ const SortLogic = ({
   }, [items, sortBy]);
 
   // Notify parent of sorted items whenever they change
-  useEffect(() => {
+  useEffect$1(() => {
     if (onSortedChange) {
       onSortedChange(sortedItems);
     }
@@ -12413,7 +12422,7 @@ const TabGroup = ({
   const activeIndex = isControlled ? controlledIndex : internalIndex;
   const tabContainerRef = useRef(null);
   const [underlineStyle, setUnderlineStyle] = useState({});
-  useEffect(() => {
+  useEffect$1(() => {
     if (tabContainerRef.current) {
       const containerWidth = tabContainerRef.current.offsetWidth;
       const tabWidth = containerWidth / tabs.length;
