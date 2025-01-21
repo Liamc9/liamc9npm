@@ -2099,12 +2099,13 @@ const CheckedItem = ({
   checked,
   height = "7rem",
   width = "7rem",
-  color = "#3b82f6" // Default to blue-500
+  color = "#3b82f6",
+  required
 }) => {
   return /*#__PURE__*/React__default["default"].createElement(Container$6, null, /*#__PURE__*/React__default["default"].createElement(Label$1, null, /*#__PURE__*/React__default["default"].createElement(HiddenCheckbox, {
     onChange: onChange,
     checked: checked,
-    required: true
+    required: required
   }), /*#__PURE__*/React__default["default"].createElement(StyledSpan, {
     height: height,
     width: width,
