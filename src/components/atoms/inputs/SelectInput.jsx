@@ -67,6 +67,7 @@ const SelectInput = ({ name, value, onChange, color = '#000', label, options = [
         onBlur={handleBlur}
         isFocused={isFocused}
         color={color}
+        required
       >
         <option value="" disabled>
         </option>
