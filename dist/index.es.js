@@ -2090,7 +2090,8 @@ const CheckedItem = ({
 }) => {
   return /*#__PURE__*/React.createElement(Container$6, null, /*#__PURE__*/React.createElement(Label$1, null, /*#__PURE__*/React.createElement(HiddenCheckbox, {
     onChange: onChange,
-    checked: checked
+    checked: checked,
+    required: true
   }), /*#__PURE__*/React.createElement(StyledSpan, {
     height: height,
     width: width,
