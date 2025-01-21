@@ -4681,7 +4681,8 @@ const SelectInput = ({
     onFocus: handleFocus,
     onBlur: handleBlur,
     isFocused: isFocused,
-    color: color
+    color: color,
+    required: true
   }, /*#__PURE__*/React__default["default"].createElement("option", {
     value: "",
     disabled: true

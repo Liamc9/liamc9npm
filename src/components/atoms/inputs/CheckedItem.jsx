@@ -110,7 +110,7 @@ const CheckedItem = ({
   return (
     <Container>
       <Label>
-        <HiddenCheckbox onChange={onChange} checked={checked} />
+        <HiddenCheckbox onChange={onChange} checked={checked} required />
         <StyledSpan height={height} width={width} color={color}>
           <span>{svg}</span>
           <span>{label}</span>
