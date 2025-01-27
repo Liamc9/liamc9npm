@@ -42,6 +42,7 @@ export { default as FilterLogic } from './components/search/FilterLogic';
 export { default as FilterModal } from './components/search/FilterModal';
 export { default as Footer } from './components/molecules/other/Footer';
 export { default as Form } from './components/form/forms/Form';
+export { default as FormLogic } from './components/form/forms/FormLogic';
 export { default as GhostLoader } from './components/atoms/loaders/GhostLoader';
 export { default as Hero } from './components/molecules/other/Hero';
 export { default as HeroContent } from './components/molecules/other/HeroContent';
@@ -64,6 +65,7 @@ export { default as MessageForm } from './components/Lettz/components/MessageFor
 export { default as MessagesPrompt } from './components/Lettz/components/MessagesPrompt';
 export { default as MessagesView } from './components/Lettz/views/MessagesView';
 export { default as Modal } from './components/atoms/modals/Modal';
+export { default as MultiPageForm } from './components/form/forms/MultiPageForm';
 export { default as NumberInput } from './components/form/inputs/numberInputs/NumberInput';
 export { default as PasswordInput } from './components/form/inputs/textInputs/PasswordInput';
 export { default as PollItem } from './components/disdat/components/PollItem';
@@ -88,6 +90,7 @@ export { default as SelectToTextInput } from './components/atoms/inputs/SelectTo
 export { default as Settings } from './components/pages/Settings';
 export { default as SideBar } from './components/navigation/SideBar';
 export { default as SideNav } from './components/navigation/SideNav';
+export { default as SinglePageForm } from './components/form/forms/SinglePageForm';
 export { default as SocialButtons } from './components/atoms/other/SocialButtons';
 export { default as Sort } from './components/search/Sort';
 export { default as Sort2 } from './components/search/Sort2';

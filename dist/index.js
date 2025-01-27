@@ -1979,6 +1979,38 @@ const CardSocial = ({
   }, status)))));
 };
 
+// Checkbox.jsx
+const CheckboxWrapper$1 = styled__default["default"].div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+`;
+const CheckboxLabel = styled__default["default"].label`
+  margin-left: 8px;
+  font-weight: 500;
+`;
+const Checkbox$1 = ({
+  label,
+  name,
+  checked,
+  onChange,
+  required,
+  disabled,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(CheckboxWrapper$1, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement("input", {
+  type: "checkbox",
+  id: name,
+  name: name,
+  checked: checked,
+  onChange: e => onChange(e),
+  required: required,
+  disabled: disabled
+}), /*#__PURE__*/React__default["default"].createElement(CheckboxLabel, {
+  htmlFor: name
+}, label));
+
 // Styled Components
 
 const Container$6 = styled__default["default"].div`
@@ -1992,7 +2024,7 @@ const Container$6 = styled__default["default"].div`
   gap: 1rem;
   max-width: 500px;
 `;
-const Label$1 = styled__default["default"].label`
+const Label$g = styled__default["default"].label`
   color: #94a3b8; /* Equivalent to text-slate-400 */
   position: relative;
   cursor: pointer;
@@ -2086,12 +2118,11 @@ const StyledSpan = styled__default["default"].span`
   > span {
     transition: all 0.2s ease-in-out;
     text-align: center;
-    font-size: 0.875rem; /* Equivalent to text-sm */
+    font-size: 0.875rem; 
   }
 `;
 
 // Component
-
 const CheckedItem = ({
   label,
   svg,
@@ -2102,7 +2133,7 @@ const CheckedItem = ({
   color = "#3b82f6",
   required
 }) => {
-  return /*#__PURE__*/React__default["default"].createElement(Container$6, null, /*#__PURE__*/React__default["default"].createElement(Label$1, null, /*#__PURE__*/React__default["default"].createElement(HiddenCheckbox, {
+  return /*#__PURE__*/React__default["default"].createElement(Container$6, null, /*#__PURE__*/React__default["default"].createElement(Label$g, null, /*#__PURE__*/React__default["default"].createElement(HiddenCheckbox, {
     onChange: onChange,
     checked: checked,
     required: required
@@ -2111,6 +2142,127 @@ const CheckedItem = ({
     width: width,
     color: color
   }, /*#__PURE__*/React__default["default"].createElement("span", null, svg), /*#__PURE__*/React__default["default"].createElement("span", null, label))));
+};
+
+// ColorPicker.jsx
+const ColorPickerWrapper = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$f = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const ColorInput$1 = styled__default["default"].input`
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+`;
+const ColorPicker = ({
+  label,
+  name,
+  value,
+  onChange,
+  required,
+  disabled,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(ColorPickerWrapper, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$f, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(ColorInput$1, {
+  type: "color",
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  required: required,
+  disabled: disabled
+}));
+ColorPicker.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  // Format: #RRGGBB
+  onChange: PropTypes__default["default"].func.isRequired,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+ColorPicker.defaultProps = {
+  required: false,
+  disabled: false,
+  className: ''
+};
+
+// ColorPickerWithPreview.jsx
+const PickerWrapper = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$e = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const PickerContainer = styled__default["default"].div`
+  display: flex;
+  align-items: center;
+`;
+const ColorInput = styled__default["default"].input`
+  width: 50px;
+  height: 50px;
+  border: none;
+  cursor: pointer;
+`;
+const ColorPreview = styled__default["default"].div`
+  width: 50px;
+  height: 50px;
+  background-color: ${props => props.color || '#fff'};
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 10px;
+`;
+const ColorPickerWithPreview = ({
+  label,
+  name,
+  value,
+  onChange,
+  required,
+  disabled,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(PickerWrapper, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$e, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(PickerContainer, null, /*#__PURE__*/React__default["default"].createElement(ColorInput, {
+  type: "color",
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  required: required,
+  disabled: disabled
+}), /*#__PURE__*/React__default["default"].createElement(ColorPreview, {
+  color: value
+})));
+ColorPickerWithPreview.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  // Format: #RRGGBB
+  onChange: PropTypes__default["default"].func.isRequired,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+ColorPickerWithPreview.defaultProps = {
+  required: false,
+  disabled: false,
+  className: ''
 };
 
 // src/components/ConversationItem.jsx
@@ -2473,6 +2625,155 @@ const FileUploadContainer = styled__default["default"].div`
   flex-direction: column;
 `;
 
+// DateInput.jsx
+const InputWrapper$8 = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$d = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const Input$7 = styled__default["default"].input`
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+const DateInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  required,
+  disabled,
+  min,
+  max,
+  autoFocus,
+  readOnly,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$8, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$d, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(Input$7, {
+  type: "date",
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  placeholder: placeholder,
+  required: required,
+  disabled: disabled,
+  min: min,
+  max: max,
+  autoFocus: autoFocus,
+  readOnly: readOnly
+}));
+DateInput.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  // Format: YYYY-MM-DD
+  onChange: PropTypes__default["default"].func.isRequired,
+  placeholder: PropTypes__default["default"].string,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  min: PropTypes__default["default"].string,
+  max: PropTypes__default["default"].string,
+  autoFocus: PropTypes__default["default"].bool,
+  readOnly: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+DateInput.defaultProps = {
+  placeholder: '',
+  required: false,
+  disabled: false,
+  min: undefined,
+  max: undefined,
+  autoFocus: false,
+  readOnly: false,
+  className: ''
+};
+
+// DateTimeLocalInput.jsx
+const DateTimeWrapper = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$c = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const DateTimeInput = styled__default["default"].input`
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+  }
+`;
+const DateTimeLocalInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  min,
+  max,
+  required,
+  disabled,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(DateTimeWrapper, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$c, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(DateTimeInput, {
+  type: "datetime-local",
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  min: min,
+  max: max,
+  required: required,
+  disabled: disabled
+}));
+DateTimeLocalInput.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  // Format: YYYY-MM-DDThh:mm
+  onChange: PropTypes__default["default"].func.isRequired,
+  min: PropTypes__default["default"].string,
+  max: PropTypes__default["default"].string,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+DateTimeLocalInput.defaultProps = {
+  min: undefined,
+  max: undefined,
+  required: false,
+  disabled: false,
+  className: ''
+};
+
 // DeleteModal.js
 
 // Fade-in animation for the modal
@@ -2546,7 +2847,7 @@ const ButtonContainer = styled__default["default"].div`
   justify-content: center;
   gap: 0.5rem;
 `;
-const Button$9 = styled__default["default"].button`
+const Button$b = styled__default["default"].button`
   border-radius: 9999px;
   padding: 0.5rem 1.25rem;
   font-size: 0.875rem;
@@ -2559,7 +2860,7 @@ const Button$9 = styled__default["default"].button`
     box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   }
 `;
-const CancelButton = styled__default["default"](Button$9)`
+const CancelButton = styled__default["default"](Button$b)`
   border-color: #d1d5db;
   background-color: #e5e7eb;
   color: #4b5563;
@@ -2569,7 +2870,7 @@ const CancelButton = styled__default["default"](Button$9)`
     background-color: #d1d5db;
   }
 `;
-const ConfirmButton = styled__default["default"](Button$9)`
+const ConfirmButton = styled__default["default"](Button$b)`
   border-color: #ef4444;
   background-color: #ef4444;
   color: white;
@@ -4017,7 +4318,7 @@ const FieldName$1 = styled__default["default"].div`
   color: #111827;
   margin-right: auto;
 `;
-const ToggleWrapper = styled__default["default"].div`
+const ToggleWrapper$1 = styled__default["default"].div`
   display: flex;
   align-items: center;
 `;
@@ -4050,7 +4351,7 @@ const ToggleField = ({
   const handleToggleChange = () => {
     onChange(!value);
   };
-  return /*#__PURE__*/React__default["default"].createElement(FieldContainer$1, null, /*#__PURE__*/React__default["default"].createElement(FieldName$1, null, name), /*#__PURE__*/React__default["default"].createElement(ToggleWrapper, null, /*#__PURE__*/React__default["default"].createElement(ToggleButton, {
+  return /*#__PURE__*/React__default["default"].createElement(FieldContainer$1, null, /*#__PURE__*/React__default["default"].createElement(FieldName$1, null, name), /*#__PURE__*/React__default["default"].createElement(ToggleWrapper$1, null, /*#__PURE__*/React__default["default"].createElement(ToggleButton, {
     checked: value,
     onClick: handleToggleChange
   })));
@@ -4115,6 +4416,83 @@ const EditStackedList = ({
   return /*#__PURE__*/React__default["default"].createElement(CategoryWrapper$1, null, title && /*#__PURE__*/React__default["default"].createElement(CategoryTitle$1, null, title), /*#__PURE__*/React__default["default"].createElement(ItemsContainer$1, null, items.map((item, index) => /*#__PURE__*/React__default["default"].createElement(ListItem$1, {
     key: index
   }, renderComponent(item, index)))));
+};
+
+// EmailInput.jsx
+const InputWrapper$7 = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$b = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const Input$6 = styled__default["default"].input`
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+const EmailInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  required,
+  disabled,
+  maxLength,
+  pattern,
+  autoFocus,
+  readOnly,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$7, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$b, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(Input$6, {
+  type: "email",
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  placeholder: placeholder,
+  required: required,
+  disabled: disabled,
+  maxLength: maxLength,
+  pattern: pattern,
+  autoFocus: autoFocus,
+  readOnly: readOnly
+}));
+EmailInput.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  onChange: PropTypes__default["default"].func.isRequired,
+  placeholder: PropTypes__default["default"].string,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  maxLength: PropTypes__default["default"].number,
+  pattern: PropTypes__default["default"].string,
+  autoFocus: PropTypes__default["default"].bool,
+  readOnly: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+EmailInput.defaultProps = {
+  placeholder: '',
+  required: false,
+  disabled: false,
+  maxLength: undefined,
+  pattern: undefined,
+  autoFocus: false,
+  readOnly: false,
+  className: ''
 };
 
 const FeedItemContainer = styled__default["default"].div`
@@ -4376,6 +4754,60 @@ const FeedItem2 = ({
   return /*#__PURE__*/React__default["default"].createElement(ItemContainer, null, /*#__PURE__*/React__default["default"].createElement("h3", null, data.title, " (FeedItem2)"), /*#__PURE__*/React__default["default"].createElement("p", null, data.description), /*#__PURE__*/React__default["default"].createElement("p", null, "Status: ", data.status), /*#__PURE__*/React__default["default"].createElement("p", null, "Priority: ", data.priority), /*#__PURE__*/React__default["default"].createElement("p", null, "Date: ", data.date));
 };
 
+// FileInput.jsx
+const FileInputWrapper = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$a = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const FileInputElement = styled__default["default"].input`
+  font-size: 16px;
+`;
+const FileInput = ({
+  label,
+  name,
+  onChange,
+  accept,
+  multiple,
+  required,
+  disabled,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(FileInputWrapper, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$a, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(FileInputElement, {
+  type: "file",
+  id: name,
+  name: name,
+  onChange: e => onChange(e),
+  accept: accept,
+  multiple: multiple,
+  required: required,
+  disabled: disabled
+}));
+FileInput.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  onChange: PropTypes__default["default"].func.isRequired,
+  accept: PropTypes__default["default"].string,
+  multiple: PropTypes__default["default"].bool,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+FileInput.defaultProps = {
+  accept: '',
+  multiple: false,
+  required: false,
+  disabled: false,
+  className: ''
+};
+
 /**
  * FileUpload allows users to upload files.
  *
@@ -4429,6 +4861,135 @@ const FileUpload = ({
   })));
 };
 
+// FileUpload2.jsx
+const UploadWrapper = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const UploadLabel = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const DropArea = styled__default["default"].div`
+  padding: 20px;
+  border: 2px dashed #ccc;
+  border-radius: 4px;
+  text-align: center;
+  color: #666;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+
+  ${props => props.isDragActive && `
+    background-color: #e6f7ff;
+    border-color: #1890ff;
+  `}
+`;
+const PreviewList = styled__default["default"].ul`
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+`;
+const PreviewItem = styled__default["default"].li`
+  margin-bottom: 5px;
+  font-size: 14px;
+`;
+const HiddenFileInput = styled__default["default"].input`
+  display: none;
+`;
+const FileUpload2 = ({
+  label,
+  name,
+  onChange,
+  multiple,
+  accept,
+  disabled,
+  className
+}) => {
+  const [isDragActive, setIsDragActive] = React.useState(false);
+  const [fileNames, setFileNames] = React.useState([]);
+  const handleDrag = e => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+  const handleDragIn = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragActive(true);
+  };
+  const handleDragOut = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragActive(false);
+  };
+  const handleDrop = e => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragActive(false);
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      handleFiles(files);
+      e.dataTransfer.clearData();
+    }
+  };
+  const handleFiles = files => {
+    const selectedFiles = Array.from(files);
+    setFileNames(selectedFiles.map(file => file.name));
+    onChange(selectedFiles);
+  };
+  const handleClick = () => {
+    document.getElementById(`file-upload-${name}`).click();
+  };
+  const handleFileChange = e => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      handleFiles(files);
+    }
+  };
+  return /*#__PURE__*/React__default["default"].createElement(UploadWrapper, {
+    className: className
+  }, /*#__PURE__*/React__default["default"].createElement(UploadLabel, {
+    htmlFor: `file-upload-${name}`
+  }, label), /*#__PURE__*/React__default["default"].createElement(DropArea, {
+    isDragActive: isDragActive,
+    onDragEnter: handleDragIn,
+    onDragLeave: handleDragOut,
+    onDragOver: handleDrag,
+    onDrop: handleDrop,
+    onClick: handleClick
+  }, isDragActive ? 'Drop files here...' : 'Drag & drop files here or click to select'), /*#__PURE__*/React__default["default"].createElement(HiddenFileInput, {
+    type: "file",
+    id: `file-upload-${name}`,
+    name: name,
+    onChange: handleFileChange,
+    multiple: multiple,
+    accept: accept,
+    disabled: disabled
+  }), fileNames.length > 0 && /*#__PURE__*/React__default["default"].createElement(PreviewList, null, fileNames.map((fileName, index) => /*#__PURE__*/React__default["default"].createElement(PreviewItem, {
+    key: index
+  }, fileName))));
+};
+FileUpload2.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  onChange: PropTypes__default["default"].func.isRequired,
+  // Receives array of File objects
+  multiple: PropTypes__default["default"].bool,
+  accept: PropTypes__default["default"].string,
+  disabled: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+FileUpload2.defaultProps = {
+  multiple: false,
+  accept: '',
+  disabled: false,
+  className: ''
+};
+
 const FilterLogic = ({
   filters,
   onChange,
@@ -4477,7 +5038,7 @@ const SliderContainer = styled__default["default"].div`
   align-items: center;
   gap: 16px;
 `;
-const Label = styled__default["default"].label`
+const Label$9 = styled__default["default"].label`
   font-size: 16px;
   font-weight: bold;
   color: #333;
@@ -4547,7 +5108,7 @@ const Slider = styled__default["default"].input`
     pointer-events: auto;
   }
 `;
-const RangeSlider = ({
+const RangeSlider$1 = ({
   min = 0,
   max = 100,
   step = 1,
@@ -4580,7 +5141,7 @@ const RangeSlider = ({
     if (onChange) onChange(newRange);
   };
   const calculatePercentage = value => (value - min) / (max - min) * 100;
-  return /*#__PURE__*/React__default["default"].createElement(SliderContainer, null, /*#__PURE__*/React__default["default"].createElement(Label, null, label), /*#__PURE__*/React__default["default"].createElement(RangeInputContainer, null, /*#__PURE__*/React__default["default"].createElement(ThumbValue, {
+  return /*#__PURE__*/React__default["default"].createElement(SliderContainer, null, /*#__PURE__*/React__default["default"].createElement(Label$9, null, label), /*#__PURE__*/React__default["default"].createElement(RangeInputContainer, null, /*#__PURE__*/React__default["default"].createElement(ThumbValue, {
     style: {
       left: `calc(${calculatePercentage(range[0])}% - 14px)`
     }
@@ -4633,7 +5194,7 @@ const StyledSelect = styled__default["default"].select`
   value
 }) => value ? '#000' : '#6B7280'}; /* Default placeholder style */
 `;
-const StyledLabel$1 = styled__default["default"].label`
+const StyledLabel$2 = styled__default["default"].label`
   position: absolute;
   left: 0;
   margin: 0.25rem;
@@ -4691,7 +5252,7 @@ const SelectInput = ({
   }), options.map(option => /*#__PURE__*/React__default["default"].createElement("option", {
     key: option.value,
     value: option.value
-  }, option.label))), /*#__PURE__*/React__default["default"].createElement(StyledLabel$1, {
+  }, option.label))), /*#__PURE__*/React__default["default"].createElement(StyledLabel$2, {
     htmlFor: name,
     isFocused: isFocused,
     color: color,
@@ -4778,7 +5339,7 @@ const Filter = ({
     onChange: e => setSelection(statusFilter.category, e.target.value),
     options: statusFilter.options,
     color: "#000"
-  })), /*#__PURE__*/React__default["default"].createElement(GroupContainer$2, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel$2, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
+  })), /*#__PURE__*/React__default["default"].createElement(GroupContainer$2, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel$2, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider$1, {
     min: 0,
     max: priorityFilter.options.length - 1,
     label: priorityFilter.label,
@@ -4846,7 +5407,7 @@ const Filter2 = ({
 // src/components/FilterDrawer.jsx
 
 // Styled components for button and filter layout
-const Button$8 = styled__default["default"].button`
+const Button$a = styled__default["default"].button`
   display: flex;
   flex-direction: row;
   padding: 10px 20px;
@@ -4925,7 +5486,7 @@ const FilterDrawer = ({
   const [isOpen, setIsOpen] = React.useState(false);
   const handleOpenDrawer = () => setIsOpen(true);
   const handleCloseDrawer = () => setIsOpen(false);
-  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(Button$8, {
+  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(Button$a, {
     onClick: handleOpenDrawer
   }, /*#__PURE__*/React__default["default"].createElement(FilterIcon, {
     className: "svg"
@@ -4952,7 +5513,7 @@ const FilterDrawer = ({
       onChange: e => setSelection(statusFilter.category, e.target.value),
       options: statusFilter.options,
       color: "#000"
-    })), /*#__PURE__*/React__default["default"].createElement(GroupContainer$1, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel$1, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
+    })), /*#__PURE__*/React__default["default"].createElement(GroupContainer$1, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel$1, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider$1, {
       min: 0,
       max: priorityFilter.options.length - 1,
       label: priorityFilter.label,
@@ -5198,7 +5759,7 @@ Modal.propTypes = {
 // src/components/FilterModal.jsx
 
 // Styled components for button and filter layout
-const Button$7 = styled__default["default"].button`
+const Button$9 = styled__default["default"].button`
   padding: 10px 20px;
   background-color: #2563eb;
   color: #fff;
@@ -5277,7 +5838,7 @@ const FilterModal = ({
   const [isOpen, setIsOpen] = React.useState(false);
   const handleOpenModal = () => setIsOpen(true);
   const handleCloseModal = () => setIsOpen(false);
-  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(Button$7, {
+  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(Button$9, {
     onClick: handleOpenModal
   }, "Open Filters"), /*#__PURE__*/React__default["default"].createElement(Modal, {
     isModalOpen: isOpen,
@@ -5304,7 +5865,7 @@ const FilterModal = ({
       onChange: e => setSelection(statusFilter.category, e.target.value),
       options: statusFilter.options,
       color: "#000"
-    })), /*#__PURE__*/React__default["default"].createElement(GroupContainer, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
+    })), /*#__PURE__*/React__default["default"].createElement(GroupContainer, null, /*#__PURE__*/React__default["default"].createElement(GroupLabel, null, priorityFilter.label), /*#__PURE__*/React__default["default"].createElement(RangeSlider$1, {
       min: 0,
       max: priorityFilter.options.length - 1,
       label: priorityFilter.label,
@@ -5363,6 +5924,18 @@ const Footer$1 = ({
     href: "/terms",
     className: "hover:underline"
   }, "Terms of Service"))))));
+};
+
+// src/components/Form/Form.jsx
+const Form$1 = ({
+  onSubmit,
+  children
+}) => {
+  return /*#__PURE__*/React__default["default"].createElement("form", {
+    onSubmit: onSubmit
+  }, children, /*#__PURE__*/React__default["default"].createElement("button", {
+    type: "submit"
+  }, "Submit"));
 };
 
 // GhostLoader Component
@@ -5462,6 +6035,26 @@ HeroContent.propTypes = {
   shopNowLink: PropTypes__default["default"].string.isRequired,
   bottleBgImage: PropTypes__default["default"].string.isRequired,
   bottleImage: PropTypes__default["default"].string.isRequired
+};
+
+// HiddenInput.jsx
+const HiddenInput = ({
+  name,
+  value,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement("input", {
+  type: "hidden",
+  name: name,
+  value: value,
+  className: className
+});
+HiddenInput.propTypes = {
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  className: PropTypes__default["default"].string
+};
+HiddenInput.defaultProps = {
+  className: ''
 };
 
 // Carousel Component
@@ -5571,7 +6164,7 @@ const sharedInputStyles = styled.css`
   outline: none;
   transition: border-color 0.3s ease-in-out;
 `;
-const StyledInput = styled__default["default"].input`
+const StyledInput$2 = styled__default["default"].input`
   ${sharedInputStyles}
   border-color: ${({
   isFocused,
@@ -5588,7 +6181,7 @@ const StyledTextarea = styled__default["default"].textarea`
   minHeight
 }) => minHeight || 'auto'};  /* Use provided minHeight or default */
 `;
-const StyledLabel = styled__default["default"].label`
+const StyledLabel$1 = styled__default["default"].label`
   position: absolute;
   left: 0;
   margin: 0.25rem;
@@ -5607,7 +6200,7 @@ const StyledLabel = styled__default["default"].label`
   transform-origin: left top;
   transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 `;
-const Input = ({
+const Input$5 = ({
   name,
   type,
   value,
@@ -5630,7 +6223,7 @@ const Input = ({
     isFocused: isFocused,
     color: color,
     minHeight: minHeight // Pass the minHeight prop
-  }) : /*#__PURE__*/React__default["default"].createElement(StyledInput, {
+  }) : /*#__PURE__*/React__default["default"].createElement(StyledInput$2, {
     name: name,
     id: name,
     type: type,
@@ -5642,13 +6235,77 @@ const Input = ({
     isFocused: isFocused,
     color: color
   });
-  return /*#__PURE__*/React__default["default"].createElement(InputContainer$1, null, inputElement, /*#__PURE__*/React__default["default"].createElement(StyledLabel, {
+  return /*#__PURE__*/React__default["default"].createElement(InputContainer$1, null, inputElement, /*#__PURE__*/React__default["default"].createElement(StyledLabel$1, {
     htmlFor: name,
     isFocused: isFocused,
     color: color,
     hasValue: Boolean(value)
   }, label));
 };
+
+// Styled Components
+const InputWrapper$6 = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$8 = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const StyledInput$1 = styled__default["default"].input`
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+  }
+`;
+
+// The Unified Input Component
+const Input2 = ({
+  label,
+  type,
+  name,
+  value,
+  onChange,
+  placeholder,
+  required,
+  disabled,
+  maxLength,
+  minLength,
+  pattern,
+  autoFocus,
+  readOnly,
+  className,
+  ...rest
+}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$6, {
+  className: className
+}, label && /*#__PURE__*/React__default["default"].createElement(Label$8, {
+  htmlFor: name
+}, label, required && ' *'), /*#__PURE__*/React__default["default"].createElement(StyledInput$1, _extends({
+  type: type,
+  id: name,
+  name: name,
+  value: value,
+  onChange: onChange,
+  placeholder: placeholder,
+  required: required,
+  disabled: disabled,
+  maxLength: maxLength,
+  minLength: minLength,
+  pattern: pattern,
+  autoFocus: autoFocus,
+  readOnly: readOnly
+}, rest)));
 
 // LettzFilterDrawer.js
 
@@ -5683,7 +6340,7 @@ const FixedButtonBar = styled__default["default"].div`
   box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
   z-index: 10;
 `;
-const Button$6 = styled__default["default"].button`
+const Button$8 = styled__default["default"].button`
   padding: 8px 16px;
   font-size: 18px;
   border: none;
@@ -5852,7 +6509,7 @@ const LettzFilterDrawer = ({
     }))]
   })), /*#__PURE__*/React__default["default"].createElement("div", {
     className: "mx-8"
-  }, /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
+  }, /*#__PURE__*/React__default["default"].createElement(RangeSlider$1, {
     min: 0,
     max: 5000,
     step: 50,
@@ -5879,9 +6536,9 @@ const LettzFilterDrawer = ({
     value: localSortOption,
     onChange: handleSortChangeLocal,
     options: sortOptions
-  })), /*#__PURE__*/React__default["default"].createElement(FixedButtonBar, null, /*#__PURE__*/React__default["default"].createElement(Button$6, {
+  })), /*#__PURE__*/React__default["default"].createElement(FixedButtonBar, null, /*#__PURE__*/React__default["default"].createElement(Button$8, {
     onClick: handleClear
-  }, "Clear"), /*#__PURE__*/React__default["default"].createElement(Button$6, {
+  }, "Clear"), /*#__PURE__*/React__default["default"].createElement(Button$8, {
     primary: true,
     onClick: handleApply
   }, "Apply")));
@@ -6041,7 +6698,7 @@ const Text$2 = styled__default["default"].p`
 `;
 
 // Enhanced Button
-const Button$5 = styled__default["default"].button`
+const Button$7 = styled__default["default"].button`
   width: 100%;
   padding: 14px;
   font-size: 18px;
@@ -6085,7 +6742,7 @@ const ListYourPlaceCard = ({
   return /*#__PURE__*/React__default["default"].createElement(Card$1, null, /*#__PURE__*/React__default["default"].createElement(Header$4, null, /*#__PURE__*/React__default["default"].createElement(StyledLettzIcon$1, null), " ", /*#__PURE__*/React__default["default"].createElement(LogoText$1, null, "Lettz")), /*#__PURE__*/React__default["default"].createElement(IconWrapper$5, null, /*#__PURE__*/React__default["default"].createElement("span", {
     role: "img",
     "aria-label": "icon"
-  }, "\uD83C\uDFE1")), /*#__PURE__*/React__default["default"].createElement(Text$2, null, "Get started by listing your place today!"), /*#__PURE__*/React__default["default"].createElement(Button$5, {
+  }, "\uD83C\uDFE1")), /*#__PURE__*/React__default["default"].createElement(Text$2, null, "Get started by listing your place today!"), /*#__PURE__*/React__default["default"].createElement(Button$7, {
     onClick: handleClick
   }, "List Your Place"));
 };
@@ -6426,7 +7083,7 @@ const LoginPage = ({
   themeColor = "#A855F7"
 }) => {
   if (isSignupComplete) {
-    return /*#__PURE__*/React__default["default"].createElement(Container$5, null, /*#__PURE__*/React__default["default"].createElement(Title$3, null, "Signup Successful!"), /*#__PURE__*/React__default["default"].createElement("p", null, "Please check your email ", /*#__PURE__*/React__default["default"].createElement("strong", null, email), " for a verification link to activate your account."), /*#__PURE__*/React__default["default"].createElement(ButtonWrapper, null, /*#__PURE__*/React__default["default"].createElement(Button$4, {
+    return /*#__PURE__*/React__default["default"].createElement(Container$5, null, /*#__PURE__*/React__default["default"].createElement(Title$3, null, "Signup Successful!"), /*#__PURE__*/React__default["default"].createElement("p", null, "Please check your email ", /*#__PURE__*/React__default["default"].createElement("strong", null, email), " for a verification link to activate your account."), /*#__PURE__*/React__default["default"].createElement(ButtonWrapper, null, /*#__PURE__*/React__default["default"].createElement(Button$6, {
       themeColor: themeColor,
       onClick: () => {
         setIsSignupComplete(false); // Reset the signup complete state
@@ -6482,7 +7139,7 @@ const LoginPage = ({
     themeColor: themeColor,
     type: "button",
     onClick: onForgotPassword
-  }, "Forgot your password?")), /*#__PURE__*/React__default["default"].createElement(ButtonWrapper, null, /*#__PURE__*/React__default["default"].createElement(Button$4, {
+  }, "Forgot your password?")), /*#__PURE__*/React__default["default"].createElement(ButtonWrapper, null, /*#__PURE__*/React__default["default"].createElement(Button$6, {
     themeColor: themeColor,
     type: "submit",
     disabled: isLoading
@@ -6551,7 +7208,7 @@ const Link = styled__default["default"].a`
 const ButtonWrapper = styled__default["default"].div`
   margin-top: 24px;
 `;
-const Button$4 = styled__default["default"].button`
+const Button$6 = styled__default["default"].button`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -6864,7 +7521,7 @@ const ManageNotifications = () => {
 };
 
 // Atoms
-const Button$3 = styled__default["default"].button`
+const Button$5 = styled__default["default"].button`
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -6922,7 +7579,7 @@ const ManagePaymentMethods = ({
     key: index
   }, /*#__PURE__*/React__default["default"].createElement("span", null, method.name), /*#__PURE__*/React__default["default"].createElement(ChevronRightIcon, {
     className: "w-6 h-6"
-  })))), /*#__PURE__*/React__default["default"].createElement(Button$3, {
+  })))), /*#__PURE__*/React__default["default"].createElement(Button$5, {
     onClick: onAddPaymentMethod
   }, "Add Payment Method"));
 };
@@ -8039,7 +8696,7 @@ const Text$1 = styled__default["default"].p`
 `;
 
 // Enhanced Button
-const Button$2 = styled__default["default"].button`
+const Button$4 = styled__default["default"].button`
   width: 100%;
   padding: 14px;
   font-size: 18px;
@@ -8077,7 +8734,7 @@ const MessagesPrompt = currentUser => {
   return /*#__PURE__*/React__default["default"].createElement(Card, null, /*#__PURE__*/React__default["default"].createElement(Header$2, null, /*#__PURE__*/React__default["default"].createElement(StyledLettzIcon, null), " ", /*#__PURE__*/React__default["default"].createElement(LogoText, null, "Lettz")), /*#__PURE__*/React__default["default"].createElement(IconWrapper$2, null, /*#__PURE__*/React__default["default"].createElement("span", {
     role: "img",
     "aria-label": "messages"
-  }, "\uD83D\uDCAC")), /*#__PURE__*/React__default["default"].createElement(Text$1, null, "Please log in to see your messages."), /*#__PURE__*/React__default["default"].createElement(Button$2, {
+  }, "\uD83D\uDCAC")), /*#__PURE__*/React__default["default"].createElement(Text$1, null, "Please log in to see your messages."), /*#__PURE__*/React__default["default"].createElement(Button$4, {
     onClick: handleLoginClick
   }, "Login"));
 };
@@ -8096,6 +8753,168 @@ function MessagesView({
     currentUser: currentUser
   })));
 }
+
+// NumberInput.jsx
+const InputWrapper$5 = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$7 = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const Input$4 = styled__default["default"].input`
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+const NumberInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  required,
+  disabled,
+  min,
+  max,
+  step,
+  autoFocus,
+  readOnly,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$5, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$7, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(Input$4, {
+  type: "number",
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  placeholder: placeholder,
+  required: required,
+  disabled: disabled,
+  min: min,
+  max: max,
+  step: step,
+  autoFocus: autoFocus,
+  readOnly: readOnly
+}));
+NumberInput.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].oneOfType([PropTypes__default["default"].number, PropTypes__default["default"].string]).isRequired,
+  onChange: PropTypes__default["default"].func.isRequired,
+  placeholder: PropTypes__default["default"].string,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  min: PropTypes__default["default"].number,
+  max: PropTypes__default["default"].number,
+  step: PropTypes__default["default"].number,
+  autoFocus: PropTypes__default["default"].bool,
+  readOnly: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+NumberInput.defaultProps = {
+  placeholder: '',
+  required: false,
+  disabled: false,
+  min: undefined,
+  max: undefined,
+  step: undefined,
+  autoFocus: false,
+  readOnly: false,
+  className: ''
+};
+
+// PasswordInput.jsx
+const InputWrapper$4 = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$6 = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const Input$3 = styled__default["default"].input`
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+const PasswordInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  required,
+  disabled,
+  minLength,
+  maxLength,
+  pattern,
+  autoFocus,
+  readOnly,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$4, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$6, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(Input$3, {
+  type: "password",
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  placeholder: placeholder,
+  required: required,
+  disabled: disabled,
+  minLength: minLength,
+  maxLength: maxLength,
+  pattern: pattern,
+  autoFocus: autoFocus,
+  readOnly: readOnly
+}));
+PasswordInput.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  onChange: PropTypes__default["default"].func.isRequired,
+  placeholder: PropTypes__default["default"].string,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  minLength: PropTypes__default["default"].number,
+  maxLength: PropTypes__default["default"].number,
+  pattern: PropTypes__default["default"].string,
+  autoFocus: PropTypes__default["default"].bool,
+  readOnly: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+PasswordInput.defaultProps = {
+  placeholder: '',
+  required: false,
+  disabled: false,
+  minLength: undefined,
+  maxLength: undefined,
+  pattern: undefined,
+  autoFocus: false,
+  readOnly: false,
+  className: ''
+};
 
 // src/components/PollItem.jsx
 
@@ -8948,6 +9767,152 @@ function ProjectCard({
   }, description)));
 }
 
+// RadioButtons.jsx
+const RadioWrapper = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const RadioOption$1 = styled__default["default"].label`
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  font-weight: 500;
+`;
+const RadioInput = styled__default["default"].input`
+  margin-right: 8px;
+`;
+const RadioButtons = ({
+  label,
+  name,
+  options,
+  value,
+  onChange,
+  required,
+  disabled,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(RadioWrapper, {
+  className: className
+}, label && /*#__PURE__*/React__default["default"].createElement("span", {
+  style: {
+    marginBottom: '8px',
+    fontWeight: '600'
+  }
+}, label), options.map(option => /*#__PURE__*/React__default["default"].createElement(RadioOption$1, {
+  key: option.value
+}, /*#__PURE__*/React__default["default"].createElement(RadioInput, {
+  type: "radio",
+  name: name,
+  value: option.value,
+  checked: value === option.value,
+  onChange: e => onChange(e),
+  required: required,
+  disabled: disabled
+}), option.label)));
+RadioButtons.propTypes = {
+  label: PropTypes__default["default"].string,
+  name: PropTypes__default["default"].string.isRequired,
+  options: PropTypes__default["default"].arrayOf(PropTypes__default["default"].shape({
+    label: PropTypes__default["default"].string.isRequired,
+    value: PropTypes__default["default"].string.isRequired
+  })).isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  onChange: PropTypes__default["default"].func.isRequired,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+RadioButtons.defaultProps = {
+  label: '',
+  required: false,
+  disabled: false,
+  className: ''
+};
+
+// RangeInput.jsx
+const RangeWrapper = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$5 = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const RangeSlider = styled__default["default"].input`
+  width: 100%;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  border-radius: 5px;
+  appearance: none;
+  margin: 0;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #007bff;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+
+  &::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #007bff;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+`;
+const RangeInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  min,
+  max,
+  step,
+  required,
+  disabled,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(RangeWrapper, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$5, {
+  htmlFor: name
+}, label, ": ", value), /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
+  type: "range",
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  min: min,
+  max: max,
+  step: step,
+  required: required,
+  disabled: disabled
+}));
+RangeInput.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].number.isRequired,
+  onChange: PropTypes__default["default"].func.isRequired,
+  min: PropTypes__default["default"].number,
+  max: PropTypes__default["default"].number,
+  step: PropTypes__default["default"].number,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+RangeInput.defaultProps = {
+  min: 0,
+  max: 100,
+  step: 1,
+  required: false,
+  disabled: false,
+  className: ''
+};
+
 function RecipeCard$1({
   recipe,
   onCardClick,
@@ -9416,6 +10381,52 @@ const RecipeSwipeComponent = ({
   }, /*#__PURE__*/React__default["default"].createElement(DrawerHandle, {
     className: "drawer-handle"
   }, "Swipe up for step details"), isDrawerOpen && /*#__PURE__*/React__default["default"].createElement(DrawerContent, null, /*#__PURE__*/React__default["default"].createElement("p", null, currentStepDescription))));
+};
+
+// ResetButton.jsx
+const Button$3 = styled__default["default"].button`
+  padding: 12px 20px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  align-self: flex-start;
+  margin-left: 10px;
+
+  &:hover {
+    background-color: #5a6268;
+  }
+
+  &:disabled {
+    background-color: #c6c8ca;
+    cursor: not-allowed;
+  }
+`;
+const ResetButton$1 = ({
+  label,
+  type,
+  onClick,
+  disabled,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(Button$3, {
+  type: type,
+  onClick: onClick,
+  disabled: disabled,
+  className: className
+}, label);
+ResetButton$1.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  type: PropTypes__default["default"].oneOf(['reset', 'button']).isRequired,
+  onClick: PropTypes__default["default"].func,
+  disabled: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+ResetButton$1.defaultProps = {
+  onClick: undefined,
+  disabled: false,
+  className: ''
 };
 
 // src/components/RoomsView.jsx
@@ -11792,6 +12803,83 @@ const Search2 = ({
   }, item.title))))));
 };
 
+// SelectInput2.jsx
+const SelectWrapper = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$4 = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const Select$1 = styled__default["default"].select`
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+  }
+`;
+const SelectInput2 = ({
+  label,
+  name,
+  value,
+  onChange,
+  options,
+  required,
+  disabled,
+  multiple,
+  autoFocus,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(SelectWrapper, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$4, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(Select$1, {
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  required: required,
+  disabled: disabled,
+  multiple: multiple,
+  autoFocus: autoFocus
+}, options.map(option => /*#__PURE__*/React__default["default"].createElement("option", {
+  key: option.value,
+  value: option.value
+}, option.label))));
+SelectInput2.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  options: PropTypes__default["default"].arrayOf(PropTypes__default["default"].shape({
+    label: PropTypes__default["default"].string.isRequired,
+    value: PropTypes__default["default"].string.isRequired
+  })).isRequired,
+  value: PropTypes__default["default"].oneOfType([PropTypes__default["default"].string, PropTypes__default["default"].array]).isRequired,
+  onChange: PropTypes__default["default"].func.isRequired,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  multiple: PropTypes__default["default"].bool,
+  autoFocus: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+SelectInput2.defaultProps = {
+  required: false,
+  disabled: false,
+  multiple: false,
+  autoFocus: false,
+  className: ''
+};
+
 const SelectToTextInput = ({
   options
 }) => {
@@ -11943,7 +13031,7 @@ const SideNav = () => {
   const toggleSideNav = () => {
     setIsOpen(!isOpen);
   };
-  return /*#__PURE__*/React__default["default"].createElement(Wrapper, null, /*#__PURE__*/React__default["default"].createElement(TopBar, null, /*#__PURE__*/React__default["default"].createElement(Button$1, {
+  return /*#__PURE__*/React__default["default"].createElement(Wrapper, null, /*#__PURE__*/React__default["default"].createElement(TopBar, null, /*#__PURE__*/React__default["default"].createElement(Button$2, {
     onClick: toggleSideNav
   }, /*#__PURE__*/React__default["default"].createElement(MenuIcon, {
     className: "icon"
@@ -11951,7 +13039,7 @@ const SideNav = () => {
     onClick: toggleSideNav
   }), /*#__PURE__*/React__default["default"].createElement(SideNavContainer, {
     isOpen: isOpen
-  }, /*#__PURE__*/React__default["default"].createElement(SideNavHeader, null, /*#__PURE__*/React__default["default"].createElement(Title, null, "My Portfolio"), /*#__PURE__*/React__default["default"].createElement(Button$1, {
+  }, /*#__PURE__*/React__default["default"].createElement(SideNavHeader, null, /*#__PURE__*/React__default["default"].createElement(Title, null, "My Portfolio"), /*#__PURE__*/React__default["default"].createElement(Button$2, {
     onClick: toggleSideNav
   }, /*#__PURE__*/React__default["default"].createElement(XIcon, {
     className: "icon"
@@ -11994,7 +13082,7 @@ const TopBar = styled__default["default"].div`
   padding: 1rem;
   z-index: 50;
 `;
-const Button$1 = styled__default["default"].button`
+const Button$2 = styled__default["default"].button`
   background: none;
   border: none;
   cursor: pointer;
@@ -12401,6 +13489,52 @@ const SortRadio = ({
   }, option.label))))));
 };
 
+// ResetButton.jsx
+const Button$1 = styled__default["default"].button`
+  padding: 12px 20px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  align-self: flex-start;
+  margin-left: 10px;
+
+  &:hover {
+    background-color: #5a6268;
+  }
+
+  &:disabled {
+    background-color: #c6c8ca;
+    cursor: not-allowed;
+  }
+`;
+const ResetButton = ({
+  label,
+  type,
+  onClick,
+  disabled,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(Button$1, {
+  type: type,
+  onClick: onClick,
+  disabled: disabled,
+  className: className
+}, label);
+ResetButton.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  type: PropTypes__default["default"].oneOf(['reset', 'button']).isRequired,
+  onClick: PropTypes__default["default"].func,
+  disabled: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+ResetButton.defaultProps = {
+  onClick: undefined,
+  disabled: false,
+  className: ''
+};
+
 const Container$1 = styled__default["default"].div`
   position: relative;
   display: flex;
@@ -12484,6 +13618,296 @@ TabGroup.defaultProps = {
   onTabChange: undefined
 };
 
+// TelInput.jsx
+const InputWrapper$3 = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$3 = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const Input$2 = styled__default["default"].input`
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+const TelInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  required,
+  disabled,
+  pattern,
+  autoFocus,
+  readOnly,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$3, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$3, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(Input$2, {
+  type: "tel",
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  placeholder: placeholder,
+  required: required,
+  disabled: disabled,
+  pattern: pattern,
+  autoFocus: autoFocus,
+  readOnly: readOnly
+}));
+TelInput.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  // Should be a valid phone number format
+  onChange: PropTypes__default["default"].func.isRequired,
+  placeholder: PropTypes__default["default"].string,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  pattern: PropTypes__default["default"].string,
+  autoFocus: PropTypes__default["default"].bool,
+  readOnly: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+TelInput.defaultProps = {
+  placeholder: '',
+  required: false,
+  disabled: false,
+  pattern: undefined,
+  autoFocus: false,
+  readOnly: false,
+  className: ''
+};
+
+// TextareaInput.jsx
+const TextareaWrapper = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$2 = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const Textarea = styled__default["default"].textarea`
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+  }
+`;
+const TextareaInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  required,
+  disabled,
+  rows,
+  maxLength,
+  autoFocus,
+  readOnly,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(TextareaWrapper, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$2, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(Textarea, {
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  placeholder: placeholder,
+  required: required,
+  disabled: disabled,
+  rows: rows,
+  maxLength: maxLength,
+  autoFocus: autoFocus,
+  readOnly: readOnly
+}));
+TextareaInput.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  onChange: PropTypes__default["default"].func.isRequired,
+  placeholder: PropTypes__default["default"].string,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  rows: PropTypes__default["default"].number,
+  maxLength: PropTypes__default["default"].number,
+  autoFocus: PropTypes__default["default"].bool,
+  readOnly: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+TextareaInput.defaultProps = {
+  placeholder: '',
+  required: false,
+  disabled: false,
+  rows: 4,
+  maxLength: undefined,
+  autoFocus: false,
+  readOnly: false,
+  className: ''
+};
+
+// Styled Components
+const InputWrapper$2 = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+`;
+const StyledLabel = styled__default["default"].label`
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+`;
+const StyledInput = styled__default["default"].input`
+  padding: 0.75rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: #6200ee;
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+  }
+`;
+
+// TextInput Component
+const TextInput = ({
+  label,
+  ...props
+}) => {
+  const inputId = props.id || props.name || `input-${Math.random().toString(36).substr(2, 9)}`;
+  return /*#__PURE__*/React__default["default"].createElement(InputWrapper$2, null, label && /*#__PURE__*/React__default["default"].createElement(StyledLabel, {
+    htmlFor: inputId
+  }, label), /*#__PURE__*/React__default["default"].createElement(StyledInput, _extends({
+    id: inputId
+  }, props)));
+};
+
+// PropTypes for type checking
+TextInput.propTypes = {
+  label: PropTypes__default["default"].string
+};
+
+// Default Props
+TextInput.defaultProps = {
+  label: ''
+};
+
+// TimeInput.jsx
+const InputWrapper$1 = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$1 = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const Input$1 = styled__default["default"].input`
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+const TimeInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  required,
+  disabled,
+  min,
+  max,
+  step,
+  autoFocus,
+  readOnly,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$1, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$1, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(Input$1, {
+  type: "time",
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  placeholder: placeholder,
+  required: required,
+  disabled: disabled,
+  min: min,
+  max: max,
+  step: step,
+  autoFocus: autoFocus,
+  readOnly: readOnly
+}));
+TimeInput.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  // Format: HH:MM or HH:MM:SS
+  onChange: PropTypes__default["default"].func.isRequired,
+  placeholder: PropTypes__default["default"].string,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  min: PropTypes__default["default"].string,
+  max: PropTypes__default["default"].string,
+  step: PropTypes__default["default"].number,
+  autoFocus: PropTypes__default["default"].bool,
+  readOnly: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+TimeInput.defaultProps = {
+  placeholder: '',
+  required: false,
+  disabled: false,
+  min: undefined,
+  max: undefined,
+  step: undefined,
+  autoFocus: false,
+  readOnly: false,
+  className: ''
+};
+
 // ToastMessage Component
 const ToastMessage = () => {
   const showToast = (message, type) => {
@@ -12521,6 +13945,92 @@ const ToastMessage = () => {
   }, "Show Warning Toast"), /*#__PURE__*/React__default["default"].createElement(Lt, {
     draggable: true
   }));
+};
+
+// ToggleSwitch.jsx
+const ToggleWrapper = styled__default["default"].div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+`;
+const ToggleLabel = styled__default["default"].label`
+  margin-left: 8px;
+  font-weight: 500;
+`;
+const ToggleInput = styled__default["default"].input`
+  width: 50px;
+  height: 25px;
+  -webkit-appearance: none;
+  background: #c6c6c6;
+  outline: none;
+  border-radius: 25px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+
+  &:checked {
+    background: #007bff;
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    background: white;
+    transition: transform 0.3s;
+  }
+
+  &:checked:before {
+    transform: translateX(25px);
+  }
+
+  &:disabled {
+    background: #e9ecef;
+    cursor: not-allowed;
+
+    &:before {
+      background: #ced4da;
+    }
+  }
+`;
+const ToggleSwitch = ({
+  label,
+  name,
+  checked,
+  onChange,
+  required,
+  disabled,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(ToggleWrapper, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(ToggleInput, {
+  type: "checkbox",
+  id: name,
+  name: name,
+  checked: checked,
+  onChange: e => onChange(e),
+  required: required,
+  disabled: disabled
+}), /*#__PURE__*/React__default["default"].createElement(ToggleLabel, {
+  htmlFor: name
+}, label));
+ToggleSwitch.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  checked: PropTypes__default["default"].bool.isRequired,
+  onChange: PropTypes__default["default"].func.isRequired,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+ToggleSwitch.defaultProps = {
+  required: false,
+  disabled: false,
+  className: ''
 };
 
 // Tooltip Component
@@ -12822,6 +14332,80 @@ const UneditableTextField = ({
   return /*#__PURE__*/React__default["default"].createElement(FieldContainer, null, IconComponent && /*#__PURE__*/React__default["default"].createElement(IconWrapper, null, /*#__PURE__*/React__default["default"].createElement(IconComponent, null)), /*#__PURE__*/React__default["default"].createElement(TextWrapper, null, /*#__PURE__*/React__default["default"].createElement(FieldName, null, name), /*#__PURE__*/React__default["default"].createElement(FieldValue, null, value)));
 };
 
+// URLInput.jsx
+const InputWrapper = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const Input = styled__default["default"].input`
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+const URLInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  required,
+  disabled,
+  pattern,
+  autoFocus,
+  readOnly,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(Input, {
+  type: "url",
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  placeholder: placeholder,
+  required: required,
+  disabled: disabled,
+  pattern: pattern,
+  autoFocus: autoFocus,
+  readOnly: readOnly
+}));
+URLInput.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  // Should be a valid URL
+  onChange: PropTypes__default["default"].func.isRequired,
+  placeholder: PropTypes__default["default"].string,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  pattern: PropTypes__default["default"].string,
+  autoFocus: PropTypes__default["default"].bool,
+  readOnly: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+URLInput.defaultProps = {
+  placeholder: '',
+  required: false,
+  disabled: false,
+  pattern: undefined,
+  autoFocus: false,
+  readOnly: false,
+  className: ''
+};
+
 exports.AccordionCard = AccordionCard;
 exports.AppCard = AppCard;
 exports.AppleIcon = AppleIcon;
@@ -12841,6 +14425,7 @@ exports.CardProduct = CardProduct;
 exports.CardSocial = CardSocial;
 exports.CartIcon = CartIcon;
 exports.ChatIcon = ChatIcon;
+exports.Checkbox = Checkbox$1;
 exports.CheckedItem = CheckedItem;
 exports.ChevronDownIcon = ChevronDownIcon;
 exports.ChevronLeftIcon = ChevronLeftIcon;
@@ -12851,6 +14436,8 @@ exports.ClockIcon = ClockIcon;
 exports.CodeIcon = CodeIcon;
 exports.CogIcon = CogIcon;
 exports.CollegeIcon = CollegeIcon;
+exports.ColorPicker = ColorPicker;
+exports.ColorPickerWithPreview = ColorPickerWithPreview;
 exports.ConversationItem = ConversationItem;
 exports.ConversationList = ConversationList;
 exports.CookbookCard = CookbookCard;
@@ -12859,11 +14446,14 @@ exports.CoupleIcon = CoupleIcon;
 exports.CustomButton = CustomButton;
 exports.CustomFileUpload = CustomFileUpload;
 exports.DataIcon = DataIcon;
+exports.DateInput = DateInput;
+exports.DateTimeLocalInput = DateTimeLocalInput;
 exports.DeleteModal = DeleteModal;
 exports.DragAndDrop = DragAndDrop;
 exports.EditIcon = EditIcon;
 exports.EditStackedList = EditStackedList;
 exports.EditableTextField = EditableTextField;
+exports.EmailInput = EmailInput;
 exports.Feed = Feed;
 exports.FeedItem = FeedItem;
 exports.FeedItem2 = FeedItem2;
@@ -12871,7 +14461,9 @@ exports.FeedLogic = FeedLogic;
 exports.FemaleIcon = FemaleIcon;
 exports.FemaleIcon2 = FemaleIcon2;
 exports.FemaleIcon3 = FemaleIcon3;
+exports.FileInput = FileInput;
 exports.FileUpload = FileUpload;
+exports.FileUpload2 = FileUpload2;
 exports.Filter = Filter;
 exports.Filter2 = Filter2;
 exports.FilterDrawer = FilterDrawer;
@@ -12881,19 +14473,22 @@ exports.FilterLogic = FilterLogic;
 exports.FilterModal = FilterModal;
 exports.Footer = Footer$1;
 exports.ForkAndKnifeIcon = ForkAndKnifeIcon;
+exports.Form = Form$1;
 exports.GhostLoader = GhostLoader;
 exports.GithubIcon = GithubIcon;
 exports.GoogleIcon = GoogleIcon;
 exports.HeartIcon = HeartIcon;
 exports.Hero = Hero;
 exports.HeroContent = HeroContent;
+exports.HiddenInput = HiddenInput;
 exports.HomeIcon = HomeIcon;
 exports.HomeIcon2 = HomeIcon2;
 exports.HomeIcon3 = HomeIcon3;
 exports.IdeaIcon = IdeaIcon;
 exports.ImageCarousel = ImageCarousel;
 exports.ImageCarousel2 = ImageCarousel2;
-exports.Input = Input;
+exports.Input = Input$5;
+exports.Input2 = Input2;
 exports.InstagramIcon = InstagramIcon;
 exports.LettzFilterDrawer = LettzFilterDrawer;
 exports.LettzIcon = LettzIcon;
@@ -12923,7 +14518,9 @@ exports.MoneyIcon = MoneyIcon;
 exports.MoneyIcon2 = MoneyIcon2;
 exports.MuteIcon = MuteIcon;
 exports.NotificationsIcon = NotificationsIcon;
+exports.NumberInput = NumberInput;
 exports.PasswordIcon = PasswordIcon;
+exports.PasswordInput = PasswordInput;
 exports.PeriodIcon = PeriodIcon;
 exports.PlusIcon = PlusIcon;
 exports.PollItem = PollItem;
@@ -12931,9 +14528,12 @@ exports.Popover = Popover;
 exports.PortfolioMainSlider = PortfolioMainSlider;
 exports.ProgressBar = ProgressBar;
 exports.ProjectCard = ProjectCard;
-exports.RangeSlider = RangeSlider;
+exports.RadioButtons = RadioButtons;
+exports.RangeInput = RangeInput;
+exports.RangeSlider = RangeSlider$1;
 exports.RecipeCard = RecipeCard$1;
 exports.RecipeSwipeComponent = RecipeSwipeComponent;
+exports.ResetButton = ResetButton$1;
 exports.RoomsView = RoomsView;
 exports.ScriptIcon = ScriptIcon;
 exports.Search = Search;
@@ -12944,6 +14544,7 @@ exports.SearchLogic = SearchLogic;
 exports.SecurityIcon = SecurityIcon;
 exports.SelectField = SelectField;
 exports.SelectInput = SelectInput;
+exports.SelectInput2 = SelectInput2;
 exports.SelectToTextInput = SelectToTextInput;
 exports.Settings = Settings;
 exports.SettingsIcon = SettingsIcon;
@@ -12958,10 +14559,16 @@ exports.SortLogic = SortLogic;
 exports.SortRadio = SortRadio;
 exports.StackedList = StackedList;
 exports.StrategyIcon = StrategyIcon;
+exports.SubmitButton = ResetButton;
 exports.TabGroup = TabGroup;
 exports.TargetIcon = TargetIcon;
+exports.TelInput = TelInput;
+exports.TextAreaInput = TextareaInput;
+exports.TextInput = TextInput;
+exports.TimeInput = TimeInput;
 exports.ToastMessage = ToastMessage;
 exports.ToggleField = ToggleField;
+exports.ToggleSwitch = ToggleSwitch;
 exports.Tooltip = Tooltip;
 exports.TopNavBar = TopNavBar;
 exports.TopNavBar2 = TopNavBar2;
@@ -12971,6 +14578,7 @@ exports.TrashIcon = TrashIcon;
 exports.TwitterIcon = TwitterIcon;
 exports.TwoBedsIcon = TwoBedsIcon;
 exports.UneditableTextField = UneditableTextField;
+exports.UrlInput = URLInput;
 exports.UserIcon2 = UserIcon2;
 exports.UserIcon3 = UserIcon3;
 exports.UserPairIcon = UserPairIcon;
