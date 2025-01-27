@@ -81,7 +81,6 @@ export { default as RoomsView } from './components/Lettz/views/RoomsView';
 export { default as Search } from './components/search/Search';
 export { default as Search2 } from './components/search/Search2';
 export { default as SearchLogic } from './components/search/SearchLogic';
-export { default as SelectDropdown } from './components/form/inputs/selectinputs/SelectDropdown';
 export { default as SelectField } from './components/atoms/menuitem/SelectField';
 export { default as SelectInput } from './components/atoms/inputs/SelectInput';
 export { default as SelectInput2 } from './components/form/inputs/selectinputs/SelectInput2';
