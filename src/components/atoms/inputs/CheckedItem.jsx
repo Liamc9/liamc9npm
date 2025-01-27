@@ -92,12 +92,11 @@ const StyledSpan = styled.span`
   > span {
     transition: all 0.2s ease-in-out;
     text-align: center;
-    font-size: 0.875rem; /* Equivalent to text-sm */
+    font-size: 0.875rem; 
   }
 `;
 
 // Component
-
 const CheckedItem = ({
   label,
   svg,
