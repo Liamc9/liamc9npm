@@ -1,95 +1,68 @@
 // RangeInput.jsx
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const RangeWrapper = styled.div`
+// Styled Components
+const RangeInputWrapper = styled.div`
+      grid-column: ${(props) => props.gridSpan || 'auto'};
+
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 `;
 
-const Label = styled.label`
-  margin-bottom: 8px;
-  font-weight: 600;
+const StyledLabel = styled.label`
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #333;
 `;
 
-const RangeSlider = styled.input`
+const StyledInput = styled.input`
   width: 100%;
-  height: 25px;
-  background: #d3d3d3;
-  outline: none;
+  -webkit-appearance: none;
+  height: 8px;
   border-radius: 5px;
-  appearance: none;
-  margin: 0;
+  background: #ddd;
+  outline: none;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #ccc;
+  }
+
+  &:focus {
+    background: #bbb;
+  }
 
   &::-webkit-slider-thumb {
+    -webkit-appearance: none;
     appearance: none;
     width: 20px;
     height: 20px;
-    background: #007bff;
-    cursor: pointer;
     border-radius: 50%;
+    background: #6200ee;
+    cursor: pointer;
+    transition: background 0.3s ease;
   }
 
   &::-moz-range-thumb {
     width: 20px;
     height: 20px;
-    background: #007bff;
-    cursor: pointer;
     border-radius: 50%;
+    background: #6200ee;
+    cursor: pointer;
+    transition: background 0.3s ease;
   }
 `;
 
-const RangeInput = ({
-  label,
-  name,
-  value,
-  onChange,
-  min,
-  max,
-  step,
-  required,
-  disabled,
-  className,
-}) => (
-  <RangeWrapper className={className}>
-    <Label htmlFor={name}>{label}: {value}</Label>
-    <RangeSlider
-      type="range"
-      id={name}
-      name={name}
-      value={value}
-      onChange={(e) => onChange(e)}
-      min={min}
-      max={max}
-      step={step}
-      required={required}
-      disabled={disabled}
-    />
-  </RangeWrapper>
-);
-
-RangeInput.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired,
-  min: PropTypes.number,
-  max: PropTypes.number,
-  step: PropTypes.number,
-  required: PropTypes.bool,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-};
-
-RangeInput.defaultProps = {
-  min: 0,
-  max: 100,
-  step: 1,
-  required: false,
-  disabled: false,
-  className: '',
+// RangeInput Component
+const RangeInput = ({ label, ...props }) => {
+  return (
+    <RangeInputWrapper gridSpan={props.gridSpan}>
+      {label && <StyledLabel htmlFor={props.id}>{label}</StyledLabel>}
+      <StyledInput type="range" {...props} />
+    </RangeInputWrapper>
+  );
 };
 
 export default RangeInput;

@@ -2,38 +2,34 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// Styled Components
 const CheckboxWrapper = styled.div`
+      grid-column: ${(props) => props.gridSpan || 'auto'};
+
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 `;
 
-const CheckboxLabel = styled.label`
-  margin-left: 8px;
-  font-weight: 500;
+const StyledInput = styled.input`
+  margin-right: 0.5rem;
+  width: 1rem;
+  height: 1rem;
 `;
 
-const Checkbox = ({
-  label,
-  name,
-  checked,
-  onChange,
-  required,
-  disabled,
-  className,
-}) => (
-  <CheckboxWrapper className={className}>
-    <input
-      type="checkbox"
-      id={name}
-      name={name}
-      checked={checked}
-      onChange={(e) => onChange(e)}
-      required={required}
-      disabled={disabled}
-    />
-    <CheckboxLabel htmlFor={name}>{label}</CheckboxLabel>
-  </CheckboxWrapper>
-);
+const StyledLabel = styled.label`
+  font-size: 1rem;
+  color: #333;
+`;
+
+// Checkbox Component
+const Checkbox = ({ label, ...props }) => {
+  return (
+    <CheckboxWrapper gridSpan={props.gridSpan}>
+      <StyledInput type="checkbox" {...props} />
+      {label && <StyledLabel htmlFor={props.id}>{label}</StyledLabel>}
+    </CheckboxWrapper>
+  );
+};
 
 export default Checkbox;

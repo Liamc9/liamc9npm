@@ -1,6 +1,5 @@
 // ResetButton.jsx
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Button = styled.button`
@@ -24,24 +23,10 @@ const Button = styled.button`
   }
 `;
 
-const ResetButton = ({ label, type, onClick, disabled, className }) => (
-  <Button type={type} onClick={onClick} disabled={disabled} className={className}>
-    {label}
+const ResetButton = ({ children, ...props }) => (
+  <Button type="reset" {...props}>
+    {children}
   </Button>
 );
-
-ResetButton.propTypes = {
-  label: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['reset', 'button']).isRequired,
-  onClick: PropTypes.func,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-};
-
-ResetButton.defaultProps = {
-  onClick: undefined,
-  disabled: false,
-  className: '',
-};
 
 export default ResetButton;

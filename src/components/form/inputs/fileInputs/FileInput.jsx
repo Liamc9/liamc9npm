@@ -1,10 +1,11 @@
-// SelectInput2.jsx
+// FileInput.jsx
 import React from 'react';
 import styled from 'styled-components';
 
 // Styled Components
-const SelectWrapper = styled.div`
+const FileInputWrapper = styled.div`
       grid-column: ${(props) => props.gridSpan || 'auto'};
+
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
@@ -16,17 +17,17 @@ const StyledLabel = styled.label`
   color: #333;
 `;
 
-const StyledSelect = styled.select`
-  padding: 0.75rem 1rem;
-  border: 2px solid #ddd;
+const StyledInput = styled.input`
+  padding: 0.5rem 1rem;
+  border: 2px dashed #ddd;
   border-radius: 8px;
   font-size: 1rem;
-  background-color: #fff;
+  background-color: #fafafa;
+  cursor: pointer;
   transition: border-color 0.3s ease;
 
-  &:focus {
+  &:hover {
     border-color: #6200ee;
-    outline: none;
   }
 
   &:disabled {
@@ -35,20 +36,14 @@ const StyledSelect = styled.select`
   }
 `;
 
-// SelectInput2 Component
-const SelectInput2 = ({ label, options, ...props }) => {
+// FileInput Component
+const FileInput = ({ label, ...props }) => {
   return (
-    <SelectWrapper gridSpan={props.gridSpan}>
+    <FileInputWrapper gridSpan={props.gridSpan}>
       {label && <StyledLabel htmlFor={props.id}>{label}</StyledLabel>}
-      <StyledSelect {...props}>
-        {options && options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </StyledSelect>
-    </SelectWrapper>
+      <StyledInput type="file" {...props} />
+    </FileInputWrapper>
   );
 };
 
-export default SelectInput2;
+export default FileInput;

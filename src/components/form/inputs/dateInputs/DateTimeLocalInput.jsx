@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const DateTimeWrapper = styled.div`
+      grid-column: ${(props) => props.gridSpan || 'auto'};
+
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
@@ -41,8 +43,9 @@ const DateTimeLocalInput = ({
   required,
   disabled,
   className,
+  ...props
 }) => (
-  <DateTimeWrapper className={className}>
+  <DateTimeWrapper gridSpan={props.gridSpan} className={className}>
     <Label htmlFor={name}>{label}</Label>
     <DateTimeInput
       type="datetime-local"

@@ -24,24 +24,11 @@ const Button = styled.button`
   }
 `;
 
-const ResetButton = ({ label, type, onClick, disabled, className }) => (
-  <Button type={type} onClick={onClick} disabled={disabled} className={className}>
-    {label}
+const SubmitButton = ({ children, ...props }) => (
+  <Button type='submit' {...props}>
+    {children}
   </Button>
 );
 
-ResetButton.propTypes = {
-  label: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['reset', 'button']).isRequired,
-  onClick: PropTypes.func,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-};
 
-ResetButton.defaultProps = {
-  onClick: undefined,
-  disabled: false,
-  className: '',
-};
-
-export default ResetButton;
+export default SubmitButton;

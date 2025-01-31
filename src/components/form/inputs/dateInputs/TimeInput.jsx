@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const InputWrapper = styled.div`
+      grid-column: ${(props) => props.gridSpan || 'auto'};
+
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
@@ -40,8 +42,9 @@ const TimeInput = ({
   autoFocus,
   readOnly,
   className,
+  ...props
 }) => (
-  <InputWrapper className={className}>
+  <InputWrapper className={className} gridSpan={props.gridSpan}>
     <Label htmlFor={name}>{label}</Label>
     <Input
       type="time"

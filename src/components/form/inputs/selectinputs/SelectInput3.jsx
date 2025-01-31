@@ -1,42 +1,53 @@
-// SelectInput2.jsx
 import React from 'react';
 import styled from 'styled-components';
 
 // Styled Components
 const SelectWrapper = styled.div`
       grid-column: ${(props) => props.gridSpan || 'auto'};
+
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
+  width: 100%;
 `;
 
 const StyledLabel = styled.label`
   margin-bottom: 0.5rem;
   font-size: 1rem;
-  color: #333;
+  font-weight: 600;
+  color: #4a4a4a;
 `;
 
 const StyledSelect = styled.select`
   padding: 0.75rem 1rem;
-  border: 2px solid #ddd;
-  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
   font-size: 1rem;
   background-color: #fff;
-  transition: border-color 0.3s ease;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #6200ee;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
 
   &:focus {
     border-color: #6200ee;
     outline: none;
+    box-shadow: 0 0 0 3px rgba(98, 0, 238, 0.2);
   }
 
   &:disabled {
-    background-color: #f5f5f5;
+    background-color: #f9f9f9;
+    color: #bdbdbd;
+    border-color: #e0e0e0;
     cursor: not-allowed;
   }
 `;
 
-// SelectInput2 Component
-const SelectInput2 = ({ label, options, ...props }) => {
+const SelectInput3 = ({ label, options, ...props }) => {
   return (
     <SelectWrapper gridSpan={props.gridSpan}>
       {label && <StyledLabel htmlFor={props.id}>{label}</StyledLabel>}
@@ -51,4 +62,4 @@ const SelectInput2 = ({ label, options, ...props }) => {
   );
 };
 
-export default SelectInput2;
+export default SelectInput3;

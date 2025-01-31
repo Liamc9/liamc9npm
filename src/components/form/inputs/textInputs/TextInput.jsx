@@ -7,6 +7,7 @@ const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
+    grid-column: ${(props) => props.gridSpan || 'auto'};
 `;
 
 const StyledLabel = styled.label`
@@ -34,10 +35,10 @@ const StyledInput = styled.input`
 `;
 
 // TextInput Component
-const TextInput = ({ label, ...props }) => {
+const TextInput = ({ ...props }) => {
   return (
-    <InputWrapper>
-      {label && <StyledLabel htmlFor={props.id}>{label}</StyledLabel>}
+    <InputWrapper gridSpan={props.gridSpan}>
+      {props.label && <StyledLabel htmlFor={props.id}>{props.label}</StyledLabel>}
       <StyledInput {...props} />
     </InputWrapper>
   );

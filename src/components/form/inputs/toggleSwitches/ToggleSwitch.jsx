@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const ToggleWrapper = styled.div`
+      grid-column: ${(props) => props.gridSpan || 'auto'};
+
   display: flex;
   align-items: center;
   margin-bottom: 16px;
@@ -57,41 +59,16 @@ const ToggleInput = styled.input`
 
 const ToggleSwitch = ({
   label,
-  name,
-  checked,
-  onChange,
-  required,
-  disabled,
-  className,
+  ...props
 }) => (
-  <ToggleWrapper className={className}>
+  <ToggleWrapper gridSpan={props.gridSpan}>
     <ToggleInput
       type="checkbox"
-      id={name}
-      name={name}
-      checked={checked}
-      onChange={(e) => onChange(e)}
-      required={required}
-      disabled={disabled}
+      {...props}
     />
-    <ToggleLabel htmlFor={name}>{label}</ToggleLabel>
+    <ToggleLabel htmlFor={props.id}>{label}</ToggleLabel>
   </ToggleWrapper>
 );
 
-ToggleSwitch.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  checked: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
-  required: PropTypes.bool,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-};
-
-ToggleSwitch.defaultProps = {
-  required: false,
-  disabled: false,
-  className: '',
-};
 
 export default ToggleSwitch;

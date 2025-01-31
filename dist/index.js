@@ -2842,7 +2842,7 @@ const Message$1 = styled__default["default"].p`
   color: #4b5563;
   margin-bottom: 1.5rem;
 `;
-const ButtonContainer = styled__default["default"].div`
+const ButtonContainer$2 = styled__default["default"].div`
   display: flex;
   justify-content: center;
   gap: 0.5rem;
@@ -2905,7 +2905,7 @@ const DeleteModal = ({
     clipRule: "evenodd",
     d: "M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z",
     fillRule: "evenodd"
-  })), /*#__PURE__*/React__default["default"].createElement(Title$5, null, title || "Are you sure?"), /*#__PURE__*/React__default["default"].createElement(Message$1, null, message || "Do you really want to continue? This process cannot be undone.")), /*#__PURE__*/React__default["default"].createElement(ButtonContainer, null, /*#__PURE__*/React__default["default"].createElement(CancelButton, {
+  })), /*#__PURE__*/React__default["default"].createElement(Title$5, null, title || "Are you sure?"), /*#__PURE__*/React__default["default"].createElement(Message$1, null, message || "Do you really want to continue? This process cannot be undone.")), /*#__PURE__*/React__default["default"].createElement(ButtonContainer$2, null, /*#__PURE__*/React__default["default"].createElement(CancelButton, {
     onClick: onCancel
   }, "Cancel"), /*#__PURE__*/React__default["default"].createElement(ConfirmButton, {
     onClick: onConfirm
@@ -5938,6 +5938,69 @@ const Form$1 = ({
   }, "Submit"));
 };
 
+const FormLogic = ({
+  onSubmit,
+  children,
+  initialData = {},
+  ...props
+}) => {
+  const [formData, setFormData] = React.useState(initialData);
+
+  // Update formData if initialData changes
+  React.useEffect(() => {
+    setFormData(initialData);
+  }, [initialData]);
+
+  // Handle input changes
+  const handleChange = event => {
+    const {
+      name,
+      value
+    } = event.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  // Handle form submission
+  const handleSubmit = event => {
+    event.preventDefault();
+    if (onSubmit) {
+      onSubmit(formData);
+    }
+  };
+
+  // Recursive function to enhance elements
+  const enhanceElement = element => {
+    if (! /*#__PURE__*/React__default["default"].isValidElement(element)) return element;
+
+    // If the element has a 'name' prop, it's likely an input
+    if (element.props.name) {
+      const {
+        name
+      } = element.props;
+      return /*#__PURE__*/React__default["default"].cloneElement(element, {
+        onChange: handleChange,
+        value: formData[name] || ""
+      });
+    }
+
+    // If the element has children, recursively enhance them
+    if (element.props.children) {
+      const enhancedChildren = React__default["default"].Children.map(element.props.children, enhanceElement);
+      return /*#__PURE__*/React__default["default"].cloneElement(element, {
+        ...element.props
+      }, enhancedChildren);
+    }
+    return element;
+  };
+  const enhancedChildren = React__default["default"].Children.map(children, enhanceElement);
+  return /*#__PURE__*/React__default["default"].createElement("form", _extends({
+    onSubmit: handleSubmit
+  }, props), enhancedChildren);
+};
+
 // GhostLoader Component
 const GhostLoader = () => {
   return /*#__PURE__*/React__default["default"].createElement("div", {
@@ -8527,7 +8590,7 @@ function Lt(t) {
 
 // src/components/MessageForm.jsx
 
-const FormContainer = styled__default["default"].div`
+const FormContainer$2 = styled__default["default"].div`
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -8599,7 +8662,7 @@ const MessageForm = ({
       setSending(false);
     }
   };
-  return /*#__PURE__*/React__default["default"].createElement(FormContainer, null, /*#__PURE__*/React__default["default"].createElement("form", {
+  return /*#__PURE__*/React__default["default"].createElement(FormContainer$2, null, /*#__PURE__*/React__default["default"].createElement("form", {
     onSubmit: handleSubmit,
     style: {
       display: "flex",
@@ -8754,13 +8817,327 @@ function MessagesView({
   })));
 }
 
-// NumberInput.jsx
+// TextInput.jsx
+
+// Styled Components
 const InputWrapper$5 = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+`;
+const StyledLabel = styled__default["default"].label`
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: #333;
+`;
+const StyledInput = styled__default["default"].input`
+  padding: 0.75rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: #6200ee;
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+  }
+`;
+
+// TextInput Component
+const TextInput = ({
+  label,
+  ...props
+}) => {
+  return /*#__PURE__*/React__default["default"].createElement(InputWrapper$5, null, label && /*#__PURE__*/React__default["default"].createElement(StyledLabel, {
+    htmlFor: props.id
+  }, label), /*#__PURE__*/React__default["default"].createElement(StyledInput, props));
+};
+
+// TextareaInput.jsx
+const TextareaWrapper = styled__default["default"].div`
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
 `;
 const Label$7 = styled__default["default"].label`
+  margin-bottom: 8px;
+  font-weight: 600;
+`;
+const Textarea = styled__default["default"].textarea`
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+  }
+`;
+const TextareaInput = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  required,
+  disabled,
+  rows,
+  maxLength,
+  autoFocus,
+  readOnly,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(TextareaWrapper, {
+  className: className
+}, /*#__PURE__*/React__default["default"].createElement(Label$7, {
+  htmlFor: name
+}, label), /*#__PURE__*/React__default["default"].createElement(Textarea, {
+  id: name,
+  name: name,
+  value: value,
+  onChange: e => onChange(e),
+  placeholder: placeholder,
+  required: required,
+  disabled: disabled,
+  rows: rows,
+  maxLength: maxLength,
+  autoFocus: autoFocus,
+  readOnly: readOnly
+}));
+TextareaInput.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  name: PropTypes__default["default"].string.isRequired,
+  value: PropTypes__default["default"].string.isRequired,
+  onChange: PropTypes__default["default"].func.isRequired,
+  placeholder: PropTypes__default["default"].string,
+  required: PropTypes__default["default"].bool,
+  disabled: PropTypes__default["default"].bool,
+  rows: PropTypes__default["default"].number,
+  maxLength: PropTypes__default["default"].number,
+  autoFocus: PropTypes__default["default"].bool,
+  readOnly: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+TextareaInput.defaultProps = {
+  placeholder: '',
+  required: false,
+  disabled: false,
+  rows: 4,
+  maxLength: undefined,
+  autoFocus: false,
+  readOnly: false,
+  className: ''
+};
+
+// ResetButton.jsx
+const Button$3 = styled__default["default"].button`
+  padding: 12px 20px;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  align-self: flex-start;
+  margin-left: 10px;
+
+  &:hover {
+    background-color: #5a6268;
+  }
+
+  &:disabled {
+    background-color: #c6c8ca;
+    cursor: not-allowed;
+  }
+`;
+const ResetButton$1 = ({
+  label,
+  type,
+  onClick,
+  disabled,
+  className
+}) => /*#__PURE__*/React__default["default"].createElement(Button$3, {
+  type: type,
+  onClick: onClick,
+  disabled: disabled,
+  className: className
+}, label);
+ResetButton$1.propTypes = {
+  label: PropTypes__default["default"].string.isRequired,
+  type: PropTypes__default["default"].oneOf(['reset', 'button']).isRequired,
+  onClick: PropTypes__default["default"].func,
+  disabled: PropTypes__default["default"].bool,
+  className: PropTypes__default["default"].string
+};
+ResetButton$1.defaultProps = {
+  onClick: undefined,
+  disabled: false,
+  className: ''
+};
+
+// MultiPageForm.jsx
+
+// Styled Components
+const FormContainer$1 = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+`;
+const ButtonContainer$1 = styled__default["default"].div`
+  display: flex;
+  justify-content: ${props => props.isFirstStep ? 'flex-end' : 'space-between'};
+  margin-top: 16px;
+
+  button {
+    padding: 0.5rem 1rem;
+    background-color: #6200ee;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+`;
+const MultiPageForm = () => {
+  const [currentStep, setCurrentStep] = React.useState(1);
+  const initialFormData = {
+    name: '',
+    email: '',
+    message: ''
+  };
+  const [formData, setFormData] = React.useState(initialFormData);
+  const [errors, setErrors] = React.useState({});
+  const handleFormSubmit = data => {
+    console.log("Multi Page Form Submitted:", data);
+    // Implement your submission logic here (e.g., API call)
+  };
+  const nextStep = () => {
+    const stepErrors = validateStep(currentStep);
+    if (Object.keys(stepErrors).length === 0) {
+      setCurrentStep(prev => prev + 1);
+    } else {
+      setErrors(stepErrors);
+    }
+  };
+  const prevStep = () => {
+    setCurrentStep(prev => prev - 1);
+    setErrors({});
+  };
+  const handleChange = event => {
+    const {
+      name,
+      value
+    } = event.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+
+    // Clear error for the field as user types
+    if (errors[name]) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        [name]: ''
+      }));
+    }
+  };
+  const validateStep = step => {
+    const newErrors = {};
+    if (step === 1) {
+      if (!formData.name.trim()) {
+        newErrors.name = 'Name is required.';
+      }
+      if (!formData.email.trim()) {
+        newErrors.email = 'Email is required.';
+      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        newErrors.email = 'Email is invalid.';
+      }
+    }
+    if (step === 2) {
+      if (!formData.message.trim()) {
+        newErrors.message = 'Message is required.';
+      }
+    }
+    return newErrors;
+  };
+  return /*#__PURE__*/React__default["default"].createElement(FormLogic, {
+    onSubmit: handleFormSubmit,
+    initialData: formData
+  }, /*#__PURE__*/React__default["default"].createElement(FormContainer$1, null, currentStep === 1 && /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(TextInput, {
+    label: "Name",
+    type: "text",
+    name: "name",
+    id: "name",
+    required: true,
+    value: formData.name,
+    onChange: handleChange
+  }), errors.name && /*#__PURE__*/React__default["default"].createElement("span", {
+    style: {
+      color: 'red'
+    }
+  }, errors.name), /*#__PURE__*/React__default["default"].createElement(TextInput, {
+    label: "Email",
+    type: "email",
+    name: "email",
+    id: "email",
+    required: true,
+    value: formData.email,
+    onChange: handleChange
+  }), errors.email && /*#__PURE__*/React__default["default"].createElement("span", {
+    style: {
+      color: 'red'
+    }
+  }, errors.email)), currentStep === 2 && /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(TextareaInput, {
+    label: "Message",
+    name: "message",
+    id: "message",
+    rows: 5,
+    required: true,
+    value: formData.message,
+    onChange: handleChange
+  }), errors.message && /*#__PURE__*/React__default["default"].createElement("span", {
+    style: {
+      color: 'red'
+    }
+  }, errors.message)), /*#__PURE__*/React__default["default"].createElement(ButtonContainer$1, {
+    isFirstStep: currentStep === 1
+  }, currentStep > 1 && /*#__PURE__*/React__default["default"].createElement("button", {
+    type: "button",
+    onClick: prevStep
+  }, "Previous"), currentStep < 2 && /*#__PURE__*/React__default["default"].createElement("button", {
+    type: "button",
+    onClick: nextStep
+  }, "Next"), currentStep === 2 && /*#__PURE__*/React__default["default"].createElement(ResetButton$1, null, "Submit"))));
+};
+
+// NumberInput.jsx
+const InputWrapper$4 = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+`;
+const Label$6 = styled__default["default"].label`
   margin-bottom: 8px;
   font-weight: 600;
 `;
@@ -8789,9 +9166,9 @@ const NumberInput = ({
   autoFocus,
   readOnly,
   className
-}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$5, {
+}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$4, {
   className: className
-}, /*#__PURE__*/React__default["default"].createElement(Label$7, {
+}, /*#__PURE__*/React__default["default"].createElement(Label$6, {
   htmlFor: name
 }, label), /*#__PURE__*/React__default["default"].createElement(Input$4, {
   type: "number",
@@ -8836,12 +9213,12 @@ NumberInput.defaultProps = {
 };
 
 // PasswordInput.jsx
-const InputWrapper$4 = styled__default["default"].div`
+const InputWrapper$3 = styled__default["default"].div`
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
 `;
-const Label$6 = styled__default["default"].label`
+const Label$5 = styled__default["default"].label`
   margin-bottom: 8px;
   font-weight: 600;
 `;
@@ -8870,9 +9247,9 @@ const PasswordInput = ({
   autoFocus,
   readOnly,
   className
-}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$4, {
+}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$3, {
   className: className
-}, /*#__PURE__*/React__default["default"].createElement(Label$6, {
+}, /*#__PURE__*/React__default["default"].createElement(Label$5, {
   htmlFor: name
 }, label), /*#__PURE__*/React__default["default"].createElement(Input$3, {
   type: "password",
@@ -9835,7 +10212,7 @@ const RangeWrapper = styled__default["default"].div`
   flex-direction: column;
   margin-bottom: 16px;
 `;
-const Label$5 = styled__default["default"].label`
+const Label$4 = styled__default["default"].label`
   margin-bottom: 8px;
   font-weight: 600;
 `;
@@ -9878,7 +10255,7 @@ const RangeInput = ({
   className
 }) => /*#__PURE__*/React__default["default"].createElement(RangeWrapper, {
   className: className
-}, /*#__PURE__*/React__default["default"].createElement(Label$5, {
+}, /*#__PURE__*/React__default["default"].createElement(Label$4, {
   htmlFor: name
 }, label, ": ", value), /*#__PURE__*/React__default["default"].createElement(RangeSlider, {
   type: "range",
@@ -10384,7 +10761,7 @@ const RecipeSwipeComponent = ({
 };
 
 // ResetButton.jsx
-const Button$3 = styled__default["default"].button`
+const Button$2 = styled__default["default"].button`
   padding: 12px 20px;
   background-color: #6c757d;
   color: white;
@@ -10404,26 +10781,26 @@ const Button$3 = styled__default["default"].button`
     cursor: not-allowed;
   }
 `;
-const ResetButton$1 = ({
+const ResetButton = ({
   label,
   type,
   onClick,
   disabled,
   className
-}) => /*#__PURE__*/React__default["default"].createElement(Button$3, {
+}) => /*#__PURE__*/React__default["default"].createElement(Button$2, {
   type: type,
   onClick: onClick,
   disabled: disabled,
   className: className
 }, label);
-ResetButton$1.propTypes = {
+ResetButton.propTypes = {
   label: PropTypes__default["default"].string.isRequired,
   type: PropTypes__default["default"].oneOf(['reset', 'button']).isRequired,
   onClick: PropTypes__default["default"].func,
   disabled: PropTypes__default["default"].bool,
   className: PropTypes__default["default"].string
 };
-ResetButton$1.defaultProps = {
+ResetButton.defaultProps = {
   onClick: undefined,
   disabled: false,
   className: ''
@@ -12809,7 +13186,7 @@ const SelectWrapper = styled__default["default"].div`
   flex-direction: column;
   margin-bottom: 16px;
 `;
-const Label$4 = styled__default["default"].label`
+const Label$3 = styled__default["default"].label`
   margin-bottom: 8px;
   font-weight: 600;
 `;
@@ -12842,7 +13219,7 @@ const SelectInput2 = ({
   className
 }) => /*#__PURE__*/React__default["default"].createElement(SelectWrapper, {
   className: className
-}, /*#__PURE__*/React__default["default"].createElement(Label$4, {
+}, /*#__PURE__*/React__default["default"].createElement(Label$3, {
   htmlFor: name
 }, label), /*#__PURE__*/React__default["default"].createElement(Select$1, {
   id: name,
@@ -13031,7 +13408,7 @@ const SideNav = () => {
   const toggleSideNav = () => {
     setIsOpen(!isOpen);
   };
-  return /*#__PURE__*/React__default["default"].createElement(Wrapper, null, /*#__PURE__*/React__default["default"].createElement(TopBar, null, /*#__PURE__*/React__default["default"].createElement(Button$2, {
+  return /*#__PURE__*/React__default["default"].createElement(Wrapper, null, /*#__PURE__*/React__default["default"].createElement(TopBar, null, /*#__PURE__*/React__default["default"].createElement(Button$1, {
     onClick: toggleSideNav
   }, /*#__PURE__*/React__default["default"].createElement(MenuIcon, {
     className: "icon"
@@ -13039,7 +13416,7 @@ const SideNav = () => {
     onClick: toggleSideNav
   }), /*#__PURE__*/React__default["default"].createElement(SideNavContainer, {
     isOpen: isOpen
-  }, /*#__PURE__*/React__default["default"].createElement(SideNavHeader, null, /*#__PURE__*/React__default["default"].createElement(Title, null, "My Portfolio"), /*#__PURE__*/React__default["default"].createElement(Button$2, {
+  }, /*#__PURE__*/React__default["default"].createElement(SideNavHeader, null, /*#__PURE__*/React__default["default"].createElement(Title, null, "My Portfolio"), /*#__PURE__*/React__default["default"].createElement(Button$1, {
     onClick: toggleSideNav
   }, /*#__PURE__*/React__default["default"].createElement(XIcon, {
     className: "icon"
@@ -13082,7 +13459,7 @@ const TopBar = styled__default["default"].div`
   padding: 1rem;
   z-index: 50;
 `;
-const Button$2 = styled__default["default"].button`
+const Button$1 = styled__default["default"].button`
   background: none;
   border: none;
   cursor: pointer;
@@ -13159,6 +13536,65 @@ const StyledLink = styled__default["default"](reactRouterDom.Link)`
     margin-right: 0.75rem;
   }
 `;
+
+// Form.js
+
+// Custom styled components for form fields
+const FormContainer = styled__default["default"].div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+`;
+const ButtonContainer = styled__default["default"].div`
+  display: flex;
+  justify-content: flex-end; /* Customize as needed */
+  margin-top: 16px;
+`;
+function SinglePageForm({
+  initialFormData,
+  handleFormSubmit
+}) {
+  return /*#__PURE__*/React__default["default"].createElement("div", null, /*#__PURE__*/React__default["default"].createElement(FormLogic, {
+    onSubmit: handleFormSubmit,
+    initialData: initialFormData
+  }, /*#__PURE__*/React__default["default"].createElement(FormContainer, null, /*#__PURE__*/React__default["default"].createElement(ColorPicker, {
+    label: "Color",
+    name: "color",
+    id: "color",
+    required: true
+  }), /*#__PURE__*/React__default["default"].createElement(TextInput, {
+    label: "Name",
+    type: "text",
+    name: "name",
+    id: "name",
+    required: true
+  }), /*#__PURE__*/React__default["default"].createElement(TextInput, {
+    label: "Email",
+    type: "email",
+    name: "email",
+    id: "email",
+    required: true
+  }), /*#__PURE__*/React__default["default"].createElement(TextareaInput, {
+    label: "Message",
+    name: "message",
+    id: "message",
+    rows: 5,
+    required: true
+  }), /*#__PURE__*/React__default["default"].createElement(RangeInput, {
+    label: "Rating",
+    name: "rating",
+    id: "rating",
+    min: 1,
+    max: 5,
+    required: true
+  }), /*#__PURE__*/React__default["default"].createElement(ButtonContainer, null, /*#__PURE__*/React__default["default"].createElement(ResetButton$1, null, "Submit")))));
+}
 
 // IMPORTS
 
@@ -13489,52 +13925,6 @@ const SortRadio = ({
   }, option.label))))));
 };
 
-// ResetButton.jsx
-const Button$1 = styled__default["default"].button`
-  padding: 12px 20px;
-  background-color: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  align-self: flex-start;
-  margin-left: 10px;
-
-  &:hover {
-    background-color: #5a6268;
-  }
-
-  &:disabled {
-    background-color: #c6c8ca;
-    cursor: not-allowed;
-  }
-`;
-const ResetButton = ({
-  label,
-  type,
-  onClick,
-  disabled,
-  className
-}) => /*#__PURE__*/React__default["default"].createElement(Button$1, {
-  type: type,
-  onClick: onClick,
-  disabled: disabled,
-  className: className
-}, label);
-ResetButton.propTypes = {
-  label: PropTypes__default["default"].string.isRequired,
-  type: PropTypes__default["default"].oneOf(['reset', 'button']).isRequired,
-  onClick: PropTypes__default["default"].func,
-  disabled: PropTypes__default["default"].bool,
-  className: PropTypes__default["default"].string
-};
-ResetButton.defaultProps = {
-  onClick: undefined,
-  disabled: false,
-  className: ''
-};
-
 const Container$1 = styled__default["default"].div`
   position: relative;
   display: flex;
@@ -13619,12 +14009,12 @@ TabGroup.defaultProps = {
 };
 
 // TelInput.jsx
-const InputWrapper$3 = styled__default["default"].div`
+const InputWrapper$2 = styled__default["default"].div`
   display: flex;
   flex-direction: column;
   margin-bottom: 16px;
 `;
-const Label$3 = styled__default["default"].label`
+const Label$2 = styled__default["default"].label`
   margin-bottom: 8px;
   font-weight: 600;
 `;
@@ -13651,9 +14041,9 @@ const TelInput = ({
   autoFocus,
   readOnly,
   className
-}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$3, {
+}) => /*#__PURE__*/React__default["default"].createElement(InputWrapper$2, {
   className: className
-}, /*#__PURE__*/React__default["default"].createElement(Label$3, {
+}, /*#__PURE__*/React__default["default"].createElement(Label$2, {
   htmlFor: name
 }, label), /*#__PURE__*/React__default["default"].createElement(Input$2, {
   type: "tel",
@@ -13690,140 +14080,6 @@ TelInput.defaultProps = {
   autoFocus: false,
   readOnly: false,
   className: ''
-};
-
-// TextareaInput.jsx
-const TextareaWrapper = styled__default["default"].div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 16px;
-`;
-const Label$2 = styled__default["default"].label`
-  margin-bottom: 8px;
-  font-weight: 600;
-`;
-const Textarea = styled__default["default"].textarea`
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  resize: vertical;
-
-  &:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-
-  &:disabled {
-    background-color: #e9ecef;
-    cursor: not-allowed;
-  }
-`;
-const TextareaInput = ({
-  label,
-  name,
-  value,
-  onChange,
-  placeholder,
-  required,
-  disabled,
-  rows,
-  maxLength,
-  autoFocus,
-  readOnly,
-  className
-}) => /*#__PURE__*/React__default["default"].createElement(TextareaWrapper, {
-  className: className
-}, /*#__PURE__*/React__default["default"].createElement(Label$2, {
-  htmlFor: name
-}, label), /*#__PURE__*/React__default["default"].createElement(Textarea, {
-  id: name,
-  name: name,
-  value: value,
-  onChange: e => onChange(e),
-  placeholder: placeholder,
-  required: required,
-  disabled: disabled,
-  rows: rows,
-  maxLength: maxLength,
-  autoFocus: autoFocus,
-  readOnly: readOnly
-}));
-TextareaInput.propTypes = {
-  label: PropTypes__default["default"].string.isRequired,
-  name: PropTypes__default["default"].string.isRequired,
-  value: PropTypes__default["default"].string.isRequired,
-  onChange: PropTypes__default["default"].func.isRequired,
-  placeholder: PropTypes__default["default"].string,
-  required: PropTypes__default["default"].bool,
-  disabled: PropTypes__default["default"].bool,
-  rows: PropTypes__default["default"].number,
-  maxLength: PropTypes__default["default"].number,
-  autoFocus: PropTypes__default["default"].bool,
-  readOnly: PropTypes__default["default"].bool,
-  className: PropTypes__default["default"].string
-};
-TextareaInput.defaultProps = {
-  placeholder: '',
-  required: false,
-  disabled: false,
-  rows: 4,
-  maxLength: undefined,
-  autoFocus: false,
-  readOnly: false,
-  className: ''
-};
-
-// Styled Components
-const InputWrapper$2 = styled__default["default"].div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
-`;
-const StyledLabel = styled__default["default"].label`
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
-  color: #333;
-`;
-const StyledInput = styled__default["default"].input`
-  padding: 0.75rem 1rem;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-
-  &:focus {
-    border-color: #6200ee;
-    outline: none;
-  }
-
-  &:disabled {
-    background-color: #f5f5f5;
-    cursor: not-allowed;
-  }
-`;
-
-// TextInput Component
-const TextInput = ({
-  label,
-  ...props
-}) => {
-  const inputId = props.id || props.name || `input-${Math.random().toString(36).substr(2, 9)}`;
-  return /*#__PURE__*/React__default["default"].createElement(InputWrapper$2, null, label && /*#__PURE__*/React__default["default"].createElement(StyledLabel, {
-    htmlFor: inputId
-  }, label), /*#__PURE__*/React__default["default"].createElement(StyledInput, _extends({
-    id: inputId
-  }, props)));
-};
-
-// PropTypes for type checking
-TextInput.propTypes = {
-  label: PropTypes__default["default"].string
-};
-
-// Default Props
-TextInput.defaultProps = {
-  label: ''
 };
 
 // TimeInput.jsx
@@ -14474,6 +14730,7 @@ exports.FilterModal = FilterModal;
 exports.Footer = Footer$1;
 exports.ForkAndKnifeIcon = ForkAndKnifeIcon;
 exports.Form = Form$1;
+exports.FormLogic = FormLogic;
 exports.GhostLoader = GhostLoader;
 exports.GithubIcon = GithubIcon;
 exports.GoogleIcon = GoogleIcon;
@@ -14516,6 +14773,7 @@ exports.MessagesView = MessagesView;
 exports.Modal = Modal;
 exports.MoneyIcon = MoneyIcon;
 exports.MoneyIcon2 = MoneyIcon2;
+exports.MultiPageForm = MultiPageForm;
 exports.MuteIcon = MuteIcon;
 exports.NotificationsIcon = NotificationsIcon;
 exports.NumberInput = NumberInput;
@@ -14533,7 +14791,7 @@ exports.RangeInput = RangeInput;
 exports.RangeSlider = RangeSlider$1;
 exports.RecipeCard = RecipeCard$1;
 exports.RecipeSwipeComponent = RecipeSwipeComponent;
-exports.ResetButton = ResetButton$1;
+exports.ResetButton = ResetButton;
 exports.RoomsView = RoomsView;
 exports.ScriptIcon = ScriptIcon;
 exports.Search = Search;
@@ -14551,6 +14809,7 @@ exports.SettingsIcon = SettingsIcon;
 exports.ShareIcon = ShareIcon;
 exports.SideBar = SideBar;
 exports.SideNav = SideNav;
+exports.SinglePageForm = SinglePageForm;
 exports.SocialButtons = SocialButtons;
 exports.Sort = Sort;
 exports.Sort2 = Sort2;
@@ -14559,7 +14818,7 @@ exports.SortLogic = SortLogic;
 exports.SortRadio = SortRadio;
 exports.StackedList = StackedList;
 exports.StrategyIcon = StrategyIcon;
-exports.SubmitButton = ResetButton;
+exports.SubmitButton = ResetButton$1;
 exports.TabGroup = TabGroup;
 exports.TargetIcon = TargetIcon;
 exports.TelInput = TelInput;

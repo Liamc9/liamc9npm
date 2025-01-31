@@ -1,75 +1,35 @@
 // RadioButtons.jsx
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
+// Styled Components
 const RadioWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 16px;
-`;
+      grid-column: ${(props) => props.gridSpan || 'auto'};
 
-const RadioOption = styled.label`
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
-  font-weight: 500;
+  margin-bottom: 1rem;
 `;
 
-const RadioInput = styled.input`
-  margin-right: 8px;
+const StyledInput = styled.input`
+  margin-right: 0.5rem;
+  width: 1rem;
+  height: 1rem;
 `;
 
-const RadioButtons = ({
-  label,
-  name,
-  options,
-  value,
-  onChange,
-  required,
-  disabled,
-  className,
-}) => (
-  <RadioWrapper className={className}>
-    {label && <span style={{ marginBottom: '8px', fontWeight: '600' }}>{label}</span>}
-    {options.map((option) => (
-      <RadioOption key={option.value}>
-        <RadioInput
-          type="radio"
-          name={name}
-          value={option.value}
-          checked={value === option.value}
-          onChange={(e) => onChange(e)}
-          required={required}
-          disabled={disabled}
-        />
-        {option.label}
-      </RadioOption>
-    ))}
-  </RadioWrapper>
-);
+const StyledLabel = styled.label`
+  font-size: 1rem;
+  color: #333;
+`;
 
-RadioButtons.propTypes = {
-  label: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  required: PropTypes.bool,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-};
-
-RadioButtons.defaultProps = {
-  label: '',
-  required: false,
-  disabled: false,
-  className: '',
+// RadioButtons Component
+const RadioButtons = ({ label, name, ...props }) => {
+  return (
+    <RadioWrapper gridSpan={props.gridSpan}>
+      <StyledInput type="radio" name={name} {...props} />
+      {label && <StyledLabel htmlFor={props.id}>{label}</StyledLabel>}
+    </RadioWrapper>
+  );
 };
 
 export default RadioButtons;

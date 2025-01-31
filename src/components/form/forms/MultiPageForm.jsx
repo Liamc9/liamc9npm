@@ -1,167 +1,156 @@
 // MultiPageForm.jsx
-import React, { useState } from 'react';
-import FormLogic from './FormLogic';
-import TextInput from '../inputs/textInputs/TextInput';
-import TextAreaInput from '../inputs/textInputs/TextAreaInput';
-import SubmitButton from '../inputs/formButtons/SubmitButton';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import FormLogic from "./FormLogic";
 
-// Styled Components
+// Import input components
+import TextInput from "../inputs/textInputs/TextInput";
+import ColorPicker from "../inputs/colorPickers/ColorPicker";
+import RangeInput from "../inputs/rangeInputs/RangeInput";
+import Checkbox3 from "../inputs/checkboxInputs/Checkbox3";
+import ToggleSwitch2 from "../inputs/toggleSwitches/ToggleSwitch2";
+import RadioButtons2 from "../inputs/radioInputs/RadioButtons2";
+
+// Import button components
+import SubmitButton from "../inputs/formButtons/SubmitButton";
+import ResetButton from "../inputs/formButtons/ResetButton";
+
+// Styled containers for layout
 const FormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two-column layout */
   gap: 16px;
-  padding: 16px;
+  padding: 24px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  max-width: 500px;
+  max-width: 800px; /* Increased width for better layout */
   margin: 0 auto;
-  background-color: #f9f9f9;
-`;
+  background-color: #fff;
 
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: ${(props) => (props.isFirstStep ? 'flex-end' : 'space-between')};
-  margin-top: 16px;
-
-  button {
-    padding: 0.5rem 1rem;
-    background-color: #6200ee;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-
-    &:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr; /* Single-column layout on small screens */
   }
 `;
 
-const MultiPageForm = () => {
-  const [currentStep, setCurrentStep] = useState(1);
-  const initialFormData = {
-    name: '',
-    email: '',
-    message: '',
-  };
-  const [formData, setFormData] = useState(initialFormData);
-  const [errors, setErrors] = useState({});
+const ButtonContainer = styled.div`
+  grid-column: 1 / -1; /* Span all columns */
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 16px;
 
-  const handleFormSubmit = (data) => {
-    console.log("Multi Page Form Submitted:", data);
-    // Implement your submission logic here (e.g., API call)
-  };
+  @media (max-width: 600px) {
+    flex-direction: column; /* Stack buttons vertically on small screens */
+  }
+`;
 
-  const nextStep = () => {
-    const stepErrors = validateStep(currentStep);
-    if (Object.keys(stepErrors).length === 0) {
-      setCurrentStep((prev) => prev + 1);
-    } else {
-      setErrors(stepErrors);
-    }
-  };
 
-  const prevStep = () => {
-    setCurrentStep((prev) => prev - 1);
-    setErrors({});
-  };
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    // Clear error for the field as user types
-    if (errors[name]) {
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: '',
-      }));
-    }
-  };
-
-  const validateStep = (step) => {
-    const newErrors = {};
-    if (step === 1) {
-      if (!formData.name.trim()) {
-        newErrors.name = 'Name is required.';
-      }
-      if (!formData.email.trim()) {
-        newErrors.email = 'Email is required.';
-      } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-        newErrors.email = 'Email is invalid.';
-      }
-    }
-    if (step === 2) {
-      if (!formData.message.trim()) {
-        newErrors.message = 'Message is required.';
-      }
-    }
-    return newErrors;
-  };
-
-  return (
-    <FormLogic onSubmit={handleFormSubmit} initialData={formData}>
-      <FormContainer>
-        {currentStep === 1 && (
-          <>
-            <TextInput
-              label="Name"
-              type="text"
-              name="name"
-              id="name"
-              required
-              value={formData.name}
-              onChange={handleChange}
-            />
-            {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
-            <TextInput
-              label="Email"
-              type="email"
-              name="email"
-              id="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-            />
-            {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
-          </>
-        )}
-        {currentStep === 2 && (
-          <>
-            <TextAreaInput
-              label="Message"
-              name="message"
-              id="message"
-              rows={5}
-              required
-              value={formData.message}
-              onChange={handleChange}
-            />
-            {errors.message && <span style={{ color: 'red' }}>{errors.message}</span>}
-          </>
-        )}
-        <ButtonContainer isFirstStep={currentStep === 1}>
-          {currentStep > 1 && (
-            <button type="button" onClick={prevStep}>
-              Previous
-            </button>
-          )}
-          {currentStep < 2 && (
-            <button type="button" onClick={nextStep}>
-              Next
-            </button>
-          )}
-          {currentStep === 2 && <SubmitButton>Submit</SubmitButton>}
-        </ButtonContainer>
-      </FormContainer>
-    </FormLogic>
-  );
+/** Define Custom Validation Logic */
+const validatePreferences = (formData) => {
+  const errors = {};
+  if (formData.rating < 3) {
+    errors.rating = "Rating must be at least 3.";
+  }
+  if (formData.color === "#000000") {
+    errors.color = "Color cannot be black.";
+  }
+  return errors;
 };
 
-export default MultiPageForm;
+/** Define Pages */
+const getPages = () => [
+  {
+    customValidate: null,
+    content: (
+      <FormContainer>
+        <h2>Page 1: Personal Info</h2>
+        <TextInput label="Name" type="text" name="name" id="name" required gridSpan='span 2'/>
+        <TextInput label="Email" type="email" name="email" id="email" required />
+
+        {/* Wrap the Message input to span two columns */}
+        <TextInput
+          label="Message"
+          type="textarea"
+          name="message"
+          id="message"
+          required
+          gridSpan="span 2"
+        />
+      </FormContainer>
+    ),
+  },
+  {
+    customValidate: validatePreferences,
+    content: (
+      <FormContainer>
+        <h2>Page 2: Preferences</h2>
+        <ColorPicker label="Favorite Color" name="color" id="color" required />
+        <RangeInput
+          label="Rating"
+          name="rating"
+          id="rating"
+          min={1}
+          max={5}
+          required
+        />
+        <Checkbox3 name="checkbox" id="checkbox" label="Accept Terms" required />
+        <ToggleSwitch2 name="toggle" id="toggle" label="Enable Feature" />
+
+        {/* Wrap the RadioButtons to span two columns */}
+        <RadioButtons2
+          label="Role"
+          name="role"
+          options={[
+            { id: "designer", value: "designer", label: "Designer", defaultChecked: true },
+            { id: "student", value: "student", label: "Student" },
+            { id: "teacher", value: "teacher", label: "Teacher" },
+          ]}
+          required
+          gridColumn="1 / -1"
+        />
+      </FormContainer>
+    ),
+  },
+  {
+    customValidate: null,
+    content: (
+      <FormContainer>
+        <h2>Page 3: Review & Submit</h2>
+      </FormContainer>
+    ),
+  },
+];
+
+/** Render Navigation Buttons */
+const renderButtonLayout = ({ currentPageIndex, isLastPage, handlePrevious }) => (
+  <ButtonContainer>
+    {/* Previous Button */}
+    {currentPageIndex > 0 && (
+      <ResetButton type="button" onClick={handlePrevious}>
+        Previous
+      </ResetButton>
+    )}
+
+    {/* Next or Submit Button */}
+    <SubmitButton type="submit">{isLastPage ? "Submit" : "Next"}</SubmitButton>
+  </ButtonContainer>
+);
+
+/** MultiPageForm Component */
+export default function MultiPageForm({ initialData = {}, handleFormSubmit }) {
+  const pages = getPages();
+
+  return (
+    <FormLogic
+      pages={pages}
+      initialData={initialData}
+      onSubmit={handleFormSubmit}
+    >
+      {({ currentPageIndex, isLastPage, handlePrevious, formData }) => (
+        <>
+          {renderButtonLayout({ currentPageIndex, isLastPage, handlePrevious })}
+        </>
+      )}
+    </FormLogic>
+  );
+}
