@@ -1,7 +1,7 @@
 // TextInput.jsx
 import React from 'react';
 import styled from 'styled-components';
-import ArrowRightIcon from '../../../Branding/icons/Icons'
+import { ArrowRightIcon } from '../../../Branding/icons/Icons'
 
 // Styled Components
 const InputWrapper = styled.div`
